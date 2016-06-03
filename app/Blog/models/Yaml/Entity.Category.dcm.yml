@@ -1,0 +1,23 @@
+Entity\Category:
+    type: entity
+    table: category
+    repositoryClass: CategoryRepository
+    id:
+        category_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 25
+        last_update:
+            type: datetime
+    oneToMany:
+        filmCategories:
+            targetEntity: FilmCategory
+            mappedBy: category
+            joinColumn:
+                name: category_id
+                referencedColumnName: category_id

@@ -1,0 +1,32 @@
+Entity\FilmActor:
+    type: entity
+    table: film_actor
+    repositoryClass: FilmActorRepository
+    indexes:
+        idx_fk_film_id:
+            columns: [ film_id ]
+        fk_film_actor_actor:
+            columns: [ actor_id ]
+    id:
+        actor_id:
+            type: smallint
+            unsigned: true
+        film_id:
+            type: smallint
+            unsigned: true
+    fields:
+        last_update:
+            type: datetime
+    manyToOne:
+        actor:
+            targetEntity: Actor
+            inversedBy: filmActors
+            joinColumn:
+                name: actor_id
+                referencedColumnName: actor_id
+        film:
+            targetEntity: Film
+            inversedBy: filmActors
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id

@@ -1,0 +1,35 @@
+<?php
+/**
+ * User: macro
+ * Date: 16-4-29
+ * Time: 上午10:35
+ */
+include_once 'boot/bootstrap.task.php';
+
+class Test extends \Boot\BootTask
+{
+    private $shard_id = 1;
+
+    public function run()
+    {
+        /*$em = $this->getDbInstance('entityManager', 'db1');
+        $shardManager = new \Doctrine\DBAL\Sharding\PoolingShardManager($em->getConnection());
+        $shardManager->selectGlobal();
+        $shardManager->selectShard($this->shard_id);
+        $query = $em->createQuery("SELECT admin FROM Admin\\Entity\\Admin admin ORDER BY admin.id ASC")->setFirstResult(0)->setMaxResults(100);
+        $query->setResultCacheLifetime(3600);
+        $query->setResultCacheId('admin_index_query_result' . $this->shard_id);
+        $data = new \Doctrine\ORM\Tools\Pagination\Paginator($query, true);
+        $count = count($data);
+        print_r($count);*/
+
+        /*$redis = $this->getContainer("redisCache");
+        $redis = $redis->getOptions()->getResourceManager()->getResource('default');
+        $redis->rpush('submit_order' , '201605250859498864');*/
+        //echo "asasa";
+        writeLog('test_message' , ['name'=>'jack'] , APP_PATH.'/log.log');
+    }
+}
+
+$test = new Test();
+$test->run();

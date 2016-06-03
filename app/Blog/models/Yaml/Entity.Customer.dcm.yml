@@ -1,0 +1,67 @@
+Entity\Customer:
+    type: entity
+    table: customer
+    repositoryClass: CustomerRepository
+    indexes:
+        idx_fk_store_id:
+            columns: [ store_id ]
+        idx_fk_address_id:
+            columns: [ address_id ]
+        idx_last_name:
+            columns: [ last_name ]
+    id:
+        customer_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        store_id:
+            type: smallint
+            unsigned: true
+        first_name:
+            type: string
+            length: 45
+        last_name:
+            type: string
+            length: 45
+        email:
+            type: string
+            length: 50
+            nullable: true
+        address_id:
+            type: smallint
+            unsigned: true
+        active:
+            type: boolean
+        create_date:
+            type: datetime
+        last_update:
+            type: datetime
+            nullable: true
+    oneToMany:
+        payments:
+            targetEntity: Payment
+            mappedBy: customer
+            joinColumn:
+                name: customer_id
+                referencedColumnName: customer_id
+        rentals:
+            targetEntity: Rental
+            mappedBy: customer
+            joinColumn:
+                name: customer_id
+                referencedColumnName: customer_id
+    manyToOne:
+        store:
+            targetEntity: Store
+            inversedBy: customers
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id
+        address:
+            targetEntity: Address
+            inversedBy: customers
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id

@@ -1,0 +1,52 @@
+Entity\Inventory:
+    type: entity
+    table: inventory
+    repositoryClass: InventoryRepository
+    indexes:
+        idx_fk_film_id:
+            columns: [ film_id ]
+        idx_store_id_film_id:
+            columns: [ store_id, film_id ]
+        fk_inventory_store:
+            columns: [ store_id ]
+    id:
+        inventory_id:
+            type: integer
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        film_id:
+            type: smallint
+            unsigned: true
+        store_id:
+            type: smallint
+            unsigned: true
+        last_update:
+            type: datetime
+    oneToMany:
+        rentals:
+            targetEntity: Rental
+            mappedBy: inventory
+            joinColumn:
+                name: inventory_id
+                referencedColumnName: inventory_id
+        filmTexts:
+            targetEntity: FilmText
+            mappedBy: inventory
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id
+    manyToOne:
+        film:
+            targetEntity: Film
+            inversedBy: inventories
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id
+        store:
+            targetEntity: Store
+            inversedBy: inventories
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id

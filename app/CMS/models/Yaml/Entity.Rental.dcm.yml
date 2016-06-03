@@ -1,0 +1,63 @@
+Entity\Rental:
+    type: entity
+    table: rental
+    repositoryClass: RentalRepository
+    indexes:
+        idx_fk_inventory_id:
+            columns: [ inventory_id ]
+        idx_fk_customer_id:
+            columns: [ customer_id ]
+        idx_fk_staff_id:
+            columns: [ staff_id ]
+    id:
+        rental_id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        rental_date:
+            type: datetime
+        inventory_id:
+            type: integer
+            unsigned: true
+        customer_id:
+            type: smallint
+            unsigned: true
+        return_date:
+            type: datetime
+            nullable: true
+        staff_id:
+            type: smallint
+            unsigned: true
+        last_update:
+            type: datetime
+    uniqueConstraints:
+        :
+            columns: [ rental_date, inventory_id, customer_id ]
+    oneToMany:
+        payments:
+            targetEntity: Payment
+            mappedBy: rental
+            joinColumn:
+                name: rental_id
+                referencedColumnName: rental_id
+                onDelete: SET NULL
+    manyToOne:
+        inventory:
+            targetEntity: Inventory
+            inversedBy: rentals
+            joinColumn:
+                name: inventory_id
+                referencedColumnName: inventory_id
+        customer:
+            targetEntity: Customer
+            inversedBy: rentals
+            joinColumn:
+                name: customer_id
+                referencedColumnName: customer_id
+        staff:
+            targetEntity: Staff
+            inversedBy: rentals
+            joinColumn:
+                name: staff_id
+                referencedColumnName: staff_id

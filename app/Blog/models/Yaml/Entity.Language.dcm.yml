@@ -1,0 +1,29 @@
+Entity\Language:
+    type: entity
+    table: language
+    repositoryClass: LanguageRepository
+    id:
+        language_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 20
+        last_update:
+            type: datetime
+    oneToMany:
+        filmRelatedByLanguageIds:
+            targetEntity: Film
+            mappedBy: languageRelatedByLanguageId
+            joinColumn:
+                name: language_id
+                referencedColumnName: language_id
+        filmRelatedByOriginalLanguageIds:
+            targetEntity: Film
+            mappedBy: languageRelatedByOriginalLanguageId
+            joinColumn:
+                name: language_id
+                referencedColumnName: original_language_id

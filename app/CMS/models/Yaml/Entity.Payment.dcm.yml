@@ -1,0 +1,57 @@
+Entity\Payment:
+    type: entity
+    table: payment
+    repositoryClass: PaymentRepository
+    indexes:
+        idx_fk_staff_id:
+            columns: [ staff_id ]
+        idx_fk_customer_id:
+            columns: [ customer_id ]
+        fk_payment_rental:
+            columns: [ rental_id ]
+    id:
+        payment_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        customer_id:
+            type: smallint
+            unsigned: true
+        staff_id:
+            type: smallint
+            unsigned: true
+        rental_id:
+            type: integer
+            nullable: true
+        amount:
+            type: decimal
+            precision: 5
+            scale: 2
+        payment_date:
+            type: datetime
+        last_update:
+            type: datetime
+            nullable: true
+    manyToOne:
+        customer:
+            targetEntity: Customer
+            inversedBy: payments
+            joinColumn:
+                name: customer_id
+                referencedColumnName: customer_id
+        staff:
+            targetEntity: Staff
+            inversedBy: payments
+            joinColumn:
+                name: staff_id
+                referencedColumnName: staff_id
+        rental:
+            targetEntity: Rental
+            inversedBy: payments
+            joinColumn:
+                name: rental_id
+                referencedColumnName: rental_id
+                nullable: true
+                onDelete: SET NULL

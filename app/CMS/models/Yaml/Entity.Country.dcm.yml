@@ -1,0 +1,23 @@
+Entity\Country:
+    type: entity
+    table: country
+    repositoryClass: CountryRepository
+    id:
+        country_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        country:
+            type: string
+            length: 50
+        last_update:
+            type: datetime
+    oneToMany:
+        cities:
+            targetEntity: City
+            mappedBy: country
+            joinColumn:
+                name: country_id
+                referencedColumnName: country_id

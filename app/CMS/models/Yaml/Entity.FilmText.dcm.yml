@@ -1,0 +1,25 @@
+Entity\FilmText:
+    type: entity
+    table: film_text
+    repositoryClass: FilmTextRepository
+    indexes:
+        fk_film_text:
+            columns: [ film_id ]
+    id:
+        film_id:
+            type: smallint
+            unsigned: true
+    fields:
+        title:
+            type: string
+            length: 255
+        description:
+            type: text
+            nullable: true
+    manyToOne:
+        inventory:
+            targetEntity: Inventory
+            inversedBy: filmTexts
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id

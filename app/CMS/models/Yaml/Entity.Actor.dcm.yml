@@ -1,0 +1,29 @@
+Entity\Actor:
+    type: entity
+    table: actor
+    repositoryClass: ActorRepository
+    indexes:
+        idx_actor_last_name:
+            columns: [ last_name ]
+    id:
+        actor_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        first_name:
+            type: string
+            length: 45
+        last_name:
+            type: string
+            length: 45
+        last_update:
+            type: datetime
+    oneToMany:
+        filmActors:
+            targetEntity: FilmActor
+            mappedBy: actor
+            joinColumn:
+                name: actor_id
+                referencedColumnName: actor_id

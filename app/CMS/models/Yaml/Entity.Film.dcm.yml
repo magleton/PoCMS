@@ -1,0 +1,90 @@
+Entity\Film:
+    type: entity
+    table: film
+    repositoryClass: FilmRepository
+    indexes:
+        idx_title:
+            columns: [ title ]
+        idx_fk_language_id:
+            columns: [ language_id ]
+        idx_fk_original_language_id:
+            columns: [ original_language_id ]
+    id:
+        film_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        title:
+            type: string
+            length: 255
+        description:
+            type: text
+            nullable: true
+        release_year:
+            type: smallint
+            nullable: true
+        language_id:
+            type: smallint
+            unsigned: true
+        original_language_id:
+            type: smallint
+            nullable: true
+            unsigned: true
+        rental_duration:
+            type: smallint
+            unsigned: true
+        rental_rate:
+            type: decimal
+            precision: 4
+            scale: 2
+        length:
+            type: smallint
+            nullable: true
+            unsigned: true
+        replacement_cost:
+            type: decimal
+            precision: 5
+            scale: 2
+        rating:
+            type: string
+            nullable: true
+        special_features:
+            type: string
+            nullable: true
+        last_update:
+            type: datetime
+    oneToMany:
+        filmActors:
+            targetEntity: FilmActor
+            mappedBy: film
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id
+        filmCategories:
+            targetEntity: FilmCategory
+            mappedBy: film
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id
+        inventories:
+            targetEntity: Inventory
+            mappedBy: film
+            joinColumn:
+                name: film_id
+                referencedColumnName: film_id
+    manyToOne:
+        languageRelatedByLanguageId:
+            targetEntity: Language
+            inversedBy: filmRelatedByLanguageIds
+            joinColumn:
+                name: language_id
+                referencedColumnName: language_id
+        languageRelatedByOriginalLanguageId:
+            targetEntity: Language
+            inversedBy: filmRelatedByOriginalLanguageIds
+            joinColumn:
+                name: original_language_id
+                referencedColumnName: language_id
+                nullable: true

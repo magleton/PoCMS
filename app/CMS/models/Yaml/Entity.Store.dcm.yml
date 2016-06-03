@@ -1,0 +1,57 @@
+Entity\Store:
+    type: entity
+    table: store
+    repositoryClass: StoreRepository
+    indexes:
+        idx_fk_address_id:
+            columns: [ address_id ]
+    id:
+        store_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        manager_staff_id:
+            type: smallint
+            unsigned: true
+        address_id:
+            type: smallint
+            unsigned: true
+        last_update:
+            type: datetime
+    uniqueConstraints:
+        idx_unique_manager:
+            columns: [ manager_staff_id ]
+    oneToMany:
+        customers:
+            targetEntity: Customer
+            mappedBy: store
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id
+        inventories:
+            targetEntity: Inventory
+            mappedBy: store
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id
+        staff:
+            targetEntity: Staff
+            mappedBy: store
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id
+    manyToOne:
+        staff:
+            targetEntity: Staff
+            inversedBy: stores
+            joinColumn:
+                name: manager_staff_id
+                referencedColumnName: staff_id
+        address:
+            targetEntity: Address
+            inversedBy: stores
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id

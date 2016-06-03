@@ -1,0 +1,62 @@
+Entity\Address:
+    type: entity
+    table: address
+    repositoryClass: AddressRepository
+    indexes:
+        idx_fk_city_id:
+            columns: [ city_id ]
+    id:
+        address_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        address:
+            type: string
+            length: 50
+        address2:
+            type: string
+            length: 50
+            nullable: true
+        district:
+            type: string
+            length: 20
+        city_id:
+            type: smallint
+            unsigned: true
+        postal_code:
+            type: string
+            length: 10
+            nullable: true
+        phone:
+            type: string
+            length: 20
+        last_update:
+            type: datetime
+    oneToMany:
+        customers:
+            targetEntity: Customer
+            mappedBy: address
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id
+        staff:
+            targetEntity: Staff
+            mappedBy: address
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id
+        stores:
+            targetEntity: Store
+            mappedBy: address
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id
+    manyToOne:
+        city:
+            targetEntity: City
+            inversedBy: addresses
+            joinColumn:
+                name: city_id
+                referencedColumnName: city_id

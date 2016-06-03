@@ -1,0 +1,36 @@
+Entity\City:
+    type: entity
+    table: city
+    repositoryClass: CityRepository
+    indexes:
+        idx_fk_country_id:
+            columns: [ country_id ]
+    id:
+        city_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        city:
+            type: string
+            length: 50
+        country_id:
+            type: smallint
+            unsigned: true
+        last_update:
+            type: datetime
+    oneToMany:
+        addresses:
+            targetEntity: Address
+            mappedBy: city
+            joinColumn:
+                name: city_id
+                referencedColumnName: city_id
+    manyToOne:
+        country:
+            targetEntity: Country
+            inversedBy: cities
+            joinColumn:
+                name: country_id
+                referencedColumnName: country_id

@@ -1,0 +1,78 @@
+Entity\Staff:
+    type: entity
+    table: staff
+    repositoryClass: StaffRepository
+    indexes:
+        idx_fk_store_id:
+            columns: [ store_id ]
+        idx_fk_address_id:
+            columns: [ address_id ]
+    id:
+        staff_id:
+            type: smallint
+            unsigned: true
+            generator:
+                strategy: AUTO
+    fields:
+        first_name:
+            type: string
+            length: 45
+        last_name:
+            type: string
+            length: 45
+        address_id:
+            type: smallint
+            unsigned: true
+        picture:
+            type: blob
+            nullable: true
+        email:
+            type: string
+            length: 50
+            nullable: true
+        store_id:
+            type: smallint
+            unsigned: true
+        active:
+            type: boolean
+        username:
+            type: string
+            length: 16
+        password:
+            type: string
+            length: 40
+            nullable: true
+        last_update:
+            type: datetime
+    oneToMany:
+        payments:
+            targetEntity: Payment
+            mappedBy: staff
+            joinColumn:
+                name: staff_id
+                referencedColumnName: staff_id
+        rentals:
+            targetEntity: Rental
+            mappedBy: staff
+            joinColumn:
+                name: staff_id
+                referencedColumnName: staff_id
+        stores:
+            targetEntity: Store
+            mappedBy: staff
+            joinColumn:
+                name: staff_id
+                referencedColumnName: manager_staff_id
+    manyToOne:
+        address:
+            targetEntity: Address
+            inversedBy: staff
+            joinColumn:
+                name: address_id
+                referencedColumnName: address_id
+        store:
+            targetEntity: Store
+            inversedBy: staff
+            joinColumn:
+                name: store_id
+                referencedColumnName: store_id
