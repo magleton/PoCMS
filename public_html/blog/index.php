@@ -3,7 +3,7 @@ date_default_timezone_set("Asia/Shanghai");
 use Boot\Bootstrap;
 
 define("ROOT_PATH", dirname(dirname(__DIR__)));
-define("APP_NAME", "Wap");
+define("APP_NAME", "Blog");
 define('TEMPLATE_PATH', ROOT_PATH . "/app/" . APP_NAME . "/");
 define("APP_PATH", ROOT_PATH . "/app/" . APP_NAME . "/");
 define("CONFIG_PATH", ROOT_PATH . "/app/" . APP_NAME . "/");

@@ -9,9 +9,9 @@ $base_config = [
         "notAllowedHandler" => "notAllowedHandler",
         'settings' => [
             'determineRouteBeforeAppMiddleware' => false,
-            'displayErrorDetails' => true,
+            'displayErrorDetails' => false,
             'logger' => [
-                'name' => 'WAP',
+                'name' => 'Blog',
                 'level' => Monolog\Logger::DEBUG,
                 'path' => APP_PATH . 'log/error.log',
             ]

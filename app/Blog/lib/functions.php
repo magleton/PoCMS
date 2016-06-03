@@ -17,3 +17,14 @@ function checkLogin($request, $response, $next){
     $response = $next($request, $response);
     return $response;
 }
+
+
+
+/**
+ * 检测用户是否有权访问
+ * @author macro chen <macro_fengye@163.com>
+ */
+function checkPermission($request, $response, $next){
+    $response = $next($request, $response);
+    return $response;
+}

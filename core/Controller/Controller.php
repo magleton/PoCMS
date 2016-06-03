@@ -74,15 +74,16 @@ class Controller extends Base
     protected function consoleDebug($log_level = self::LOG, $tips, $data, $style = '')
     {
         if ($this->getConfig('customer')['is_open_socket_log_debug']) {
-            \Slog::config($this->getConfig('socket_log')->toArray(), 'config');
+            $slog = new \Slog();
+            $slog->config($this->getConfig('socket_log')->toArray(), 'config');
             $log = [
                 'tips' => $tips,
                 'log' => $data
             ];
-            if ($log_level == self::LOG_CSS) {
-                \Slog::$log_level($log, $style);
+            if ($log_level == self::LOG_CSS && !empty($style)) {
+                $slog->$log_level($log, $style);
             } else {
-                \Slog::$log_level($log);
+                $slog->$log_level($log);
             }
         }
     }

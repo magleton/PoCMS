@@ -49,27 +49,27 @@
   "config": {
     "bin-dir": "bin",
     "github-oauth": {
-      "github.com": "f9f93a62f8791201f823c1aedaf7954d55ecaa72"
+      "github.com": "11bff16da37e47bc4b6343407284e106aacf3b61"
     }
   },
   "autoload": {
     "psr-4": {
       "Boot\\": "core\\Boot",
       "Controller\\": "core\\Controller",
-      "Admin\\Entity\\": "app\\Admin\\models\\Entity",
-      "Admin\\controller\\": "app\\Admin\\controller",
-      "Admin\\validate\\": "app\\Admin\\validate",
-      "Admin\\listener\\": "app\\Admin\\listener",
-      "Admin\\subscriber\\": "app\\Admin\\subscriber",
-      "Admin\\event\\": "app\\Admin\\event",
-      "Admin\\Exception\\": "app\\Admin\\exception",
-      "Wap\\Entity\\": "app\\Wap\\models\\Entity",
-      "Wap\\controller\\": "app\\Wap\\controller",
-      "Wap\\validate\\": "app\\Wap\\validate",
-      "Wap\\listener\\": "app\\Wap\\listener",
-      "Wap\\subscriber\\": "app\\Wap\\subscriber",
-      "Wap\\event\\": "app\\Wap\\event",
-      "Wap\\Exception\\": "app\\Wap\\exception"
+      "Blog\\Entity\\": "app\\Blog\\models\\Entity",
+      "Blog\\controller\\": "app\\Blog\\controller",
+      "Blog\\validate\\": "app\\Blog\\validate",
+      "Blog\\listener\\": "app\\Blog\\listener",
+      "Blog\\subscriber\\": "app\\Blog\\subscriber",
+      "Blog\\event\\": "app\\Blog\\event",
+      "Blog\\Exception\\": "app\\Blog\\exception",
+      "CMS\\Entity\\": "app\\CMS\\models\\Entity",
+      "CMS\\controller\\": "app\\CMS\\controller",
+      "CMS\\validate\\": "app\\CMS\\validate",
+      "CMS\\listener\\": "app\\CMS\\listener",
+      "CMS\\subscriber\\": "app\\CMS\\subscriber",
+      "CMS\\event\\": "app\\CMS\\event",
+      "CMS\\Exception\\": "app\\CMS\\exception"
     },
     "files": [
       "core\\Lib\\functions_include.php"
