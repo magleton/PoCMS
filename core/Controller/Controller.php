@@ -73,7 +73,7 @@ class Controller extends Base
      */
     protected function consoleDebug($log_level = self::LOG, $tips, $data, $style = '')
     {
-        if ($this->getConfig('customer')['is_open_socket_log_debug']) {
+        if (extension_loaded('curl') && $this->getConfig('customer')['is_open_socket_log_debug']) {
             $slog = new \Slog();
             $slog->config($this->getConfig('socket_log')->toArray(), 'config');
             $log = [
