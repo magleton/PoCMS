@@ -186,8 +186,8 @@ class Slog
             return;
         }
 
-        set_error_handler(array(__CLASS__, 'error_handler'));
-        register_shutdown_function(array(__CLASS__, 'fatalError'));
+        set_error_handler(array($this, 'error_handler'));
+        register_shutdown_function(array($this, 'fatalError'));
     }
 
     public function error_handler($errno, $errstr, $errfile, $errline)
@@ -240,7 +240,7 @@ class Slog
                 break;
         }
         $msg = "{$severity}: {$errstr} in {$errfile} on line {$errline} -- SocketLog error handler";
-        self::trace($msg, 2, $this->css['error_handler']);
+        $this->trace($msg, 2, $this->css['error_handler']);
     }
 
     public function fatalError()
@@ -347,7 +347,7 @@ class Slog
             return;
         }
 
-        self::$logs[] = array(
+        $this->logs[] = array(
             'type' => $type,
             'msg' => $msg,
             'css' => $css
@@ -408,7 +408,7 @@ class Slog
             'css' => $this->css['page']
         ));
 
-        if (self::getConfig('show_included_files')) {
+        if ($this->getConfig('show_included_files')) {
             $this->logs[] = array(
                 'type' => 'groupCollapsed',
                 'msg' => 'included_files',
