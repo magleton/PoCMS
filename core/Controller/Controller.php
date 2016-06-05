@@ -18,17 +18,7 @@ class Controller extends Base
     const TRACE = 'trace';  // 输入日志同时会打出调用栈
     const ALERT = 'alert';  // 将日志以alert方式弹出
     const LOG_CSS = 'log';    // 自定义日志的样式，第三个参数为css样式
-
-    /**
-     * 控制器构造函数
-     *
-     * @author macro chen <macro_fengye@163.com>
-     */
-    public function __construct()
-    {
-        $this->init();
-    }
-
+    
     /**
      * 初始化函数
      *

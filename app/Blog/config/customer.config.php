@@ -19,14 +19,19 @@ $customer_config = [
         ],
         //定义数据缓存的Cache
         'data_cache' => [
-            'redis_cache'=> [
+            'redis_cache' => [
                 'is_open' => true,
                 'cache_name' => 'redisCache'
             ],
-            'memcache_cache'=> [
+            'memcache_cache' => [
                 'is_open' => true,
                 'cache_name' => 'memcacheCache'
             ],
+        ],
+        //设置配置文件的缓存
+        'config_cache' => [
+            'is_open' => true,
+            'cache_name' => 'memcacheCache'
         ],
         'encrypt_key' => '50966aa77700771034fd2bbc69d0bec9',//加密的KEY
         'is_check_login' => false, //是否打开登录检测
@@ -46,9 +51,9 @@ $customer_config = [
     ],
 
     //Redis缓存的key
-    'redis_keys'=>[
+    'redis_keys' => [
         'default_queue_key' => 'task',
-        'submit_order_queue_key'=>'submit_order'
+        'submit_order_queue_key' => 'submit_order'
     ],
 
     'socket_log' => [
@@ -60,15 +65,6 @@ $customer_config = [
         'force_client_id' => 'slog_269e56',//日志强制记录到配置的client_id,默认为空
         'allow_client_ids' => ['slog_269e56', 'slog_f7646b'],////限制允许读取日志的client_id，默认为空,表示所有人都可以获得日志。
     ],
-    // 配置事件监听器与事件订阅者
-    'evm' => array(
-        "listener" => array(
-            "Events::prePersist" => 'Blog\listener\MyEventListener',
-        ),
-        'subscriber' => array(
-            "" => "Blog\subscriber\MyEventSubscriber",
-        ),
-    ),
     // 没有权限访问URL跳转到的默认地址
     'default.url' => '/home/index',
 ];

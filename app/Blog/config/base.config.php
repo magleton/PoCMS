@@ -2,7 +2,7 @@
 //应用基础配置
 $base_config = [
     // 应用的配置
-    'slim' => array(
+    'slim' => [
         'mode' => APPLICATION_ENV,
         'notFoundHandler' => "notFound",
         "errorHandler" => "errorHandler",
@@ -16,8 +16,7 @@ $base_config = [
                 'path' => APP_PATH . 'log/error.log',
             ]
         ],
-    ),
-
+    ],
     // 配置模板实例
     'twig' => array(
         'charset' => 'utf-8',
@@ -28,7 +27,6 @@ $base_config = [
         'debug' => true,
         'auto_reload' => true,
     ),
-
 
     // Cookie的配置
     'cookies' => array(

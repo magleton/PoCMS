@@ -31,7 +31,8 @@
     "slim/csrf": "~0.6",
     "php-amqplib/php-amqplib": "~2.0",
     "eventviva/php-image-resize": "1.5.*",
-    "tuupola/cors-middleware": "*"
+    "tuupola/cors-middleware": "*",
+    "davidepastore/slim-config": "*"
   },
   "require-dev": {
     "zendframework/zend-dom": "2.*",

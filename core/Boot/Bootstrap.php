@@ -32,17 +32,7 @@ class Bootstrap
 {
     private static $app = NULL;
 
-    /**
-     * 配置entityManager的事件映射对象，因为addEventListener不能识别config.php配置的字符串，因此设置此映射数组
-     *
-     * @var \Doctrine\ORM\Events $eventTypeMapping
-     */
-    private static $eventTypeMapping = array(
-        "Events::prePersist" => \Doctrine\ORM\Events::prePersist,
-        "Events::preFlush" => \Doctrine\ORM\Events::preFlush,
-        "Events::preUpdate" => \Doctrine\ORM\Events::preUpdate,
-        "Events::preRemove" => \Doctrine\ORM\Events::preRemove,
-    );
+    private static $container = NULL;
 
     /**
      * 缓存的类型
@@ -65,9 +55,10 @@ class Bootstrap
             error_reporting(0);
         }
         try {
-            $slim_config = self::getConfig('slim') ? self::getConfig('slim')->toArray() : [];
-            self::$app = new \Slim\App($slim_config);
+            //$slim_config = self::getConfig('slim') ? self::getConfig('slim')->toArray() : [];
+            //$slim_config = require APP_PATH . '/config/app.config.alone.php';
             self::initContainer();
+            self::$app = new \Slim\App(self::$container);
             self::dealRoute();
             register_shutdown_function('fatal_handler');
             self::$app->run();
@@ -94,9 +85,9 @@ class Bootstrap
             }
             error_reporting(0);
         }
-        $slim_config = self::getConfig('slim') ? self::getConfig('slim')->toArray() : [];
-        self::$app = new \Slim\App($slim_config);
+        //$slim_config = self::getConfig('slim') ? self::getConfig('slim')->toArray() : [];
         self::initContainer();
+        self::$app = new \Slim\App(self::$container);
     }
 
     /**
@@ -106,8 +97,8 @@ class Bootstrap
      */
     private static function initContainer()
     {
-        $container = self::$app->getContainer();
-        $container['errorHandler'] = function ($container) {
+        self::$container = new \Slim\Container();
+        self::$container['errorHandler'] = function ($container) {
             return function ($request, $response, $exception) use ($container) {
                 //self::getContainer('logger')->error((string)$exception);
                 self::getContainer('logger')->error($exception);
@@ -125,7 +116,7 @@ class Bootstrap
                 };
             };
         };
-        $container['notFoundHandler'] = function ($container) {
+        self::$container['notFoundHandler'] = function ($container) {
             return function ($request, $response) use ($container) {
                 if (self::getConfig('customer')['is_rest']) {
                     return $container['response']
@@ -141,10 +132,10 @@ class Bootstrap
                 }
             };
         };
-        $container['phpErrorHandler'] = function ($container) {
+        self::$container['phpErrorHandler'] = function ($container) {
             return $container['errorHandler'];
         };
-        $container['notAllowedHandler'] = function ($container) {
+        self::$container['notAllowedHandler'] = function ($container) {
             return function ($request, $response, $methods) use ($container) {
                 return $container['response']
                     ->withStatus(405)
@@ -153,13 +144,13 @@ class Bootstrap
                     ->write('Method must be one of: ' . implode(', ', $methods));
             };
         };
-        $container['view'] = function ($container) {
-            $twig_config = self::getConfig('twig') ? self::getConfig('twig')->toArray() : [];
+        self::$container['view'] = function ($container) {
+            $twig_config = self::getConfig('twig') ? self::getConfig('twig') : [];
             $view = new Twig(TEMPLATE_PATH . 'templates', $twig_config);
             $view->addExtension(new TwigExtension($container['router'], $container['request']->getUri()));
             return $view;
         };
-        $container['csrf'] = function ($container) {
+        self::$container['csrf'] = function ($container) {
             $guard = new \Slim\Csrf\Guard();
             $guard->setFailureCallable(function ($request, $response, $next) {
                 $request = $request->withAttribute("csrf_status", false);
@@ -167,17 +158,17 @@ class Bootstrap
             });
             return $guard;
         };
-        $container['apcu'] = function ($container) {
+        self::$container['apcu'] = function ($container) {
             return new ApcuCache();
         };
-        $container['xcache'] = function ($container) {
+        self::$container['xcache'] = function ($container) {
             return new XcacheCache();
         };
-        $container['flash'] = function ($container) {
+        self::$container['flash'] = function ($container) {
             return new \Slim\Flash\Messages();
         };
         /* Monolog */
-        $container['logger'] = function ($container) {
+        self::$container['logger'] = function ($container) {
             $settings = self::getConfig('slim')['settings'];
             $logger = new Logger($settings['logger']['name']);
             $logger->pushProcessor(new UidProcessor());
@@ -185,7 +176,7 @@ class Bootstrap
             return $logger;
         };
         /*Doctrine2 Memcache Driver*/
-        $container["memcacheCacheDriver"] = function ($container) {
+        self::$container["memcacheCacheDriver"] = function ($container) {
             $memcache = self::getCacheInstance(self::MEMCACHE, 'server1');
             $memcacheCacheDriver = new MemcacheCache();
             $memcacheCacheDriver->setNamespace("memcacheCacheDriver_namespace");
@@ -193,7 +184,7 @@ class Bootstrap
             return $memcacheCacheDriver;
         };
         /*Doctrine2 Redis Driver*/
-        $container["redisCacheDriver"] = function ($container) {
+        self::$container["redisCacheDriver"] = function ($container) {
             $redisCacheDriver = new RedisCache();
             $redis = self::getCacheInstance(self::REDIS, 'server1');
             //设置缓存的命名空间
@@ -202,7 +193,7 @@ class Bootstrap
             return $redisCacheDriver;
         };
         /*ZendFrameWork Redis Object*/
-        $container["redisCache"] = function ($container) {
+        self::$container["redisCache"] = function ($container) {
             $redisConfig = self::getConfig("cache");
             $redis = NULL;
             if ($redisConfig->redis) {
@@ -214,7 +205,7 @@ class Bootstrap
             return $redis;
         };
         /*ZendFrameWork Memcache Object*/
-        $container["memcacheCache"] = function ($container) {
+        self::$container["memcacheCache"] = function ($container) {
             $memcacheConfig = self::getConfig("cache");
             $memcache = NULL;
             if ($memcacheConfig->memcache) {
@@ -227,7 +218,7 @@ class Bootstrap
             return $memcache;
         };
         /*ZendFrameWork Memcached Object*/
-        $container['memcachedCache'] = function ($container) {
+        self::$container['memcachedCache'] = function ($container) {
             $memcachedConfig = self::getConfig('cache');
             $memcached = NULL;
             if ($memcachedConfig->memcached) {
@@ -239,14 +230,14 @@ class Bootstrap
             return $memcached;
         };
         /*ZendFrameWork FileSystemCache*/
-        $container["fileSystemCache"] = function ($container) {
+        self::$container["fileSystemCache"] = function ($container) {
             $fileSystem = new Filesystem(array(
                 "cache_dir" => CACHE_DIR . "/cache"
             ));
             return $fileSystem;
         };
         /*SessionManager Object*/
-        $container['sessionManager'] = function ($container) {
+        self::$container['sessionManager'] = function ($container) {
             $config = new SessionConfig();
             $config->setOptions(self::getConfig("session")['manager']);
             $sessionManager = new SessionManager($config);
@@ -255,25 +246,30 @@ class Bootstrap
             return $sessionManager;
         };
         /*SessionManager Container Object*/
-        $container["sessionContainer"] = function ($container) {
+        self::$container["sessionContainer"] = function ($container) {
             $sessionManager = self::getContainer("sessionManager");
             Container::setDefaultManager($sessionManager);
             $container = new Container(self::getConfig("session")['container']['namespace']);
             return $container;
         };
 
+        // Register provider
+        self::$container['config'] = function () {
+            return new \Noodlehaus\Config(APP_PATH . 'config');
+        };
+
         /*Event Manager Object*/
-        $container["eventManager"] = function ($container) {
+        self::$container["eventManager"] = function ($container) {
             return new EventManager();
         };
         /*Zend ServiceManager*/
-        $container['serviceManager'] = function ($container) {
+        self::$container['serviceManager'] = function ($container) {
             $serviceManager = new ServiceManager();
             return $serviceManager;
         };
 
         /* SocketLog Container Object */
-        $container['slog'] = function ($container) {
+        self::$container['slog'] = function ($container) {
             return new SLog();
         };
     }
@@ -292,7 +288,7 @@ class Bootstrap
         $dbConfig = self::getConfig('db')[APPLICATION_ENV];
         $db = NULL;
         if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
-            $conn_config = $dbConfig->$dbName ? $dbConfig->$dbName->toArray() : [];
+            $conn_config = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
             $useSimpleAnnotationReader = $conn_config['useSimpleAnnotationReader'];
             unset($conn_config['useSimpleAnnotationReader']);
             if ($useSimpleAnnotationReader) {
@@ -325,6 +321,8 @@ class Bootstrap
                 $db = \Doctrine\ORM\EntityManager::create($conn_config
                     , $configuration, self::getContainer("eventManager"));
             } else if ($type == "Connection") {
+                echo "asfsaf";
+                die();
                 $db = DriverManager::getConnection($conn_config
                     , $configuration, self::getContainer("eventManager"));
             }
@@ -346,20 +344,11 @@ class Bootstrap
      */
     public static function getConfig($key)
     {
-        /*App Config*/
-        $config_data = [];
-        foreach (glob(CONFIG_PATH . "config/*.php") as $filename) {
-            $temp = require $filename;
-            if (is_array($temp)) {
-                $config_data = array_merge($config_data, $temp);
-            }
-        }
-        $config = new Config($config_data);
-        if (!$config->$key) {
-            echo "{$key}不存在！";
+        if (!self::getContainer('config')->get($key)) {
+            writeLog('base_config', [$key . '--不存在!'], APP_PATH . '/log/config.log', Logger::ERROR);
             return NULL;
         }
-        return $config->$key;
+        return self::getContainer('config')->get($key);
     }
 
     /**
@@ -437,54 +426,49 @@ class Bootstrap
     }
 
     /**
-     * 添加系统配置的事件（监听器，订阅器）
-     *
+     * 添加自定义监听器
      * @author macro chen <macro_fengye@163.com>
+     * @param $db_type
+     * @param $db_name
+     * @param $namespace
+     * @param $event_name
+     * @return EventManager
      */
-    private static function addSystemEvent()
+    public static function addEvent($db_type, $db_name, $namespace, $event_name)
     {
-        if (self::getConfig("evm")) {
-            self::addEvent(self::getConfig("evm"));
-        }
-    }
-
-    /**
-     * 添加自定义的事件（监听器，订阅器）
-     *
-     * @param array $evm
-     * @author macro chen <macro_fengye@163.com>
-     * @return mixed
-     */
-
-    private static function addCustomEvent(array $evm = array())
-    {
-        if ($evm) {
-            return self::addEvent(self::getConfig("evm"));
-        }
-        return NULL;
-    }
-
-    /**
-     * 添加事件到事件管理器
-     *
-     * @param $evm array 需要添加的事件
-     * @author macro chen <macro_fengye@163.com>
-     * @return  mixed
-     */
-    private static function addEvent(array $evm = array())
-    {
-        if (isset($evmConfig['listener'])) {
-            foreach ($evmConfig['listener'] as $key => $listener) {
-                self::getContainer('eventManager')->addEventListener(array(
-                    self::$eventTypeMapping[$key],
-                ), new $listener());
+        $event_manager = self::getDbInstanceEvm($db_type, $db_name);
+        if (self::getConfig($namespace)) {
+            if (isset(self::getConfig($namespace)[$event_name])) {
+                $class_name = self::getConfig($namespace)[$event_name];
+                if (is_array($event_name)) {
+                    $event_manager->addEventListener($event_name, new $class_name());
+                } else {
+                    $event_manager->addEventListener([$event_name], new $class_name());
+                }
             }
         }
-        if (isset($evmConfig['subscriber'])) {
-            foreach ($evmConfig['subscriber'] as $key => $subscriber) {
-                self::getContainer('eventManager')->addEventSubscriber(new $subscriber());
+        return $event_manager;
+    }
+
+
+    /**
+     * 添加自定义订阅器
+     * @author macro chen <macro_fengye@163.com>
+     * @param $db_type
+     * @param $db_name
+     * @param $namespace
+     * @param $subscriber_name
+     * @return EventManager
+     */
+    public static function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
+    {
+        $event_manager = self::getDbInstanceEvm($db_type, $db_name);
+        if (self::getConfig($namespace)) {
+            if (isset(self::getConfig($namespace)[$subscriber_name])) {
+                $class_name = self::getConfig($namespace)[$subscriber_name];
+                $event_manager->addEventSubscriber(new $class_name());
             }
-            return self::getContainer('eventManager');
+            return $event_manager;
         }
     }
 
@@ -544,11 +528,11 @@ class Bootstrap
             switch ($type) {
                 case self::REDIS:
                     $cache_obj = new \Redis();
-                    $is_conn = $cache_obj->connect($config->$type->$server_name->host, $config->$type->$server_name->port, $config->$type->$server_name->timeout);
+                    $is_conn = $cache_obj->connect($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['timeout']);
                     if (!$is_conn && $lookup) {
                         foreach ($config->$type as $key => $value) {
                             if ($key != $server_name) {
-                                $is_conn = $cache_obj->connect($value->host, $value->port, $value->timeout);
+                                $is_conn = $cache_obj->connect($value['host'], $value['port'], $value['timeout']);
                                 if ($is_conn) {
                                     break;
                                 }
@@ -558,11 +542,11 @@ class Bootstrap
                     break;
                 case self::MEMCACHE:
                     $cache_obj = new \Memcache();
-                    $is_conn = $cache_obj->connect($config->$type->$server_name->host, $config->$type->$server_name->port, $config->$type->$server_name->timeout);
+                    $is_conn = $cache_obj->connect($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['timeout']);
                     if (!$is_conn && $lookup) {
                         foreach ($config->$type as $key => $value) {
                             if ($key != $server_name) {
-                                $is_conn = $cache_obj->connect($value->host, $value->port, $value->timeout);
+                                $is_conn = $cache_obj->connect($value['host'], $value['port'], $value['timeout']);
                                 if ($is_conn) {
                                     break;
                                 }
@@ -572,11 +556,11 @@ class Bootstrap
                     break;
                 case self::MEMCACHED:
                     $cache_obj = new \Memcached();
-                    $is_conn = $cache_obj->addServer($config->$type->$server_name->host, $config->$type->$server_name->port, $config->$type->$server_name->weight);
+                    $is_conn = $cache_obj->addServer($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['weight']);
                     if (!$is_conn && $lookup) {
                         foreach ($config->$type as $key => $value) {
                             if ($key != $server_name) {
-                                $is_conn = $cache_obj->addServer($value->host, $value->port, $value->weight);
+                                $is_conn = $cache_obj->addServer($value['host'], $value['port'], $value['weight']);
                                 if ($is_conn) {
                                     break;
                                 }

@@ -49,6 +49,7 @@ class Base
      */
     const REDIS = "redis";
     const MEMCACHE = "memcache";
+    const MEMCACHED = "memcached";
 
     /**
      * 控制器构造函数
@@ -137,5 +138,33 @@ class Base
         $shardManager->selectGlobal();
         $shardManager->selectShard($shard_id);
         return $shardManager;
+    }
+
+    /**
+     * 添加自定义监听器
+     * @author macro chen <macro_fengye@163.com>
+     * @param $db_type
+     * @param $db_name
+     * @param $namespace
+     * @param $event_name
+     * @return EventManager
+     */
+    public static function addEvent($db_type, $db_name, $namespace, $event_name)
+    {
+        return Bootstrap::addEvent($db_type, $db_name, $namespace, $event_name);
+    }
+
+    /**
+     * 添加自定义订阅器
+     * @author macro chen <macro_fengye@163.com>
+     * @param $db_type
+     * @param $db_name
+     * @param $namespace
+     * @param $subscriber_name
+     * @return EventManager
+     */
+    public static function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
+    {
+        return Bootstrap::addSubscriber();
     }
 }
