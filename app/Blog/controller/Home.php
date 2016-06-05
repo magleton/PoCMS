@@ -13,8 +13,9 @@ class Home extends \Controller\Controller
         ));
     }
 
-    public function hello()
+    public function hello($request , $response , $args)
     {
+        echo "aaaaaa";
         $this->render("/home/hello.twig", array(
             'name' => 'Macro',
         ));

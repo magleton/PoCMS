@@ -378,7 +378,7 @@ class Bootstrap
     private static function dealRoute()
     {
         $path_info = self::$app->getContainer()->get('request')->getUri()->getPath();
-        $path_arr = explode("/", ltrim($path_info, '/'));
+        $path_arr = explode("/", trim($path_info, '/'));
         $controller = (isset($path_arr[0]) && !empty($path_arr[0])) ? $path_arr[0] : "home";
         $action = (isset($path_arr[1]) && !empty($path_arr[1])) ? $path_arr[1] : "index";
         $route_name = APP_NAME . '.' . $controller . '.' . $action;
@@ -420,7 +420,12 @@ class Bootstrap
         }
         if ($isDynamicAddRoute) {
             $route = APP_NAME . "\\controller\\" . ucfirst($controller) . ":" . $action;
-            $pattern = "/" . $controller . '/' . $action . '[/{param:.*}]';
+            $pattern = "/";
+            if (isset($path_arr[0]) && !isset($path_arr[1])) {
+                $pattern .= $controller . '[/]';
+            } else {
+                $pattern .= $controller . '/' . $action . '[/{param:.*}]';
+            }
             self::$app->map(["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], $pattern, $route)->setName($route_name);
             if (isset(self::getConfig('customer')['is_check_permission']) && self::getConfig('customer')['is_check_permission']) {
                 self::$app->add('checkPermission');
