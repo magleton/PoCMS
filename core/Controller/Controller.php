@@ -65,7 +65,7 @@ class Controller extends Base
     {
         if (extension_loaded('curl') && $this->getConfig('customer')['is_open_socket_log_debug']) {
             $slog = new \Slog();
-            $slog->config($this->getConfig('socket_log')->toArray(), 'config');
+            $slog->config($this->getConfig('socket_log'), 'config');
             $log = [
                 'tips' => $tips,
                 'log' => $data

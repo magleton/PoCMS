@@ -165,6 +165,6 @@ class Base
      */
     public static function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
     {
-        return Bootstrap::addSubscriber();
+        return Bootstrap::addSubscriber($db_type, $db_name, $namespace, $subscriber_name);
     }
 }
