@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/slog.php';
+require 'slog.php';
 function slog($log, $type = 'log', $css = '')
 {
     if (is_string($type)) {

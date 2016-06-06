@@ -196,7 +196,7 @@ class Bootstrap
         self::$container["redisCache"] = function ($container) {
             $redisConfig = self::getConfig("cache");
             $redis = NULL;
-            if ($redisConfig->redis) {
+            if ($redisConfig['redis']) {
                 $redis = new \Zend\Cache\Storage\Adapter\Redis();
                 //设置缓存的命名空间
                 $redis->getOptions()->getResourceManager()->setResource('default', self::getCacheInstance(self::REDIS, 'server1'));
