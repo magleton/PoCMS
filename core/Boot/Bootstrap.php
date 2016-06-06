@@ -208,12 +208,12 @@ class Bootstrap
         self::$container["memcacheCache"] = function ($container) {
             $memcacheConfig = self::getConfig("cache");
             $memcache = NULL;
-            if ($memcacheConfig->memcache) {
+            if ($memcacheConfig['memcache']) {
                 $memcache = new \Zend\Cache\Storage\Adapter\Memcache();
                 $server_name = 'server1';
                 //设置缓存的命名空间
                 $memcache->getOptions()->getResourceManager()->setResource('default', self::getCacheInstance(self::MEMCACHE, $server_name));
-                $memcache->getOptions()->setNamespace($memcacheConfig->memcache->$server_name->namespace);
+                $memcache->getOptions()->setNamespace($memcacheConfig['memcache'][$server_name]['namespace']);
             }
             return $memcache;
         };
@@ -221,11 +221,11 @@ class Bootstrap
         self::$container['memcachedCache'] = function ($container) {
             $memcachedConfig = self::getConfig('cache');
             $memcached = NULL;
-            if ($memcachedConfig->memcached) {
+            if ($memcachedConfig['memcached']) {
                 $memcached = new Memcached();
                 $server_name = 'server1';
                 $memcached->getOptions()->getResourceManager()->setResource('default', self::getCacheInstance(self::MEMCACHED, $server_name));
-                $memcached->getOptions()->setNamespace($memcachedConfig->memcached->$server_name->namespace);
+                $memcached->getOptions()->setNamespace($memcachedConfig['memcached'][$server_name]['namespace']);
             }
             return $memcached;
         };
@@ -524,13 +524,13 @@ class Bootstrap
         $config = self::getConfig('cache');
         $cache_obj = NULL;
         $is_conn = 0;
-        if ($config) {
+        if ($config && isset($config[$type])) {
             switch ($type) {
                 case self::REDIS:
                     $cache_obj = new \Redis();
                     $is_conn = $cache_obj->connect($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['timeout']);
                     if (!$is_conn && $lookup) {
-                        foreach ($config->$type as $key => $value) {
+                        foreach ($config[$type] as $key => $value) {
                             if ($key != $server_name) {
                                 $is_conn = $cache_obj->connect($value['host'], $value['port'], $value['timeout']);
                                 if ($is_conn) {
