@@ -438,11 +438,20 @@ class Bootstrap
     {
         $event_manager = self::getDbInstanceEvm($db_type, $db_name);
         if (self::getConfig($namespace)) {
-            if (isset(self::getConfig($namespace)[$event_name])) {
+            if (is_array($event_name)) {
+                $events = [];
+                foreach ($event_name as $k => $v) {
+                    $class_name = self::getConfig($namespace)[$v];
+                    if ($class_name) {
+                        $events[$class_name][] = $v;
+                    }
+                }
+                foreach ($events as $kk => $vv) {
+                    $event_manager->addEventListener($vv, new $kk());
+                }
+            } else {
                 $class_name = self::getConfig($namespace)[$event_name];
-                if (is_array($event_name)) {
-                    $event_manager->addEventListener($event_name, new $class_name());
-                } else {
+                if ($class_name) {
                     $event_manager->addEventListener([$event_name], new $class_name());
                 }
             }
