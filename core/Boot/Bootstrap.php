@@ -321,8 +321,6 @@ class Bootstrap
                 $db = \Doctrine\ORM\EntityManager::create($conn_config
                     , $configuration, self::getContainer("eventManager"));
             } else if ($type == "Connection") {
-                echo "asfsaf";
-                die();
                 $db = DriverManager::getConnection($conn_config
                     , $configuration, self::getContainer("eventManager"));
             }

@@ -149,7 +149,7 @@ class Base
      * @param $event_name
      * @return EventManager
      */
-    public static function addEvent($db_type, $db_name, $namespace, $event_name)
+    public function addEvent($db_type, $db_name, $namespace, $event_name)
     {
         return Bootstrap::addEvent($db_type, $db_name, $namespace, $event_name);
     }
@@ -163,7 +163,7 @@ class Base
      * @param $subscriber_name
      * @return EventManager
      */
-    public static function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
+    public function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
     {
         return Bootstrap::addSubscriber($db_type, $db_name, $namespace, $subscriber_name);
     }

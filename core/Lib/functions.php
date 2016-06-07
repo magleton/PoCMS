@@ -109,6 +109,7 @@ function getIP()
         $IP = $_SERVER['REMOTE_ADDR'];
     else
         $IP = '0.0.0.0';
+    //return ip2long($IP);
     return $IP;
 }
 
@@ -124,7 +125,6 @@ function fatal_handler()
         \Boot\Bootstrap::getContainer('logger')->error($msg);
     }
 }
-
 
 /**
  * 验证来源IP合法性，是否在允许IP列表内
@@ -240,4 +240,3 @@ function writeLog($message, array $content, $file, $log_name = "LOG", $level = \
     $logger->pushHandler(new \Monolog\Handler\StreamHandler($file, $level));
     $logger->$levels[$level]($message, $content);
 }
-

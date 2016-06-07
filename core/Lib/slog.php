@@ -472,6 +472,5 @@ class Slog
     {
         $this->sendLog();
     }
-
 }
 

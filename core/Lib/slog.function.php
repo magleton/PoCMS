@@ -24,3 +24,9 @@ function slog($log, $type = 'log', $css = '')
 
     throw new Exception($type . ' is not SocketLog method');
 }
+
+
+function rrt()
+{
+    echo "adadds";
+}
