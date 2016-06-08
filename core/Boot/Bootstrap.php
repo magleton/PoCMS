@@ -58,12 +58,14 @@ class Bootstrap
             //$slim_config = self::getConfig('slim') ? self::getConfig('slim')->toArray() : [];
             //$slim_config = require APP_PATH . '/config/app.config.alone.php';
             self::initContainer();
+            self::$container = call_user_func('initCoreContainer');
             self::$app = new \Slim\App(self::$container);
             self::dealRoute();
             register_shutdown_function('fatal_handler');
             self::$app->run();
         } catch (\Exception $e) {
-
+            echo $e->getMessage();
+            return;
         }
         if (self::getConfig('customer')['show_use_memory']) {
             echo "分配内存量 : " . convert(memory_get_usage(true));
@@ -592,7 +594,7 @@ class Bootstrap
      */
     public static function getContainer($componentName)
     {
-        if (self::getApp()->getContainer()->offsetExists($componentName)) {
+        if (self::getApp()->getContainer()->has($componentName)) {
             return self::getApp()->getContainer()->get($componentName);
         }
         return null;

@@ -1,33 +1,16 @@
 <?php
 namespace Blog\controller;
 
-use boot\Bootstrap;
-use Entity\Brand;
-use Guzzle\Http\Client;
-use SlimController\SlimController;
+use Controller\Controller;
+use Slim\Http\Request;
 
-class Synchronization extends SlimController
+
+class Synchronization extends Controller
 {
-
-    public function syncAction()
+    public function test($request, $response, $args)
     {
-        $client = new Client();
-        $requests = $client->get("http://local.erp.com/mobile.php/Test/test");
-        $response = $client->send($requests);
-        $data = $response->json();
-        $entityManager = Bootstrap::getApp()->container->get("entityManager");
-        $this->render("/home/hello", array(
-            'name' => 'Macro',
-        ));
-    }
-
-    public function addAction()
-    {
-        $brand = new Brand();
-        $brand->setBrandCode("aaaa");
-        $entityManager = $this->app->container->get('entityManager');
-        $entityManager->persist($brand);
-        $entityManager->flush($brand);
-        print_r($this->app->request->params());
+        print_r(get_class_methods($this->getContainer(('lazy_service_factory'))));
+        $kk = $this->getContainer('memcacheCacheDriver');
+        print_r(($kk));
     }
 }

@@ -25,14 +25,14 @@
     "zendframework/zend-cache": "2.*",
     "zendframework/zend-inputfilter": "2.*",
     "zendframework/zend-i18n": "2.*",
-    "zendframework/zend-config": "2.*",
     "zendframework/zend-captcha": "2.*",
     "slim/flash": "~0.1",
     "slim/csrf": "~0.6",
     "php-amqplib/php-amqplib": "~2.0",
     "eventviva/php-image-resize": "1.5.*",
     "tuupola/cors-middleware": "*",
-    "davidepastore/slim-config": "*"
+    "davidepastore/slim-config": "*",
+    "spiechu/lazy-pimple": "*"
   },
   "require-dev": {
     "zendframework/zend-dom": "2.*",
@@ -50,7 +50,7 @@
   "config": {
     "bin-dir": "bin",
     "github-oauth": {
-      "github.com": "11bff16da37e47bc4b6343407284e106aacf3b61"
+      "github.com": "b5aec16edf99eb3d250f33b0aa1b7adfd3e51b4a"
     }
   },
   "autoload": {
