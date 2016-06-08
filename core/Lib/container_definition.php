@@ -102,8 +102,8 @@ function registerServiceContainer(Container $container)
     $container['view'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Views\Twig::class, function () use ($container) {
             $twig_config = \Boot\Bootstrap::getConfig('twig') ? \Boot\Bootstrap::getConfig('twig') : [];
-            $view = new Twig(TEMPLATE_PATH . 'templates', $twig_config);
-            $view->addExtension(new TwigExtension($container['router'], $container['request']->getUri()));
+            $view = new \Slim\Views\Twig(TEMPLATE_PATH . 'templates', $twig_config);
+            $view->addExtension(new \Slim\Views\TwigExtension($container['router'], $container['request']->getUri()));
             return $view;
         });
     };
@@ -124,9 +124,9 @@ function registerServiceContainer(Container $container)
     $container['logger'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Monolog\Logger::class, function () use ($container) {
             $settings = \Boot\Bootstrap::getConfig('slim')['settings'];
-            $logger = new Logger($settings['logger']['name']);
-            $logger->pushProcessor(new UidProcessor());
-            $logger->pushHandler(new StreamHandler($settings['logger']['path'], $settings['logger']['level']));
+            $logger = new \Monolog\Logger($settings['logger']['name']);
+            $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
+            $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['logger']['path'], $settings['logger']['level']));
             return $logger;
         });
     };
@@ -135,7 +135,7 @@ function registerServiceContainer(Container $container)
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\MemcacheCache::class, function ($server_name = 'server1') use ($container) {
             $memcache = \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::MEMCACHE, $container['server_name']);
             writeLog("debug", [$container['server_name']], APP_PATH . '/error.log');
-            $memcacheCacheDriver = new MemcacheCache();
+            $memcacheCacheDriver = new \Doctrine\Common\Cache\MemcacheCache();
             $memcacheCacheDriver->setNamespace("memcacheCacheDriver_namespace");
             $memcacheCacheDriver->setMemcache($memcache);
             return $memcacheCacheDriver;
@@ -144,7 +144,7 @@ function registerServiceContainer(Container $container)
     /*Doctrine2 Redis Driver*/
     $container["redisCacheDriver"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\RedisCache::class, function () use ($container) {
-            $redisCacheDriver = new RedisCache();
+            $redisCacheDriver = new \Doctrine\Common\Cache\RedisCache();
             $redis = \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::REDIS, 'server1');
             //设置缓存的命名空间
             $redisCacheDriver->setNamespace('redisCacheDriver_namespace');
@@ -168,7 +168,7 @@ function registerServiceContainer(Container $container)
     };
     /*ZendFrameWork Memcache Object*/
     $container["memcacheCache"] = function (Container $container) {
-        return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\MemcacheCache::class, function () use ($container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Memcache::class, function () use ($container) {
             $memcacheConfig = \Boot\Bootstrap::getConfig("cache");
             $memcache = NULL;
             if ($memcacheConfig['memcache']) {
@@ -239,7 +239,41 @@ function registerServiceContainer(Container $container)
         });
     };
 
-    /**/
+    /*Event Manager Object*/
+    $container["eventManager"] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\EventManager::class, function () {
+            return new \Doctrine\Common\EventManager();
+        });
+    };
+
+    /*Zend ServiceManager*/
+    $container['serviceManager'] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\ServiceManager\ServiceManager::class, function () {
+            $serviceManager = new \Zend\ServiceManager\ServiceManager();
+            return $serviceManager;
+        });
+    };
+
+    $container['apcu'] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\ApcuCache::class, function () {
+            return new ApcuCache();
+        });
+
+    };
+    $container['xcache'] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\XcacheCache::class, function () {
+            return new XcacheCache();
+        });
+
+    };
+    $container['flash'] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Flash\Messages::class, function () {
+            return new \Slim\Flash\Messages();
+        });
+
+    };
+
+    /*Memcache/Redis Server Name*/
     $container['server_name'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(stdClass::class, function () {
             return 'server1';
