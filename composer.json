@@ -50,7 +50,7 @@
   "config": {
     "bin-dir": "bin",
     "github-oauth": {
-      "github.com": "b5aec16edf99eb3d250f33b0aa1b7adfd3e51b4a"
+      "github.com": "ad42bd2ea1fb186f699c51dcfab1c634a603d579"
     }
   },
   "autoload": {
@@ -64,13 +64,15 @@
       "Blog\\subscriber\\": "app\\Blog\\subscriber",
       "Blog\\event\\": "app\\Blog\\event",
       "Blog\\Exception\\": "app\\Blog\\exception",
+      "Blog\\Service\\": "app\\Blog\\service",
       "CMS\\Entity\\": "app\\CMS\\models\\Entity",
       "CMS\\controller\\": "app\\CMS\\controller",
       "CMS\\validate\\": "app\\CMS\\validate",
       "CMS\\listener\\": "app\\CMS\\listener",
       "CMS\\subscriber\\": "app\\CMS\\subscriber",
       "CMS\\event\\": "app\\CMS\\event",
-      "CMS\\Exception\\": "app\\CMS\\exception"
+      "CMS\\Exception\\": "app\\CMS\\exception",
+      "CMS\\Service\\": "app\\Blog\\service"
     },
     "files": [
       "core\\Lib\\functions_include.php"

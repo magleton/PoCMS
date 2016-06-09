@@ -88,7 +88,7 @@ function initCoreContainer()
     };
     registerServiceContainer($pimpleContainer);
     if (function_exists('registerCustomerContainer')) {
-        registerCustomerContainer($pimpleContainer);
+        call_user_func('registerCustomerContainer' , $pimpleContainer);
     }
     return $pimpleContainer;
 }

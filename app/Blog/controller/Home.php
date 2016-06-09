@@ -1,6 +1,8 @@
 <?php
 namespace Blog\controller;
 
+use Boot\Bootstrap;
+
 class Home extends \Controller\Controller
 {
 
@@ -21,5 +23,16 @@ class Home extends \Controller\Controller
         /*$this->render($response, "/home/hello.twig", array(
             'name' => 'Macro',
         ));*/
+    }
+
+
+    public function test($request , $response , $args){
+        /* @var $eventDispatcher EventDispatcherInterface */
+        $eventDispatcher = $this->getContainer('event_dispatcher');
+        /* @var $eventEmittingService EventEmittingService */
+        $eventEmittingService = $this->getContainer('event_emitting_service');
+        $eventEmittingService->emit();
+
+        print_r(get_class_methods($this->getContainer('event_dispatcher')));
     }
 }

@@ -28,12 +28,3 @@ function checkPermission($request, $response, $next){
     $response = $next($request, $response);
     return $response;
 }
-
-
-function registerCustomerContainer(\Slim\Container $container){
-    $container['test'] = function(\Slim\Container $container){
-        return $container['lazy_service_factory']->getLazyServiceDefinition(stdClass::class , function(){
-            return new stdClass();
-        });
-    };
-}
