@@ -1,6 +1,7 @@
 <?php
 /**
  * 字节转换
+ *
  * @param $size
  * @return string
  */
@@ -91,6 +92,7 @@ function authCode($string, $key, $operation = 'DECODE', $expiry = 0)
 
 /**
  * 获取客户端真实IP
+ *
  * @author macro chen <macro_fengye@163.com>
  */
 function getIP()
@@ -109,20 +111,30 @@ function getIP()
         $IP = $_SERVER['REMOTE_ADDR'];
     else
         $IP = '0.0.0.0';
-    //return ip2long($IP);
     return $IP;
 }
 
 /**
  * PHP错误处理函数
+ *
  * @author <macro_fengye@163.com> macro chen
  */
 function fatal_handler()
 {
     $error = error_get_last();
     if ($error["type"] == E_ERROR) {
-        $msg = 'Type : ' . $error["type"] . '\nMessage : ' . $error["message"] . '\nFile : ' . $error["file"] . '\nLine : ' . $error["line"];
-        \Boot\Bootstrap::getContainer('logger')->error($msg);
+        if (\Core\Utils\CoreUtils::getContainer('logger')) {
+            $msg = 'Type : ' . $error["type"] . '\nMessage : ' . $error["message"] . '\nFile : ' . $error["file"] . '\nLine : ' . $error["line"];
+            \Core\Utils\CoreUtils::getContainer('logger')->error($msg);
+        } else {
+            $msg = 'Type : ' . $error["type"] . ' , Message : ' . $error["message"] . ' , File : ' . $error["file"] . ' , Line : ' . $error["line"];
+            writeLog('Fatal Error : ', [$msg], APP_PATH . '/log/fatal_error.log', Monolog\Logger::ERROR);
+            if (file_exists(TEMPLATE_PATH . 'error.twig')) {
+                echo @file_get_contents(TEMPLATE_PATH . 'error.twig');
+            } else {
+                echo \GuzzleHttp\json_encode(['code' => 2000, 'msg' => 'Error', 'data' => []]);
+            }
+        }
     }
 }
 
@@ -182,31 +194,8 @@ function verifyPwdComplexity($password, $minPwdLen = 6)
 }
 
 /**
- * 生成用户的salt加密串
- * @param int $len
- * @param int $type (1=>数字 , 2=>字母 , 3=>混合)
- * @return string
- */
-function generateSalt($len = 32, $type = 3)
-{
-    $arr[1] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    $arr[2] = ["b", "c", "d", "f", "g", "h", "j", "k", "m", "n", "p", "q", "r", "s", "t", "u", "v", "w", "x", "z"];
-    $arr[3] = ["b", "c", "d", "f", "g", "h", "j", "k", "m", "n", "p", "q", "r", "s", "t", "u", "v", "w", "x", "z", "2", "3", "4", "5", "6", "7", "8", "9"];
-    $word = '';
-    $cnt = count($arr[$type]) - 1;
-    srand((float)microtime() * 1000000);
-    shuffle($arr[$type]);
-    for ($i = 0; $i < $len; $i++) {
-        $word .= $arr[$type][\Zend\Math\Rand::getInteger(0, $cnt, false)];
-    }
-    if (strlen($word) > $len) {
-        $word = substr($word, 0, $len);
-    }
-    return $word;
-}
-
-/**
  * 过滤不可见(不可打印)的字符
+ *
  * @param $str
  * @return mixed
  */
@@ -217,13 +206,14 @@ function filterInvisibleCharacter($str)
 
 /**
  * 记录日志，便于调试
+ *
  * @param $message
  * @param array $content
  * @param string $file
  * @param string $log_name
  * @param int $level
  */
-function writeLog($message, array $content, $file, $log_name = "LOG", $level = \Monolog\Logger::WARNING)
+function writeLog($message, array $content, $file = '', $log_name = "LOG", $level = \Monolog\Logger::WARNING)
 {
     $levels = [
         100 => 'debug',
@@ -237,6 +227,50 @@ function writeLog($message, array $content, $file, $log_name = "LOG", $level = \
     ];
     $logger = new \Monolog\Logger($log_name);
     $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new \Monolog\Handler\StreamHandler($file, $level));
+    $logger->pushHandler(new \Monolog\Handler\StreamHandler($file ? $file : APP_PATH . '/log/log.log', $level));
     $logger->$levels[$level]($message, $content);
+}
+
+/**
+ * 请求目标URL获取请求返回的JSON字符串
+ *
+ * @author fengxu
+ * @param string $url 目标URL
+ * @param string $method 请求方式 GET|POST
+ * @param array $fields 当请求方式为POST时，传递的参数
+ * @param int $timeout 请求超时时间，单位‘sec’
+ * @return array
+ */
+function getHttpJson($url, $method = 'GET', array $fields = array(), $timeout = 30)
+{
+    $isPost = ($method == 'POST');
+    $responseFields = array();
+    $reqHandle = curl_init($url);
+    curl_setopt_array($reqHandle, array(
+        CURLOPT_USERAGENT => 'getHttpJson',
+        CURLOPT_TIMEOUT => $timeout,
+        CURLOPT_RETURNTRANSFER => true,
+    ));
+    if ($isPost) {
+        curl_setopt($reqHandle, CURLOPT_POST, true);
+        // http_build_query自动urlencode传输参数，可避免参数中存在URL特殊字符的问题
+        curl_setopt($reqHandle, CURLOPT_POSTFIELDS, http_build_query($fields, null, '&'));
+    }
+    $responseJson = curl_exec($reqHandle);
+    if (!($error = curl_error($reqHandle))) {
+        if ($responseJson) {
+            $responseFields = json_decode($responseJson, true);
+        }
+    } else {
+        $errMsg = sprintf("【%s】\t\t%s getHttpJson(%s, %s) \t\t%s\n",
+            date('Y-m-d H:i:s', time()), $error, $url, $method,
+            (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : ''));
+        $logDir = 'log';
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0777);
+        }
+        file_put_contents(APP_PATH . "/log/error.log", $errMsg, FILE_APPEND);
+    }
+    curl_close($reqHandle);
+    return $responseFields;
 }

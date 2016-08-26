@@ -1,9 +1,8 @@
 <?php
-namespace Blog\controller;
+namespace Blog\Controller;
 
 
-use Boot\Bootstrap;
-use Controller\Controller;
+use Core\Controller\Controller;
 
 class Hello extends Controller
 {

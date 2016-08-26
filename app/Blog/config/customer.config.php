@@ -33,6 +33,7 @@ $customer_config = [
             'is_open' => true,
             'cache_name' => 'memcacheCache'
         ],
+        'router_cache_file' => APP_PATH . "/Routers/routerFile.router",
         'encrypt_key' => '50966aa77700771034fd2bbc69d0bec9',//加密的KEY
         'is_check_login' => false, //是否打开登录检测
         'is_check_permission' => true, //是否打开权限管理检测

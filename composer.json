@@ -32,7 +32,8 @@
     "eventviva/php-image-resize": "1.5.*",
     "tuupola/cors-middleware": "*",
     "davidepastore/slim-config": "*",
-    "spiechu/lazy-pimple": "*"
+    "spiechu/lazy-pimple": "*",
+    "tuupola/slim-jwt-auth":"*"
   },
   "require-dev": {
     "zendframework/zend-dom": "2.*",
@@ -50,29 +51,14 @@
   "config": {
     "bin-dir": "bin",
     "github-oauth": {
-      "github.com": "ad42bd2ea1fb186f699c51dcfab1c634a603d579"
+      "github.com": "1e2d7c8fa2b136b634ac2ee2fc23ceb5ab653bf7"
     }
   },
   "autoload": {
     "psr-4": {
-      "Boot\\": "core\\Boot",
-      "Controller\\": "core\\Controller",
-      "Blog\\Entity\\": "app\\Blog\\models\\Entity",
-      "Blog\\controller\\": "app\\Blog\\controller",
-      "Blog\\validate\\": "app\\Blog\\validate",
-      "Blog\\listener\\": "app\\Blog\\listener",
-      "Blog\\subscriber\\": "app\\Blog\\subscriber",
-      "Blog\\event\\": "app\\Blog\\event",
-      "Blog\\Exception\\": "app\\Blog\\exception",
-      "Blog\\Service\\": "app\\Blog\\service",
-      "CMS\\Entity\\": "app\\CMS\\models\\Entity",
-      "CMS\\controller\\": "app\\CMS\\controller",
-      "CMS\\validate\\": "app\\CMS\\validate",
-      "CMS\\listener\\": "app\\CMS\\listener",
-      "CMS\\subscriber\\": "app\\CMS\\subscriber",
-      "CMS\\event\\": "app\\CMS\\event",
-      "CMS\\Exception\\": "app\\CMS\\exception",
-      "CMS\\Service\\": "app\\Blog\\service"
+      "Core\\": "core",
+      "Blog\\": "app\\Blog",
+      "CMS\\": "app\\CMS"
     },
     "files": [
       "core\\Lib\\functions_include.php"

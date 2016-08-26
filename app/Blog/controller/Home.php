@@ -1,15 +1,17 @@
 <?php
 namespace Blog\controller;
 
-use Boot\Bootstrap;
+use Core\Controller\Controller;
+use Core\Utils\CoreUtils;
 
-class Home extends \Controller\Controller
+class Home extends Controller
 {
 
     public function index($request, $response, $args)
     {
         $this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);
-        $this->sessionContainer->user = array("username" => 20, "age" => 30);
+        CoreUtils::getContainer('sessionContainer')->user = array("username" => 20, "age" => 30);
+        $abc = CoreUtils::getContainer('abc');
         $this->render($response, '/home/index.twig', array(
             'somevar' => date('c'),
         ));
