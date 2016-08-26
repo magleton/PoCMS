@@ -1,16 +1,8 @@
 <?php
 namespace Core\Boot;
 
-use Core\ServiceProvider\ConfigService;
-use Core\ServiceProvider\ErrorHandler;
 use Core\ServiceProvider\InitAppService;
-use Core\ServiceProvider\LazyService;
-use Core\ServiceProvider\NotAllowedHandler;
-use Core\ServiceProvider\NotFoundHandler;
-use Core\ServiceProvider\PhpErrorHandler;
-use Core\ServiceProvider\RouterFileService;
 use Core\Utils\CoreUtils;
-use Slim\App;
 use Slim\Container;
 
 class Bootstrap
