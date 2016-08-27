@@ -263,7 +263,7 @@ class CoreUtils
      */
     public static function getContainer($componentName)
     {
-        if (!Bootstrap::getAppContainer()->has($componentName)) {
+        if (!Bootstrap::getApplication()->getContainer()->has($componentName)) {
             writeLog('debug' , [$componentName]);
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
             if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service")) {
@@ -271,10 +271,10 @@ class CoreUtils
             } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($componentName) . "Service")) {
                 $class_name = 'Core\\ServiceProvider\\' . ucfirst($componentName) . "Service";
             }
-            Bootstrap::getAppContainer()->register(new $class_name());
+            Bootstrap::getApplication()->getContainer()->register(new $class_name());
         }
-        if (Bootstrap::getAppContainer()->has($componentName)) {
-            return Bootstrap::getAppContainer()->get($componentName);
+        if (Bootstrap::getApplication()->getContainer()->has($componentName)) {
+            return Bootstrap::getApplication()->getContainer()->get($componentName);
         }
         return null;
     }

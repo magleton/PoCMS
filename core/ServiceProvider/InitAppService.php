@@ -30,9 +30,7 @@ class InitAppService implements ServiceProviderInterface
             $container->register(new PhpErrorHandler());
             $container->register(new NotAllowedHandler());
             $container->register(new LazyService());
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\App::class, function () use ($container) {
-                return new \Slim\App($container);
-            });
+            return new \Slim\App($container);
         };
     }
 
