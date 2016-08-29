@@ -1,28 +1,17 @@
 <?php
 use Pimple\Container;
-use Spiechu\LazyPimple\DependencyInjection\ExtendServiceDefinition;
-use Spiechu\LazyPimple\DependencyInjection\LazyEventSubscriberServiceProvider;
-use Spiechu\LazyPimple\DependencyInjection\MultiServiceAwareExtender;
 use Spiechu\LazyPimple\Factory\LazyLoadingValueHolderFactoryFactory;
 use Spiechu\LazyPimple\Factory\LazyServiceFactory;
-use Spiechu\LazyPimple\FirstSubscriber;
-use Spiechu\LazyPimple\Service\AnotherService;
-use Spiechu\LazyPimple\Service\AwesomeService;
-use Spiechu\LazyPimple\Service\EventEmittingService;
-use Spiechu\LazyPimple\ServiceToExtend\AwesomeServiceAwareClass;
-use Spiechu\LazyPimple\ServiceToExtend\AwesomeServiceAwareInterface;
-use Spiechu\LazyPimple\ServiceToExtend\BothInterfacesAwareClass;
-use Spiechu\LazyPimple\ServiceToExtend\EventDispatcherAwareInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * 初始化核心的Container
+ *
  * @author <macro_fengye@163.com> macro chen
  */
 function initCoreContainer()
 {
     $pimpleContainer = new \Slim\Container();
-    $pimpleContainer['lazy_loading_value_holder_factory_factory'] = function (Container $container) {
+    /*$pimpleContainer['lazy_loading_value_holder_factory_factory'] = function (Container $container) {
         return (new LazyLoadingValueHolderFactoryFactory())
             ->getFactory($container['proxy_manager_cache_target_dir']);
     };
@@ -30,46 +19,56 @@ function initCoreContainer()
         return new LazyServiceFactory($container['lazy_loading_value_holder_factory_factory']);
     };
     $pimpleContainer['proxy_manager_cache_target_dir'] = function (Container $container) {
-        $targetDir = APP_PATH . '/proxy_cache_dir';
+        $targetDir = ROOT_PATH . '/proxy_cache_dir';
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0775, true);
         }
         return $targetDir;
+    };*/
+
+    $pimpleContainer['app'] = function (Container $container) {
+        return new Slim\App($container);
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\App::class, function () use ($container) {
+            return new Slim\App($container);
+        });
     };
-    $pimpleContainer['errorHandler'] = function (Container $container) {
-        return function ($request, $response, $exception) use ($container) {
-            $container['logger']->error($exception);
-            if (\Boot\Bootstrap::getConfig('customer')['is_rest']) {
+
+    /*$pimpleContainer['errorHandler'] = function (Container $container) {
+        return function ($request, $response, RuntimeException $exception) use ($container) {
+            $container->register(new \Core\ServiceProvider\LoggerService());
+            print_r($exception->getTrace());
+            $container['logger']->error($exception->__toString());
+            if (\Core\Utils\CoreUtils::getConfig('customer')['is_rest']) {
                 return $container['response']
                     ->withStatus(500)
                     ->withHeader('Content-Type', 'application/json')
                     ->withJson(['code' => 500, 'msg' => '500 status', 'data' => []]);
             } else {
-                $body = new Body(@fopen(TEMPLATE_PATH . 'templates/error.twig', 'r'));
+                $body = new \Slim\Http\Body(@fopen(TEMPLATE_PATH . 'error.twig', 'r'));
                 return $container['response']
                     ->withStatus(500)
                     ->withHeader('Content-Type', 'text/html')
                     ->withBody($body);
             };
         };
-    };
-    $pimpleContainer['notFoundHandler'] = function (Container $container) {
+    };*/
+    /*$pimpleContainer['notFoundHandler'] = function (Container $container) {
         return function ($request, $response) use ($container) {
-            if (\Boot\Bootstrap::getConfig('customer')['is_rest']) {
+            if (\Core\Utils\CoreUtils::getConfig('customer')['is_rest']) {
                 return $container['response']
                     ->withStatus(404)
                     ->withHeader('Content-Type', 'application/json')
                     ->withJson(['code' => 1, 'msg' => '404', 'data' => []]);
             } else {
-                $body = new Body(@fopen(TEMPLATE_PATH . 'templates/404.twig', 'r'));
+                $body = new \Slim\Http\Body(@fopen(TEMPLATE_PATH . '404.twig', 'r'));
                 return $container['response']
                     ->withStatus(404)
                     ->withHeader('Content-Type', 'text/html')
                     ->withBody($body);
             }
         };
-    };
-    $pimpleContainer['phpErrorHandler'] = function (Container $container) {
+    };*/
+    /*$pimpleContainer['phpErrorHandler'] = function (Container $container) {
         return $container['errorHandler'];
     };
     $pimpleContainer['notAllowedHandler'] = function (Container $container) {
@@ -80,16 +79,48 @@ function initCoreContainer()
                 ->withHeader('Content-type', 'text/html')
                 ->write('Method must be one of: ' . implode(', ', $methods));
         };
-    };
-    $pimpleContainer['config'] = function (Container $container) {
+    };*/
+    /*$pimpleContainer['config'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Noodlehaus\Config::class, function () use ($container) {
-            return new \Noodlehaus\Config(APP_PATH . 'config');
+            return new \Noodlehaus\Config([APP_PATH . 'Config', ROOT_PATH . '/core/Config']);
         });
-    };
-    registerServiceContainer($pimpleContainer);
-    if (function_exists('registerCustomerContainer')) {
-        call_user_func('registerCustomerContainer' , $pimpleContainer);
-    }
+    };*/
+
+    /*$pimpleContainer['routerFile'] = function (Container $container) {
+        if (!file_exists(APP_PATH . '/Routers/router.lock') || APPLICATION_ENV == "development") {
+            if (file_exists(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file'])) @unlink(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file']);
+            $router_file_contents = '<?php ' . "\n" . '$app = \Core\Utils\CoreUtils::getContainer(\'app\')';
+            if (\Core\Utils\CoreUtils::getConfig('customer')['is_rest']) {
+                $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'jwt\'))->add(\Core\Utils\CoreUtils::getContainer(\'cors\'))';
+                if (isset(\Core\Utils\CoreUtils::getConfig('customer')['is_api_rate_limit']) && \Core\Utils\CoreUtils::getConfig('customer')['is_api_rate_limit']) {
+                    $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'api_rate_limit\'))';
+                }
+            }
+            $router_file_contents .= ';' . "\n";
+            foreach (glob(APP_PATH . 'Routers/*_router.php') as $key => $file_name) {
+                $contents = file_get_contents($file_name);
+                preg_match_all("/app->./", $contents, $matches);
+                foreach ($matches[0] as $kk => $vv) {
+                    $router_file_contents .= '$' . $vv . "\n";
+                }
+            }
+            file_put_contents(APP_PATH . 'Routers/router.php', $router_file_contents);
+            $container['router']->setCacheFile(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file']);
+            touch(APP_PATH . '/Routers/router.lock');
+        }
+        require_once APP_PATH . 'Routers/router.php';
+    };*/
+
+    /*$pimpleContainer['settings'] = function (Container $container) {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Collection::class, function () use ($container) {
+            return new Slim\Collection($container['config']['slim']['settings']);
+        });
+    };*/
+
+    //$pimpleContainer = call_user_func('registerServiceContainer', $pimpleContainer);
+    /*if (function_exists('registerCustomerContainer')) {
+        $pimpleContainer = call_user_func('registerCustomerContainer', $pimpleContainer);
+    }*/
     return $pimpleContainer;
 }
 
@@ -101,8 +132,8 @@ function registerServiceContainer(Container $container)
 {
     $container['view'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Views\Twig::class, function () use ($container) {
-            $twig_config = \Boot\Bootstrap::getConfig('twig') ? \Boot\Bootstrap::getConfig('twig') : [];
-            $view = new \Slim\Views\Twig(TEMPLATE_PATH . 'templates', $twig_config);
+            $twig_config = \Core\Utils\CoreUtils::getConfig('twig') ? \Core\Utils\CoreUtils::getConfig('twig') : [];
+            $view = new \Slim\Views\Twig(TEMPLATE_PATH, $twig_config);
             $view->addExtension(new \Slim\Views\TwigExtension($container['router'], $container['request']->getUri()));
             return $view;
         });
@@ -123,7 +154,7 @@ function registerServiceContainer(Container $container)
     /* Monolog */
     $container['logger'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Monolog\Logger::class, function () use ($container) {
-            $settings = \Boot\Bootstrap::getConfig('slim')['settings'];
+            $settings = \Core\Utils\CoreUtils::getConfig('slim')['settings'];
             $logger = new \Monolog\Logger($settings['logger']['name']);
             $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
             $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['logger']['path'], $settings['logger']['level']));
@@ -133,7 +164,7 @@ function registerServiceContainer(Container $container)
     /*Doctrine2 Memcache Driver*/
     $container["memcacheCacheDriver"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\MemcacheCache::class, function ($server_name = 'server1') use ($container) {
-            $memcache = \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::MEMCACHE, $container['server_name']);
+            $memcache = \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::MEMCACHE, $container['server_name']);
             writeLog("debug", [$container['server_name']], APP_PATH . '/error.log');
             $memcacheCacheDriver = new \Doctrine\Common\Cache\MemcacheCache();
             $memcacheCacheDriver->setNamespace("memcacheCacheDriver_namespace");
@@ -145,7 +176,7 @@ function registerServiceContainer(Container $container)
     $container["redisCacheDriver"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\RedisCache::class, function () use ($container) {
             $redisCacheDriver = new \Doctrine\Common\Cache\RedisCache();
-            $redis = \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::REDIS, 'server1');
+            $redis = \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::REDIS, 'server1');
             //设置缓存的命名空间
             $redisCacheDriver->setNamespace('redisCacheDriver_namespace');
             $redisCacheDriver->setRedis($redis);
@@ -155,12 +186,12 @@ function registerServiceContainer(Container $container)
     /*ZendFrameWork Redis Object*/
     $container["redisCache"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Redis::class, function () use ($container) {
-            $redisConfig = \Boot\Bootstrap::getConfig("cache");
+            $redisConfig = \Core\Utils\CoreUtils::getConfig("cache");
             $redis = NULL;
             if ($redisConfig['redis']) {
                 $redis = new \Zend\Cache\Storage\Adapter\Redis();
                 //设置缓存的命名空间
-                $redis->getOptions()->getResourceManager()->setResource('default', \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::REDIS, 'server1'));
+                $redis->getOptions()->getResourceManager()->setResource('default', \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::REDIS, 'server1'));
                 $redis->getOptions()->setNamespace('redisCache_namespace');
             }
             return $redis;
@@ -169,13 +200,13 @@ function registerServiceContainer(Container $container)
     /*ZendFrameWork Memcache Object*/
     $container["memcacheCache"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Memcache::class, function () use ($container) {
-            $memcacheConfig = \Boot\Bootstrap::getConfig("cache");
+            $memcacheConfig = \Core\Utils\CoreUtils::getConfig("cache");
             $memcache = NULL;
             if ($memcacheConfig['memcache']) {
                 $memcache = new \Zend\Cache\Storage\Adapter\Memcache();
                 $server_name = 'server1';
                 //设置缓存的命名空间
-                $memcache->getOptions()->getResourceManager()->setResource('default', \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::MEMCACHE, $server_name));
+                $memcache->getOptions()->getResourceManager()->setResource('default', \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::MEMCACHE, $server_name));
                 $memcache->getOptions()->setNamespace($memcacheConfig['memcache'][$server_name]['namespace']);
             }
             return $memcache;
@@ -184,12 +215,12 @@ function registerServiceContainer(Container $container)
     /*ZendFrameWork Memcached Object*/
     $container['memcachedCache'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Memcached::class, function () use ($container) {
-            $memcachedConfig = \Boot\Bootstrap::getConfig('cache');
+            $memcachedConfig = \Core\Utils\CoreUtils::getConfig('cache');
             $memcached = NULL;
             if ($memcachedConfig['memcached']) {
                 $memcached = new \Zend\Cache\Storage\Adapter\Memcached();
                 $server_name = 'server1';
-                $memcached->getOptions()->getResourceManager()->setResource('default', \Boot\Bootstrap::getCacheInstance(\Boot\Bootstrap::MEMCACHED, $server_name));
+                $memcached->getOptions()->getResourceManager()->setResource('default', \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::MEMCACHED, $server_name));
                 $memcached->getOptions()->setNamespace($memcachedConfig['memcached'][$server_name]['namespace']);
             }
             return $memcached;
@@ -208,7 +239,7 @@ function registerServiceContainer(Container $container)
     $container['sessionManager'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Session\SessionManager::class, function () use ($container) {
             $config = new \Zend\Session\Config\SessionConfig();
-            $config->setOptions(\Boot\Bootstrap::getConfig("session")['manager']);
+            $config->setOptions(\Core\Utils\CoreUtils::getConfig("session")['manager']);
             $sessionManager = new \Zend\Session\SessionManager($config);
             $sessionManager->setStorage(new \Zend\Session\Storage\SessionArrayStorage());
             $sessionManager->start();
@@ -218,29 +249,22 @@ function registerServiceContainer(Container $container)
     /*SessionManager Container Object*/
     $container["sessionContainer"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Session\Container::class, function () use ($container) {
-            $sessionManager = \Boot\Bootstrap::getContainer("sessionManager");
+            $sessionManager = \Core\Utils\CoreUtils::getContainer("sessionManager");
             \Zend\Session\Container::setDefaultManager($sessionManager);
-            $container = new \Zend\Session\Container(\Boot\Bootstrap::getConfig("session")['container']['namespace']);
+            $container = new \Zend\Session\Container(\Core\Utils\CoreUtils::getConfig("session")['container']['namespace']);
             return $container;
         });
     };
 
     /*Event Manager Object*/
-    $container["eventManager"] = function (Container $container) {
+    $container["zendEventManager"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\EventManager\Event::class, function () {
-            return new EventManager();
-        });
-    };
-    /*Zend ServiceManager*/
-    $container['serviceManager'] = function (Container $container) {
-        return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\ServiceManager\ServiceManager::class, function () {
-            $serviceManager = new ServiceManager();
-            return $serviceManager;
+            return new \Zend\EventManager\EventManager();
         });
     };
 
-    /*Event Manager Object*/
-    $container["eventManager"] = function (Container $container) {
+    /*Doctrine Event Manager Object*/
+    $container["doctrineEventManager"] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\EventManager::class, function () {
             return new \Doctrine\Common\EventManager();
         });
@@ -256,73 +280,20 @@ function registerServiceContainer(Container $container)
 
     $container['apcu'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\ApcuCache::class, function () {
-            return new ApcuCache();
+            return new \Doctrine\Common\Cache\ApcuCache();
         });
-
     };
     $container['xcache'] = function (Container $container) {
         return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\XcacheCache::class, function () {
-            return new XcacheCache();
+            return new \Doctrine\Common\Cache\XcacheCache();
         });
-
     };
     $container['flash'] = function (Container $container) {
-        return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Flash\Messages::class, function () {
+        return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Flash\Messages::class, function () use ($container) {
+            $container['sessionContainer']->author = "MacroChen";
             return new \Slim\Flash\Messages();
         });
-
     };
 
-    /*Memcache/Redis Server Name*/
-    $container['server_name'] = function (Container $container) {
-        return $container['lazy_service_factory']->getLazyServiceDefinition(stdClass::class, function () {
-            return 'server1';
-        });
-    };
     return $container;
-}
-
-
-function containerDefinition()
-{
-    $pimpleContainer['event_dispatcher'] = function (Container $container) {
-        return new EventDispatcher();
-    };
-    // imgine awesome service is expensive and should be lazy loaded
-    $pimpleContainer['awesome_service'] = function (Container $container) {
-        return $container['lazy_service_factory']->getLazyServiceDefinition(AwesomeService::class, function () {
-            return new AwesomeService();
-        });
-    };
-    $pimpleContainer['another_service'] = function (Container $container) {
-        // this one will receive proxy object
-        return new AnotherService($container['awesome_service']);
-    };
-    $pimpleContainer['event_emitting_service'] = function (Container $container) {
-        return new EventEmittingService($container['event_dispatcher']);
-    };
-    $pimpleContainer['first_subscriber'] = function (Container $container) {
-        // subscriber has no idea it will be lazy loaded
-        return new FirstSubscriber($container['awesome_service']);
-    };
-    $pimpleContainer['awesome_service_aware'] = function (Container $container) {
-        return new AwesomeServiceAwareClass();
-    };
-    $pimpleContainer['both_interfaces_aware'] = function (Container $container) {
-        return new BothInterfacesAwareClass();
-    };
-    $pimpleContainer->register(new MultiServiceAwareExtender([
-        new ExtendServiceDefinition('awesome_service', AwesomeServiceAwareInterface::class, 'setAwesomeService'),
-        new ExtendServiceDefinition('event_dispatcher', EventDispatcherAwareInterface::class, 'setEventDispatcher'),
-    ]));
-    $pimpleContainer->register(new LazyEventSubscriberServiceProvider(
-        $pimpleContainer['lazy_service_factory'],
-        // we're defining which service resolves to EventDispatcher
-        'event_dispatcher',
-        [
-            // we're defining subscribers
-            'first_subscriber' => \Blog\subscriber\FirstSubscriber::class,
-        ]
-    ));
-    return $pimpleContainer;
 }

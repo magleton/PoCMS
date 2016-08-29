@@ -4,12 +4,11 @@
  *
  * @author macro chen <macro_fengye@163.com>
  */
-namespace Controller;
+namespace Core\Controller;
 
-use Boot\Base;
-use Boot\Bootstrap;
+use Core\Utils\CoreUtils;
 
-class Controller extends Base
+class Controller
 {
     const LOG = 'log';    // 一般日志
     const ERROR = 'error';  // 错误日志
@@ -20,39 +19,6 @@ class Controller extends Base
     const LOG_CSS = 'log';    // 自定义日志的样式，第三个参数为css样式
 
     /**
-     * 控制器构造函数
-     *
-     * @author macro chen <macro_fengye@163.com>
-     */
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    /**
-     * 初始化函数
-     *
-     * @author macro chen <macro_fengye@163.com>
-     */
-    protected function init()
-    {
-        $this->app = Bootstrap::getApp();
-        $this->sessionManager = Bootstrap::getContainer('sessionManager');
-        $this->sessionContainer = Bootstrap::getContainer('sessionContainer');
-        $this->initSession();
-    }
-
-    /**
-     * 在开启SessionCookie中间件的情况下，需要调用此函数，以初始化Cookie
-     *
-     * @author macro chen <macro_fengye@163.com>
-     */
-    protected function initSession()
-    {
-        $this->sessionContainer->_MACROPHP = "macro_php";
-    }
-
-    /**
      * 模板渲染
      * @author macro chen <macro_fengye@163.com>
      * @param $response 响应的对象
@@ -61,7 +27,7 @@ class Controller extends Base
      */
     protected function render($response, $template, $data)
     {
-        return $this->app->getContainer()->get('view')->render($response, $template, $data);
+        return CoreUtils::getContainer('view')->render($response, $template, $data);
     }
 
     /**

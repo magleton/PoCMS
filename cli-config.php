@@ -1,5 +1,5 @@
 <?php
-use Boot\Bootstrap;
+use Core\Boot\Bootstrap;
 
 define("ROOT_PATH", __DIR__);
 define("APP_NAME", "Blog");
@@ -9,4 +9,4 @@ require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'production');
 
 Bootstrap::startConsole();
-return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet(Bootstrap::getDbInstance('entityManager', 'db1'));
+return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet(\Core\Utils\CoreUtils::getDbInstance(\Core\Utils\CoreUtils::ENTITY, 'db1'));
