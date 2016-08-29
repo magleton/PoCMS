@@ -55,7 +55,7 @@ class Bootstrap
         }
         $container = new Container();
         $container->register(new InitAppService());
-        self::$container = $container['app']->getContainer();
+        self::$app = $container['app'];
     }
 
     /**
