@@ -50,7 +50,7 @@
   "config": {
     "bin-dir": "bin",
     "github-oauth": {
-      "github.com": "ad42bd2ea1fb186f699c51dcfab1c634a603d579"
+      "github.com": "0d82ad55e3bc56cdd3bbaedf469ed2074d257f30"
     }
   },
   "autoload": {
