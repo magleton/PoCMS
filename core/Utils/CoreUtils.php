@@ -71,7 +71,8 @@ class CoreUtils
             }
         }
         if (!self::getContainer("dataBase" . $type . $dbName)) {
-            Bootstrap::getAppContainer()["dataBase" . $type . $dbName] = $db;
+            $container = Bootstrap::getAppContainer()->getContainer();
+            $container["dataBase" . $type . $dbName] = $db;
         }
         return $db;
     }
@@ -264,14 +265,14 @@ class CoreUtils
     public static function getContainer($componentName)
     {
         if (!Bootstrap::getApplication()->getContainer()->has($componentName)) {
-            writeLog('debug' , [$componentName]);
+            $class_name = '';
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
             if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service")) {
                 $class_name = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service";
             } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($componentName) . "Service")) {
                 $class_name = 'Core\\ServiceProvider\\' . ucfirst($componentName) . "Service";
             }
-            Bootstrap::getApplication()->getContainer()->register(new $class_name());
+            if ($class_name) Bootstrap::getApplication()->getContainer()->register(new $class_name());
         }
         if (Bootstrap::getApplication()->getContainer()->has($componentName)) {
             return Bootstrap::getApplication()->getContainer()->get($componentName);

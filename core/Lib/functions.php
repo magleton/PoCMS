@@ -228,7 +228,8 @@ function writeLog($message, array $content, $file = '', $log_name = "LOG", $leve
     $logger = new \Monolog\Logger($log_name);
     $logger->pushProcessor(new \Monolog\Processor\UidProcessor());
     $logger->pushHandler(new \Monolog\Handler\StreamHandler($file ? $file : APP_PATH . '/log/log.log', $level));
-    $logger->$levels[$level]($message, $content);
+    $function_name = $levels[$level];
+    $logger->$function_name($message, $content);
 }
 
 /**
