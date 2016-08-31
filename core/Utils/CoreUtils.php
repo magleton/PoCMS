@@ -32,7 +32,6 @@ class CoreUtils
      */
     private static function databaseConnection($type, $dbName)
     {
-        //$dbConfig = self::getConfig('db')[APPLICATION_ENV];
         $dbConfig = self::getConfig('db')[APPLICATION_ENV];
         $db = NULL;
         if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
@@ -41,14 +40,14 @@ class CoreUtils
             unset($conn_config['useSimpleAnnotationReader']);
             if ($useSimpleAnnotationReader) {
                 $configuration = Setup::createConfiguration(APPLICATION_ENV == 'development');
-                $configuration->setMetadataCacheImpl(self::getContainer(self::getConfig('customer')['doctrine_metadata_cache']['cache_name']));
+                $configuration->setMetadataCacheImpl(self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']));
                 $annotationDriver = new AnnotationDriver(new AnnotationReader(), ROOT_PATH . "/entity/Models");
                 AnnotationRegistry::registerLoader("class_exists");
                 $configuration->setMetadataDriverImpl($annotationDriver);
             } else {
                 $configuration = Setup::createAnnotationMetadataConfiguration(array(
                     ROOT_PATH . '/entity/Models',
-                ), APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', self::getContainer(self::getConfig('customer')['doctrine_metadata_cache']['cache_name']), $useSimpleAnnotationReader);
+                ), APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']), $useSimpleAnnotationReader);
             }
             if (APPLICATION_ENV == "development") {
                 $configuration->setAutoGenerateProxyClasses(true);
@@ -56,11 +55,11 @@ class CoreUtils
                 $configuration->setAutoGenerateProxyClasses(true);
             }
             //设置缓存组件
-            if (self::getConfig('customer')['doctrine_query_cache']['is_open']) {
-                $configuration->setQueryCacheImpl(self::getContainer(self::getConfig('customer')['doctrine_query_cache']['cache_name']));
+            if (self::getConfig('doctrine')['query_cache']['is_open']) {
+                $configuration->setQueryCacheImpl(self::getContainer(self::getConfig('doctrine')['query_cache']['cache_name']));
             }
-            if (self::getConfig('customer')['doctrine_result_cache']['is_open']) {
-                $configuration->setResultCacheImpl(self::getContainer(self::getConfig('customer')['doctrine_result_cache']['cache_name']));
+            if (self::getConfig('doctrine')['result_cache']['is_open']) {
+                $configuration->setResultCacheImpl(self::getContainer(self::getConfig('doctrine')['result_cache']['cache_name']));
             }
             if ($type == "entityManager") {
                 $db = EntityManager::create($conn_config
@@ -71,7 +70,7 @@ class CoreUtils
             }
         }
         if (!self::getContainer("dataBase" . $type . $dbName)) {
-            $container = Bootstrap::getAppContainer()->getContainer();
+            $container = Bootstrap::getApplication()->getContainer();
             $container["dataBase" . $type . $dbName] = $db;
         }
         return $db;
@@ -97,79 +96,44 @@ class CoreUtils
      * 添加自定义监听器
      *
      * @author macro chen <macro_fengye@163.com>
-     * @param $db_type
-     * @param $db_name
-     * @param $namespace
-     * @param $event_name
-     * @param $data
+     * @param array $params
      * @return EventManager
      */
-    public static function addEvent($db_type, $db_name, $namespace, $event_name, $data = null)
+    public static function addEvent(array $params = [])
     {
-        $event_manager = self::getDbInstanceEvm($db_type, $db_name);
-        if (self::getConfig($namespace)) {
-            if (is_array($event_name)) {
-                $events = [];
-                foreach ($event_name as $k => $v) {
-                    $class_name = self::getConfig($namespace)[$v];
-                    if ($class_name) {
-                        $events[$class_name][] = $v;
-                    }
-                }
-                foreach ($events as $kk => $vv) {
-                    $event_manager->addEventListener($vv, new $kk($data));
-                }
+        $event_manager = self::getContainer('doctrineEventManager');
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                $class_name = $value['class_name'];
+                $data = $value['data'];
+                $event_manager->addEventListener($key, new $class_name($data));
             } else {
-                $class_name = self::getConfig($namespace)[$event_name];
-                if ($class_name) {
-                    $event_manager->addEventListener([$event_name], new $class_name($data));
-                }
+                $event_manager->addEventListener($key, new $value());
             }
         }
         return $event_manager;
     }
-
 
     /**
      * 添加自定义订阅器
      *
      * @author macro chen <macro_fengye@163.com>
-     * @param $db_type
-     * @param $db_name
-     * @param $namespace
-     * @param $subscriber_name
+     * @param array $params
      * @return EventManager
      */
-    public static function addSubscriber($db_type, $db_name, $namespace, $subscriber_name)
+    public static function addSubscriber(array $params = [])
     {
-        $event_manager = self::getDbInstanceEvm($db_type, $db_name);
-        if (self::getConfig($namespace)) {
-            if (isset(self::getConfig($namespace)[$subscriber_name])) {
-                $class_name = self::getConfig($namespace)[$subscriber_name];
+        $event_manager = self::getContainer('doctrineEventManager');
+        foreach ($params as $key => $value) {
+            if (is_array($value)) {
+                $class_name = $value['class_name'];
+                $data = $value['data'];
+                $event_manager->addEventSubscriber(new $class_name($data));
+            } else {
                 $event_manager->addEventSubscriber(new $class_name());
             }
         }
         return $event_manager;
-    }
-
-    /**
-     * 获取指定数据库实例的事件组件
-     *
-     * @author macro chen <macro_fengye@163.com>
-     * @param $type
-     * $type == entityManager的实例可以支持事务
-     * $type == Connection 支持分库分表
-     * @param string $dbName
-     * @return \Doctrine\Common\EventManager
-     */
-    public static function getDbInstanceEvm($type, $dbName)
-    {
-        if (self::getContainer("dataBase" . $type . $dbName)) {
-            $db = self::getContainer("dataBase" . $type . $dbName);
-        } else {
-            $db = self::databaseConnection($type, $dbName);
-        }
-        return $db->getEventManager();
     }
 
     /**
@@ -259,23 +223,24 @@ class CoreUtils
     /**
      * 获取指定组件名字的对象
      *
-     * @param $componentName
-     * @return mixed
+     * @param $component_name
+     * @param array $param
+     * @return mixed|null
      */
-    public static function getContainer($componentName)
+    public static function getContainer($component_name, $param = [])
     {
-        if (!Bootstrap::getApplication()->getContainer()->has($componentName)) {
+        if (!Bootstrap::getApplication()->getContainer()->has($component_name)) {
             $class_name = '';
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
-            if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service")) {
-                $class_name = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service";
-            } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($componentName) . "Service")) {
-                $class_name = 'Core\\ServiceProvider\\' . ucfirst($componentName) . "Service";
+            if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($component_name) . "Service")) {
+                $class_name = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($component_name) . "Service";
+            } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($component_name) . "Service")) {
+                $class_name = 'Core\\ServiceProvider\\' . ucfirst($component_name) . "Service";
             }
-            if ($class_name) Bootstrap::getApplication()->getContainer()->register(new $class_name());
+            if ($class_name) Bootstrap::getApplication()->getContainer()->register(new $class_name(), $param);
         }
-        if (Bootstrap::getApplication()->getContainer()->has($componentName)) {
-            return Bootstrap::getApplication()->getContainer()->get($componentName);
+        if (Bootstrap::getApplication()->getContainer()->has($component_name)) {
+            return Bootstrap::getApplication()->getContainer()->get($component_name);
         }
         return null;
     }

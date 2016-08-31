@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/8/26
- * Time: 22:13
+ * User: macro
+ * Date: 16-8-29
+ * Time: 上午7:48
  */
 
 namespace Core\ServiceProvider;
@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class InitAppService implements ServiceProviderInterface
 {

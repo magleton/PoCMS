@@ -9,6 +9,7 @@
 namespace Core\ServiceProvider;
 
 
+use Core\Utils\CoreUtils;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -26,8 +27,7 @@ class FlashService implements ServiceProviderInterface
     {
         $pimple['flash'] = function (Container $container) {
             return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Flash\Messages::class, function () use ($container) {
-                $container->register(new SessionContainerService());
-                $container['sessionContainer']->author = "MacroChen";
+                CoreUtils::getContainer('sessionContainer')->author = "MacroChen";
                 return new \Slim\Flash\Messages();
             });
         };

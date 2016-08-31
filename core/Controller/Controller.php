@@ -39,9 +39,9 @@ class Controller
      */
     protected function consoleDebug($log_level = self::LOG, $tips, $data, $style = '')
     {
-        if (extension_loaded('curl') && $this->getConfig('customer')['is_open_socket_log_debug']) {
+        if (extension_loaded('curl') && CoreUtils::getConfig('debug')['is_open_socket_log_debug']) {
             $slog = new \Slog();
-            $slog->config($this->getConfig('socket_log'), 'config');
+            $slog->config(CoreUtils::getConfig('debug')['socket_log'], 'config');
             $log = [
                 'tips' => $tips,
                 'log' => $data

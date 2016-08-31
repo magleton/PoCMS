@@ -32,65 +32,6 @@ function urlSafeBase64Code($string, $operation = 'ENCODE')
 }
 
 /**
- * discuz算法数据加解密
- *
- * @author macro chen <macro_fengye@163.com>
- * @param string $string 加解密字符串
- * @param string $key 密钥
- * @param string $operation 加密或解密操作 ENCODE|DECODE
- * @param integer $expiry 加密字符串过期时间
- * @return string
- */
-function authCode($string, $key, $operation = 'DECODE', $expiry = 0)
-{
-    $ckey_length = 4;
-    $key = md5($key);
-    $keya = md5(substr($key, 0, 16));
-    $keyb = md5(substr($key, 16, 16));
-    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
-    $cryptkey = $keya . md5($keya . $keyc);
-    $key_length = strlen($cryptkey);
-    $string = $operation == 'DECODE' ?
-        urlSafeBase64Code(substr($string, $ckey_length), 'DECODE')
-        : sprintf('%010d', $expiry ? $expiry + time() : 0) . substr(md5($string . $keyb), 0, 16) . $string;
-    $string_length = strlen($string);
-    $result = '';
-    $box = range(0, 255);
-
-    $rndkey = array();
-    for ($i = 0; $i <= 255; $i++) {
-        $rndkey[$i] = ord($cryptkey[$i % $key_length]);
-    }
-
-    for ($j = $i = 0; $i < 256; $i++) {
-        $j = ($j + $box[$i] + $rndkey[$i]) % 256;
-        $tmp = $box[$i];
-        $box[$i] = $box[$j];
-        $box[$j] = $tmp;
-    }
-
-    for ($a = $j = $i = 0; $i < $string_length; $i++) {
-        $a = ($a + 1) % 256;
-        $j = ($j + $box[$a]) % 256;
-        $tmp = $box[$a];
-        $box[$a] = $box[$j];
-        $box[$j] = $tmp;
-        $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
-    }
-
-    if ($operation == 'DECODE') {
-        if ((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26) . $keyb), 0, 16)) {
-            return substr($result, 26);
-        } else {
-            return '';
-        }
-    } else {
-        return $keyc . urlSafeBase64Code($result, 'ENCODE');
-    }
-}
-
-
-/**
  * 获取客户端真实IP
  *
  * @author macro chen <macro_fengye@163.com>
@@ -230,48 +171,4 @@ function writeLog($message, array $content, $file = '', $log_name = "LOG", $leve
     $logger->pushHandler(new \Monolog\Handler\StreamHandler($file ? $file : APP_PATH . '/log/log.log', $level));
     $function_name = $levels[$level];
     $logger->$function_name($message, $content);
-}
-
-/**
- * 请求目标URL获取请求返回的JSON字符串
- *
- * @author fengxu
- * @param string $url 目标URL
- * @param string $method 请求方式 GET|POST
- * @param array $fields 当请求方式为POST时，传递的参数
- * @param int $timeout 请求超时时间，单位‘sec’
- * @return array
- */
-function getHttpJson($url, $method = 'GET', array $fields = array(), $timeout = 30)
-{
-    $isPost = ($method == 'POST');
-    $responseFields = array();
-    $reqHandle = curl_init($url);
-    curl_setopt_array($reqHandle, array(
-        CURLOPT_USERAGENT => 'getHttpJson',
-        CURLOPT_TIMEOUT => $timeout,
-        CURLOPT_RETURNTRANSFER => true,
-    ));
-    if ($isPost) {
-        curl_setopt($reqHandle, CURLOPT_POST, true);
-        // http_build_query自动urlencode传输参数，可避免参数中存在URL特殊字符的问题
-        curl_setopt($reqHandle, CURLOPT_POSTFIELDS, http_build_query($fields, null, '&'));
-    }
-    $responseJson = curl_exec($reqHandle);
-    if (!($error = curl_error($reqHandle))) {
-        if ($responseJson) {
-            $responseFields = json_decode($responseJson, true);
-        }
-    } else {
-        $errMsg = sprintf("【%s】\t\t%s getHttpJson(%s, %s) \t\t%s\n",
-            date('Y-m-d H:i:s', time()), $error, $url, $method,
-            (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : ''));
-        $logDir = 'log';
-        if (!is_dir($logDir)) {
-            mkdir($logDir, 0777);
-        }
-        file_put_contents(APP_PATH . "/log/error.log", $errMsg, FILE_APPEND);
-    }
-    curl_close($reqHandle);
-    return $responseFields;
 }

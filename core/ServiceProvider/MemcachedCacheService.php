@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Core\Utils\CoreUtils;
 
 class MemcachedCacheService implements ServiceProviderInterface
 {
@@ -26,12 +27,15 @@ class MemcachedCacheService implements ServiceProviderInterface
     {
         $pimple['memcachedCache'] = function (Container $container) {
             return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Memcached::class, function () use ($container) {
-                $memcachedConfig = \Core\Utils\CoreUtils::getConfig('cache');
+                $memcachedConfig = CoreUtils::getConfig('cache');
                 $memcached = NULL;
                 if ($memcachedConfig['memcached']) {
-                    $memcached = new \Zend\Cache\Storage\Adapter\Memcached();
                     $server_name = 'server1';
-                    $memcached->getOptions()->getResourceManager()->setResource('default', \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::MEMCACHED, $server_name));
+                    if (CoreUtils::getContainer('server_name')) {
+                        $server_name = CoreUtils::getContainer('server_name');
+                    }
+                    $memcached = new \Zend\Cache\Storage\Adapter\Memcached();
+                    $memcached->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::MEMCACHED, $server_name));
                     $memcached->getOptions()->setNamespace($memcachedConfig['memcached'][$server_name]['namespace']);
                 }
                 return $memcached;
