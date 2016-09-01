@@ -86,7 +86,7 @@ class CoreUtils
     public static function getConfig($key)
     {
         if (!self::getContainer('config')->get($key)) {
-            writeLog('获取', [$key . '--不存在!' , debug_backtrace()], APP_PATH . '/log/config.log', Logger::ERROR);
+            writeLog('获取', [$key . '--不存在!', debug_backtrace()], APP_PATH . '/log/config.log', Logger::ERROR);
             return NULL;
         }
         return self::getContainer('config')->get($key);
@@ -243,5 +243,21 @@ class CoreUtils
             return Bootstrap::getApplication()->getContainer()->get($component_name);
         }
         return null;
+    }
+
+    /**
+     * 动态设置cache的server_name与namespace
+     *
+     * @param $cache_type
+     * @param array $params
+     * @return mixed
+     */
+    public static function getCacheInstanceWithParams($cache_type, array $params = [])
+    {
+        if ($params) {
+            CoreUtils::getContainer('serverName', $params);
+        }
+        $cache = CoreUtils::getContainer($cache_type . 'Cache')->getOptions()->getResourceManager()->getResource('default');
+        return $cache;
     }
 }

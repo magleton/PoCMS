@@ -9,6 +9,8 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Core\Utils\CoreUtils;
+use Doctrine\Common\Cache\MemcacheCache;
 
 class MemcacheCacheDriverService implements ServiceProviderInterface
 {
@@ -23,11 +25,19 @@ class MemcacheCacheDriverService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple["memcacheCacheDriver"] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\MemcacheCache::class, function ($server_name = 'server1') use ($container) {
-                $memcache = \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::MEMCACHE, $container['server_name']);
-                writeLog("debug", [$container['server_name']], APP_PATH . '/error.log');
-                $memcacheCacheDriver = new \Doctrine\Common\Cache\MemcacheCache();
-                $memcacheCacheDriver->setNamespace("memcacheCacheDriver_namespace");
+            return $container['lazy_service_factory']->getLazyServiceDefinition(MemcacheCache::class, function ($server_name = 'server1') use ($container) {
+                $memcachedConfig = CoreUtils::getConfig('cache');
+                $server_name = 'server1';
+                $namespace = $memcachedConfig['memcached'][$server_name]['namespace'];
+                if (CoreUtils::getContainer('server_name')) {
+                    $server_name = CoreUtils::getContainer('server_name');
+                }
+                if (CoreUtils::getContainer('namespace')) {
+                    $namespace = CoreUtils::getContainer('namespace');
+                }
+                $memcache = CoreUtils::getCacheInstance(CoreUtils::MEMCACHE, $server_name);
+                $memcacheCacheDriver = new MemcacheCache();
+                $memcacheCacheDriver->setNamespace($namespace);
                 $memcacheCacheDriver->setMemcache($memcache);
                 return $memcacheCacheDriver;
             });

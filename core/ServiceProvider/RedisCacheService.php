@@ -27,18 +27,22 @@ class RedisCacheService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple["redisCache"] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Zend\Cache\Storage\Adapter\Redis::class, function () use ($container) {
+            return $container['lazy_service_factory']->getLazyServiceDefinition(Redis::class, function () use ($container) {
                 $redisConfig = CoreUtils::getConfig("cache");
                 $redis = NULL;
                 if ($redisConfig['redis']) {
                     $server_name = 'server1';
+                    $namespace = 'redisCacheNamespace';
                     if (CoreUtils::getContainer('server_name')) {
                         $server_name = CoreUtils::getContainer('server_name');
                     }
+                    if (CoreUtils::getContainer('namespace')) {
+                        $namespace = CoreUtils::getContainer('namespace');
+                    }
                     $redis = new Redis();
                     //设置缓存的命名空间
-                    $redis->getOptions()->getResourceManager()->setResource('default', \Core\Utils\CoreUtils::getCacheInstance(\Core\Utils\CoreUtils::REDIS, $server_name));
-                    $redis->getOptions()->setNamespace('redisCache_namespace');
+                    $redis->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::REDIS, $server_name));
+                    $redis->getOptions()->setNamespace($namespace);
                 }
                 return $redis;
             });
