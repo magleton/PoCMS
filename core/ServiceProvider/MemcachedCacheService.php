@@ -39,9 +39,9 @@ class MemcachedCacheService implements ServiceProviderInterface
                     if (CoreUtils::getContainer('namespace')) {
                         $namespace = CoreUtils::getContainer('namespace');
                     }
-                    $memcached = new Memcached();
-                    $memcached->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::MEMCACHED, $server_name));
-                    $memcached->getOptions()->setNamespace($namespace);
+                    $memcached = new Memcached($memcachedConfig['memcached'][$server_name]);
+                    //$memcached->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::MEMCACHED, $server_name));
+                    // $memcached->getOptions()->setNamespace($namespace);
                 }
                 return $memcached;
             });

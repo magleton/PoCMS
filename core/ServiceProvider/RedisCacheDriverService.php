@@ -27,10 +27,13 @@ class RedisCacheDriverService implements ServiceProviderInterface
         $pimple["redisCacheDriver"] = function (Container $container) {
             return $container['lazy_service_factory']->getLazyServiceDefinition(RedisCache::class, function () use ($container) {
                 $redisCacheDriver = new RedisCache();
-                $redis = CoreUtils::getCacheInstance(CoreUtils::REDIS, 'server1');
+                $namespace = 'redisCacheDriver';
+                if (CoreUtils::getContainer('namespace')) {
+                    $namespace = CoreUtils::getContainer('namespace');
+                }
                 //设置缓存的命名空间
-                $redisCacheDriver->setNamespace('redisCacheDriver_namespace');
-                $redisCacheDriver->setRedis($redis);
+                $redisCacheDriver->setNamespace($namespace);
+                $redisCacheDriver->setRedis(CoreUtils::getContainer('redis'));
                 return $redisCacheDriver;
             });
         };

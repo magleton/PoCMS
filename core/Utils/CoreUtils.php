@@ -157,67 +157,20 @@ class CoreUtils
     }
 
     /**
-     * 获取缓存的实例
+     * 动态设置cache的server_name与namespace
      *
-     * @author macro chen <macro_fengye@163.com>
-     * @param string $type 缓存的类型
-     * @param string $server_name 服务器的名字
-     * @param bool $lookup 是否继续寻找其他的服务器是否可以链接
+     * @param $cache_type
+     * @param array $params
+     * @deprecated
      * @return mixed
      */
-    public static function getCacheInstance($type, $server_name, $lookup = true)
+    public static function getCacheInstance($cache_type, array $params = [])
     {
-        $config = self::getConfig('cache');
-        $cache_obj = NULL;
-        if ($config && isset($config[$type])) {
-            switch ($type) {
-                case self::REDIS:
-                    $cache_obj = new \Redis();
-                    $is_conn = $cache_obj->connect($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['timeout']);
-                    if (!$is_conn && $lookup) {
-                        foreach ($config[$type] as $key => $value) {
-                            if ($key != $server_name) {
-                                $is_conn = $cache_obj->connect($value['host'], $value['port'], $value['timeout']);
-                                if ($is_conn) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case self::MEMCACHE:
-                    $cache_obj = new \Memcache();
-                    $is_conn = $cache_obj->connect($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['timeout']);
-                    if (!$is_conn && $lookup) {
-                        foreach ($config->$type as $key => $value) {
-                            if ($key != $server_name) {
-                                $is_conn = $cache_obj->connect($value['host'], $value['port'], $value['timeout']);
-                                if ($is_conn) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case self::MEMCACHED:
-                    $cache_obj = new \Memcached();
-                    $is_conn = $cache_obj->addServer($config[$type][$server_name]['host'], $config[$type][$server_name]['port'], $config[$type][$server_name]['weight']);
-                    if (!$is_conn && $lookup) {
-                        foreach ($config->$type as $key => $value) {
-                            if ($key != $server_name) {
-                                $is_conn = $cache_obj->addServer($value['host'], $value['port'], $value['weight']);
-                                if ($is_conn) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
+        if ($params) {
+            CoreUtils::getContainer('serverName', $params);
         }
-        return $cache_obj;
+        $cache = CoreUtils::getContainer($cache_type . 'Cache')->getOptions()->getResourceManager()->getResource('default');
+        return $cache;
     }
 
     /**
@@ -243,21 +196,5 @@ class CoreUtils
             return Bootstrap::getApplication()->getContainer()->get($component_name);
         }
         return null;
-    }
-
-    /**
-     * 动态设置cache的server_name与namespace
-     *
-     * @param $cache_type
-     * @param array $params
-     * @return mixed
-     */
-    public static function getCacheInstanceWithParams($cache_type, array $params = [])
-    {
-        if ($params) {
-            CoreUtils::getContainer('serverName', $params);
-        }
-        $cache = CoreUtils::getContainer($cache_type . 'Cache')->getOptions()->getResourceManager()->getResource('default');
-        return $cache;
     }
 }

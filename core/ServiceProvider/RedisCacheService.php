@@ -39,10 +39,7 @@ class RedisCacheService implements ServiceProviderInterface
                     if (CoreUtils::getContainer('namespace')) {
                         $namespace = CoreUtils::getContainer('namespace');
                     }
-                    $redis = new Redis();
-                    //设置缓存的命名空间
-                    $redis->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::REDIS, $server_name));
-                    $redis->getOptions()->setNamespace($namespace);
+                    $redis = new Redis($redisConfig['redis'][$server_name]);
                 }
                 return $redis;
             });

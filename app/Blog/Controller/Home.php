@@ -9,9 +9,17 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);
+        /*$this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);
         CoreUtils::getContainer('sessionContainer')->user = array("username" => 20, "age" => 30);
-        $abc = CoreUtils::getContainer('abc');
+        $abc = CoreUtils::getContainer('abc');*/
+        /*$redis = CoreUtils::getCacheInstanceWithParams(CoreUtils::REDIS , ['server_name'=>'server1' , 'namespace'=>'abc']);
+        $redis->set('aaa' , 'kkkk');*/
+        $co = CoreUtils::getContainer('redisCacheDriver');
+        print_r(get_class_methods($co));
+        //$co->set('aaaa' , '0999');
+       // $co->addItem('aaaa' , 'lllllllllll');
+        //echo $co->getItem('aaaa');
+        //print_r(get_class_methods($co->getOptions()->getResourceManager()->getResource('an')->hSet('gghf' , 'mmm' , 90)));
         $this->render($response, '/home/index.twig', array(
             'somevar' => date('c'),
         ));

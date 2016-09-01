@@ -31,7 +31,6 @@ class MemcacheCacheService implements ServiceProviderInterface
                 $memcacheConfig = CoreUtils::getConfig("cache");
                 $memcache = NULL;
                 if ($memcacheConfig['memcache']) {
-                    $memcache = new Memcache();
                     $server_name = 'server1';
                     $namespace = $memcacheConfig['memcache'][$server_name]['namespace'];
                     if (CoreUtils::getContainer('server_name')) {
@@ -40,9 +39,10 @@ class MemcacheCacheService implements ServiceProviderInterface
                     if (CoreUtils::getContainer('namespace')) {
                         $namespace = CoreUtils::getContainer('namespace');
                     }
+                    $memcache = new Memcache($memcacheConfig['memcache'][$server_name]);
                     //设置缓存的命名空间
-                    $memcache->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::MEMCACHE, $server_name));
-                    $memcache->getOptions()->setNamespace($namespace);
+                    //$memcache->getOptions()->getResourceManager()->setResource('default', CoreUtils::getCacheInstance(CoreUtils::MEMCACHE, $server_name));
+                    //$memcache->getOptions()->setNamespace($namespace);
                 }
                 return $memcache;
             });
