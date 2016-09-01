@@ -86,7 +86,7 @@ class CoreUtils
     public static function getConfig($key)
     {
         if (!self::getContainer('config')->get($key)) {
-            writeLog('base_config', [$key . '--不存在!'], APP_PATH . '/log/config.log', Logger::ERROR);
+            writeLog('获取', [$key . '--不存在!' , debug_backtrace()], APP_PATH . '/log/config.log', Logger::ERROR);
             return NULL;
         }
         return self::getContainer('config')->get($key);
