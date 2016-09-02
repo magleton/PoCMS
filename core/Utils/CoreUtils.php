@@ -103,13 +103,17 @@ class CoreUtils
     public static function addEvent(array $params = [])
     {
         $event_manager = self::getContainer('doctrineEventManager');
+        $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
                 throw new \Exception("class_name必须设置");
             }
             $class_name = $value['class_name'];
             $data = isset($value['data']) ? $value['data'] : [];
-            if (property_exists(Events::class, $key)) {
+            if ($reflect == null) {
+                $reflect = new \ReflectionClass(Events::class);
+            }
+            if ($reflect->getConstant($key)) {
                 if (!isset($value['type'])) {
                     throw new \Exception("type必须设置");
                 }
@@ -136,13 +140,17 @@ class CoreUtils
     public static function addSubscriber(array $params = [])
     {
         $event_manager = self::getContainer('doctrineEventManager');
+        $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
                 throw new \Exception("class_name必须设置");
             }
             $class_name = $value['class_name'];
             $data = $value['data'];
-            if (property_exists(Events::class, $key)) {
+            if ($reflect == null) {
+                $reflect = new \ReflectionClass(Events::class);
+            }
+            if ($reflect->getConstant($key)) {
                 if (!isset($value['type'])) {
                     throw new \Exception("type必须设置");
                 }

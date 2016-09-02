@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Core\Utils\CoreUtils;
 
 class RouterFileService implements ServiceProviderInterface
 {
@@ -26,11 +27,16 @@ class RouterFileService implements ServiceProviderInterface
     {
         $pimple['routerFile'] = function ($container) {
             if (!file_exists(APP_PATH . '/Routers/router.lock') || APPLICATION_ENV == "development") {
-                if (file_exists(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file'])) @unlink(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file']);
+                if (file_exists(CoreUtils::getConfig('customer')['router_cache_file'])) @unlink(CoreUtils::getConfig('customer')['router_cache_file']);
                 $router_file_contents = '<?php ' . "\n" . '$app = \Core\Utils\CoreUtils::getContainer(\'app\')';
-                if (\Core\Utils\CoreUtils::getConfig('customer')['is_rest']) {
+                if (CoreUtils::getConfig('middleware')) {
+                    foreach (CoreUtils::getConfig('middleware') as $middleware) {
+                        $router_file_contents .= '->add(new \\' . $middleware . '())';
+                    }
+                }
+                if (CoreUtils::getConfig('customer')['is_rest']) {
                     $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'jwt\'))->add(\Core\Utils\CoreUtils::getContainer(\'cors\'))';
-                    if (isset(\Core\Utils\CoreUtils::getConfig('customer')['is_api_rate_limit']) && \Core\Utils\CoreUtils::getConfig('customer')['is_api_rate_limit']) {
+                    if (isset(CoreUtils::getConfig('customer')['is_api_rate_limit']) && CoreUtils::getConfig('customer')['is_api_rate_limit']) {
                         $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'api_rate_limit\'))';
                     }
                 }
@@ -43,7 +49,7 @@ class RouterFileService implements ServiceProviderInterface
                     }
                 }
                 file_put_contents(APP_PATH . 'Routers/router.php', $router_file_contents);
-                $container['router']->setCacheFile(\Core\Utils\CoreUtils::getConfig('customer')['router_cache_file']);
+                $container['router']->setCacheFile(CoreUtils::getConfig('customer')['router_cache_file']);
                 touch(APP_PATH . '/Routers/router.lock');
             }
             require_once APP_PATH . 'Routers/router.php';
