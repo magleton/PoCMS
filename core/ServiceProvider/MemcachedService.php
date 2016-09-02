@@ -33,7 +33,9 @@ class MemcachedService implements ServiceProviderInterface
                     $server_name = CoreUtils::getContainer('server_name');
                 }
                 $memcached = new \Memcached();
-                $memcached->addServer($cacheConfig[$type][$server_name]['host'], $cacheConfig[$type][$server_name]['port'], $cacheConfig[$type][$server_name]['timeout']);
+                foreach ($cacheConfig[$type][$server_name]['servers'] as $key => $server) {
+                    $memcached->addServer($server['host'], $server['port'], $server['timeout']);
+                }
                 return $memcached;
             });
         };

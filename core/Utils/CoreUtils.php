@@ -97,19 +97,30 @@ class CoreUtils
      *
      * @author macro chen <macro_fengye@163.com>
      * @param array $params
+     * @throws \Exception
      * @return EventManager
      */
     public static function addEvent(array $params = [])
     {
         $event_manager = self::getContainer('doctrineEventManager');
         foreach ($params as $key => $value) {
-            if (is_array($value)) {
-                $class_name = $value['class_name'];
-                $data = $value['data'];
-                $event_manager->addEventListener($key, new $class_name($data));
-            } else {
-                $event_manager->addEventListener($key, new $value());
+            if (!isset($value['class_name'])) {
+                throw new \Exception("class_name必须设置");
             }
+            $class_name = $value['class_name'];
+            $data = isset($value['data']) ? $value['data'] : [];
+            if (property_exists(Events::class, $key)) {
+                if (!isset($value['type'])) {
+                    throw new \Exception("type必须设置");
+                }
+                if (!isset($value['dbName'])) {
+                    throw new \Exception("dbName必须设置");
+                }
+                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName']);
+                $db_eventManager->addEventListener($key, new $class_name($data));
+                continue;
+            }
+            $event_manager->addEventListener($key, new $class_name($data));
         }
         return $event_manager;
     }
@@ -119,21 +130,52 @@ class CoreUtils
      *
      * @author macro chen <macro_fengye@163.com>
      * @param array $params
+     * @throws \Exception
      * @return EventManager
      */
     public static function addSubscriber(array $params = [])
     {
         $event_manager = self::getContainer('doctrineEventManager');
         foreach ($params as $key => $value) {
-            if (is_array($value)) {
-                $class_name = $value['class_name'];
-                $data = $value['data'];
-                $event_manager->addEventSubscriber(new $class_name($data));
-            } else {
-                $event_manager->addEventSubscriber(new $class_name());
+            if (!isset($value['class_name'])) {
+                throw new \Exception("class_name必须设置");
             }
+            $class_name = $value['class_name'];
+            $data = $value['data'];
+            if (property_exists(Events::class, $key)) {
+                if (!isset($value['type'])) {
+                    throw new \Exception("type必须设置");
+                }
+                if (!isset($value['dbName'])) {
+                    throw new \Exception("dbName必须设置");
+                }
+                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName']);
+                $db_eventManager->addEventSubscriber(new $class_name($data));
+                continue;
+            }
+            $event_manager->addEventSubscriber(new $class_name($data));
         }
         return $event_manager;
+    }
+
+    /**
+     * 获取指定数据库实例的事件组件
+     *
+     * @author macro chen <macro_fengye@163.com>
+     * @param $type
+     * $type == entityManager的实例可以支持事务
+     * $type == Connection 支持分库分表
+     * @param string $dbName
+     * @return \Doctrine\Common\EventManager
+     */
+    private static function getDbInstanceEvm($type, $dbName)
+    {
+        if (self::getContainer("dataBase" . $type . $dbName)) {
+            $db = self::getContainer("dataBase" . $type . $dbName);
+        } else {
+            $db = self::databaseConnection($type, $dbName);
+        }
+        return $db->getEventManager();
     }
 
     /**
@@ -162,14 +204,17 @@ class CoreUtils
      * @param $cache_type
      * @param array $params
      * @deprecated
+     * @throws \Exception
      * @return mixed
      */
-    public static function getCacheInstance($cache_type, array $params = [])
+    public static function getCacheInstanceHaveNamespace($cache_type, array $params = [])
     {
-        if ($params) {
-            CoreUtils::getContainer('serverName', $params);
+        if (!isset($params['resource_id'])) {
+            throw new \Exception('资源ID必须设置', 400);
         }
-        $cache = CoreUtils::getContainer($cache_type . 'Cache')->getOptions()->getResourceManager()->getResource('default');
+        $resource_id = $params['resource_id'];
+        unset($params['resource_id']);
+        $cache = CoreUtils::getContainer($cache_type . 'Cache', $params)->getOptions()->getResourceManager()->getResource($resource_id);
         return $cache;
     }
 

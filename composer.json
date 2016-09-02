@@ -49,10 +49,7 @@
     "composer/bin/dbunit"
   ],
   "config": {
-    "bin-dir": "bin",
-    "github-oauth": {
-      "github.com": "0d82ad55e3bc56cdd3bbaedf469ed2074d257f30"
-    }
+    "bin-dir": "bin"
   },
   "autoload": {
     "psr-4": {

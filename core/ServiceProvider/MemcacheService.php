@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Core\Utils\CoreUtils;
 
 class MemcacheService implements ServiceProviderInterface
 {
@@ -33,7 +34,9 @@ class MemcacheService implements ServiceProviderInterface
                     $server_name = CoreUtils::getContainer('server_name');
                 }
                 $memcache = new \Memcache();
-                $memcache->connect($cacheConfig[$type][$server_name]['host'], $cacheConfig[$type][$server_name]['port'], $cacheConfig[$type][$server_name]['timeout']);
+                foreach ($cacheConfig[$type][$server_name]['servers'] as $key=>$server){
+                    $memcache->addServer($server['host'], $server['port'], $server['timeout']);
+                }
                 return $memcache;
             });
         };
