@@ -38,6 +38,7 @@ $cache = [
                     'host' => '127.0.0.1',
                     'port' => 6379,
                     'timeout' => 10,
+                    'database' => 0,
                 ],
                 'namespace' => APP_NAME . '-redis01',
             ],
@@ -47,6 +48,7 @@ $cache = [
                     'host' => "10.0.25.1",
                     'port' => 6379,
                     'timeout' => 10,
+                    'database' => 0,
                 ],
                 'namespace' => APP_NAME . '-redis02',
             ]

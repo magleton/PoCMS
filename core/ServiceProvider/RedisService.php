@@ -29,11 +29,16 @@ class RedisService implements ServiceProviderInterface
             $cacheConfig = CoreUtils::getConfig('cache');
             $server_name = 'server1';
             $type = 'redis';
+            $database = 0;
             if (CoreUtils::getContainer('server_name')) {
                 $server_name = CoreUtils::getContainer('server_name');
             }
+            if (CoreUtils::getContainer('database')) {
+                $database = CoreUtils::getContainer('database');
+            }
             $redis = new \Redis();
             $redis->connect($cacheConfig[$type][$server_name]['server']['host'], $cacheConfig[$type][$server_name]['server']['port'], $cacheConfig[$type][$server_name]['server']['timeout']);
+            $redis->select($database);
             return $redis;
         };
     }

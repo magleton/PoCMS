@@ -36,7 +36,10 @@ class RedisCacheService implements ServiceProviderInterface
                         $server_name = CoreUtils::getContainer('server_name');
                     }
                     if (CoreUtils::getContainer('namespace')) {
-                        $redisConfig['redis'][$server_name]['namespace']= CoreUtils::getContainer('namespace');
+                        $redisConfig['redis'][$server_name]['namespace'] = CoreUtils::getContainer('namespace');
+                    }
+                    if (CoreUtils::getContainer('database')) {
+                        $redisConfig['redis'][$server_name]['database'] = CoreUtils::getContainer('database');
                     }
                     $redis = new Redis($redisConfig['redis'][$server_name]);
                 }

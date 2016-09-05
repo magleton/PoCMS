@@ -23,15 +23,18 @@ $common_config = [
     'doctrine' => [
         'query_cache' => [
             'is_open' => true,
-            'cache_name' => 'redisCacheDriver'
+            'cache_name' => 'redisCacheDriver',
+            'database' => 15
         ],
         'result_cache' => [
             'is_open' => true,
-            'cache_name' => 'redisCacheDriver'
+            'cache_name' => 'redisCacheDriver',
+            'database' => 15
         ],
         'metadata_cache' => [
             'is_open' => true,
-            'cache_name' => 'redisCacheDriver'
+            'cache_name' => 'redisCacheDriver',
+            'database' => 15
         ],
     ],
 
