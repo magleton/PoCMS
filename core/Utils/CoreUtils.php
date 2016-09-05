@@ -203,11 +203,12 @@ class CoreUtils
             } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($component_name) . "Service")) {
                 $class_name = 'Core\\ServiceProvider\\' . ucfirst($component_name) . "Service";
             }
-            if ($class_name) Bootstrap::getApplication()->getContainer()->register(new $class_name(), $param);
+            if ($class_name) {
+                Bootstrap::getApplication()->getContainer()->register(new $class_name(), $param);
+            } else {
+                return null;
+            }
         }
-        if (Bootstrap::getApplication()->getContainer()->has($component_name)) {
-            return Bootstrap::getApplication()->getContainer()->get($component_name);
-        }
-        return null;
+        return Bootstrap::getApplication()->getContainer()->get($component_name);
     }
 }
