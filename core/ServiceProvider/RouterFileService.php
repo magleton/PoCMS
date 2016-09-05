@@ -30,14 +30,8 @@ class RouterFileService implements ServiceProviderInterface
                 if (file_exists(CoreUtils::getConfig('customer')['router_cache_file'])) @unlink(CoreUtils::getConfig('customer')['router_cache_file']);
                 $router_file_contents = '<?php ' . "\n" . '$app = \Core\Utils\CoreUtils::getContainer(\'app\')';
                 if (CoreUtils::getConfig('middleware')) {
-                    foreach (CoreUtils::getConfig('middleware') as $middleware) {
-                        $router_file_contents .= '->add(new \\' . $middleware . '())';
-                    }
-                }
-                if (CoreUtils::getConfig('customer')['is_rest']) {
-                    $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'jwt\'))->add(\Core\Utils\CoreUtils::getContainer(\'cors\'))';
-                    if (isset(CoreUtils::getConfig('customer')['is_api_rate_limit']) && CoreUtils::getConfig('customer')['is_api_rate_limit']) {
-                        $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer(\'api_rate_limit\'))';
+                    foreach (CoreUtils::getConfig('middleware') as $key => $middleware) {
+                        $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer("' . $key . '"))';
                     }
                 }
                 $router_file_contents .= ';' . "\n";

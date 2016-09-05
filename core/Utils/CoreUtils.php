@@ -30,50 +30,50 @@ class CoreUtils
      * @throws \Doctrine\ORM\ORMException
      * @return array
      */
-    private static function databaseConnection($type, $dbName)
+    public static function getDbInstance($type, $dbName)
     {
-        $dbConfig = self::getConfig('db')[APPLICATION_ENV];
-        $db = NULL;
-        if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
-            $conn_config = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
-            $useSimpleAnnotationReader = $conn_config['useSimpleAnnotationReader'];
-            unset($conn_config['useSimpleAnnotationReader']);
-            if ($useSimpleAnnotationReader) {
-                $configuration = Setup::createConfiguration(APPLICATION_ENV == 'development');
-                $configuration->setMetadataCacheImpl(self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']));
-                $annotationDriver = new AnnotationDriver(new AnnotationReader(), ROOT_PATH . "/entity/Models");
-                AnnotationRegistry::registerLoader("class_exists");
-                $configuration->setMetadataDriverImpl($annotationDriver);
-            } else {
-                $configuration = Setup::createAnnotationMetadataConfiguration(array(
-                    ROOT_PATH . '/entity/Models',
-                ), APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']), $useSimpleAnnotationReader);
-            }
-            if (APPLICATION_ENV == "development") {
-                $configuration->setAutoGenerateProxyClasses(true);
-            } else {
-                $configuration->setAutoGenerateProxyClasses(true);
-            }
-            //设置缓存组件
-            if (self::getConfig('doctrine')['query_cache']['is_open']) {
-                $configuration->setQueryCacheImpl(self::getContainer(self::getConfig('doctrine')['query_cache']['cache_name']));
-            }
-            if (self::getConfig('doctrine')['result_cache']['is_open']) {
-                $configuration->setResultCacheImpl(self::getContainer(self::getConfig('doctrine')['result_cache']['cache_name']));
-            }
-            if ($type == "entityManager") {
-                $db = EntityManager::create($conn_config
-                    , $configuration, self::getContainer("eventManager"));
-            } else if ($type == "Connection") {
-                $db = DriverManager::getConnection($conn_config
-                    , $configuration, self::getContainer("eventManager"));
-            }
-        }
         if (!self::getContainer("dataBase" . $type . $dbName)) {
+            $dbConfig = self::getConfig('db')[APPLICATION_ENV];
+            $db = NULL;
+            if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
+                $conn_config = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
+                $useSimpleAnnotationReader = $conn_config['useSimpleAnnotationReader'];
+                unset($conn_config['useSimpleAnnotationReader']);
+                if ($useSimpleAnnotationReader) {
+                    $configuration = Setup::createConfiguration(APPLICATION_ENV == 'development');
+                    $configuration->setMetadataCacheImpl(self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']));
+                    $annotationDriver = new AnnotationDriver(new AnnotationReader(), ROOT_PATH . "/entity/Models");
+                    AnnotationRegistry::registerLoader("class_exists");
+                    $configuration->setMetadataDriverImpl($annotationDriver);
+                } else {
+                    $configuration = Setup::createAnnotationMetadataConfiguration(array(
+                        ROOT_PATH . '/entity/Models',
+                    ), APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name']), $useSimpleAnnotationReader);
+                }
+                if (APPLICATION_ENV == "development") {
+                    $configuration->setAutoGenerateProxyClasses(true);
+                } else {
+                    $configuration->setAutoGenerateProxyClasses(true);
+                }
+                //设置缓存组件
+                if (self::getConfig('doctrine')['query_cache']['is_open']) {
+                    $configuration->setQueryCacheImpl(self::getContainer(self::getConfig('doctrine')['query_cache']['cache_name']));
+                }
+                if (self::getConfig('doctrine')['result_cache']['is_open']) {
+                    $configuration->setResultCacheImpl(self::getContainer(self::getConfig('doctrine')['result_cache']['cache_name']));
+                }
+                if ($type == "entityManager") {
+                    $db = EntityManager::create($conn_config
+                        , $configuration, self::getContainer("eventManager"));
+                } else if ($type == "Connection") {
+                    $db = DriverManager::getConnection($conn_config
+                        , $configuration, self::getContainer("eventManager"));
+                }
+            }
             $container = Bootstrap::getApplication()->getContainer();
             $container["dataBase" . $type . $dbName] = $db;
         }
-        return $db;
+        return self::getContainer("dataBase" . $type . $dbName);
     }
 
     /**
@@ -120,7 +120,7 @@ class CoreUtils
                 if (!isset($value['dbName'])) {
                     throw new \Exception("dbName必须设置");
                 }
-                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName']);
+                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName'])->getEventManager();
                 $db_eventManager->addEventListener($key, new $class_name($data));
                 continue;
             }
@@ -157,7 +157,7 @@ class CoreUtils
                 if (!isset($value['dbName'])) {
                     throw new \Exception("dbName必须设置");
                 }
-                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName']);
+                $db_eventManager = self::getDbInstanceEvm($value['type'], $value['dbName'])->getEventManager();
                 $db_eventManager->addEventSubscriber(new $class_name($data));
                 continue;
             }
@@ -167,47 +167,7 @@ class CoreUtils
     }
 
     /**
-     * 获取指定数据库实例的事件组件
-     *
-     * @author macro chen <macro_fengye@163.com>
-     * @param $type
-     * $type == entityManager的实例可以支持事务
-     * $type == Connection 支持分库分表
-     * @param string $dbName
-     * @return \Doctrine\Common\EventManager
-     */
-    private static function getDbInstanceEvm($type, $dbName)
-    {
-        if (self::getContainer("dataBase" . $type . $dbName)) {
-            $db = self::getContainer("dataBase" . $type . $dbName);
-        } else {
-            $db = self::databaseConnection($type, $dbName);
-        }
-        return $db->getEventManager();
-    }
-
-    /**
-     * 获取数据库的实例
-     *
-     * @author macro chen <macro_fengye@163.com>
-     * @param $type
-     * $type == entityManager的实例可以支持事务
-     * $type == Connection 支持分库分表
-     * @param string $dbName
-     * @return \Doctrine\Common\EventManager
-     */
-    public static function getDbInstance($type, $dbName)
-    {
-        if (self::getContainer("dataBase" . $type . $dbName)) {
-            $db = self::getContainer("dataBase" . $type . $dbName);
-        } else {
-            $db = self::databaseConnection($type, $dbName);
-        }
-        return $db;
-    }
-
-    /**
-     * 动态设置cache的server_name与namespace
+     * 获取拥有命名空间的缓存实例
      *
      * @param $cache_type
      * @param array $params
