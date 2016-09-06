@@ -49,7 +49,6 @@ class CoreUtils
                     AnnotationRegistry::registerLoader("class_exists");
                     $configuration->setMetadataDriverImpl($annotationDriver);
                 } else {
-                    $metadata_cache->select();
                     $configuration = Setup::createAnnotationMetadataConfiguration([
                         ROOT_PATH . '/entity/Models',
                     ], APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', $metadata_cache, $useSimpleAnnotationReader);
