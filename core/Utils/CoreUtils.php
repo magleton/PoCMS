@@ -215,8 +215,9 @@ class CoreUtils
             }
         }
         $cacheObj = Bootstrap::getApplication()->getContainer()->get($component_name);
-        if (isset($param['database']) && $component_name === CoreUtils::REDIS) {
-            $cacheObj->select($param['database']);
+        if ($component_name === CoreUtils::REDIS) {
+            $database = isset($param['database']) ? $param['database'] : 0;
+            $cacheObj->select($database);
         }
         return $cacheObj;
     }
