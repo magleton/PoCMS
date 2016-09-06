@@ -27,18 +27,10 @@ class RedisService implements ServiceProviderInterface
     {
         $pimple['redis'] = function (Container $container) {
             $cacheConfig = CoreUtils::getConfig('cache');
-            $server_name = 'server1';
+            $server_name = $container->has('server_name') ? $container->get('server_name') : 'server1';
             $type = 'redis';
-            $database = $cacheConfig[$type][$server_name]['server']['database'];
-            if (CoreUtils::getContainer('server_name')) {
-                $server_name = CoreUtils::getContainer('server_name');
-            }
-            if (CoreUtils::getContainer('database')) {
-                $database = CoreUtils::getContainer('database');
-            }
             $redis = new \Redis();
             $redis->connect($cacheConfig[$type][$server_name]['server']['host'], $cacheConfig[$type][$server_name]['server']['port'], $cacheConfig[$type][$server_name]['server']['timeout']);
-            $redis->select($database);
             return $redis;
         };
     }

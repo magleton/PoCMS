@@ -37,19 +37,22 @@ class CoreUtils
             $dbConfig = self::getConfig('db')[APPLICATION_ENV];
             $db = NULL;
             if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
+                $doctrine_config = self::getConfig('doctrine');
                 $conn_config = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
                 $useSimpleAnnotationReader = $conn_config['useSimpleAnnotationReader'];
                 unset($conn_config['useSimpleAnnotationReader']);
+                $metadata_cache = self::getContainer($doctrine_config['metadata_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
                 if ($useSimpleAnnotationReader) {
                     $configuration = Setup::createConfiguration(APPLICATION_ENV == 'development');
-                    $configuration->setMetadataCacheImpl(self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name'], ['database' => self::getConfig('doctrine')['metadata_cache']['database']]));
+                    $configuration->setMetadataCacheImpl($metadata_cache);
                     $annotationDriver = new AnnotationDriver(new AnnotationReader(), ROOT_PATH . "/entity/Models");
                     AnnotationRegistry::registerLoader("class_exists");
                     $configuration->setMetadataDriverImpl($annotationDriver);
                 } else {
+                    $metadata_cache->select();
                     $configuration = Setup::createAnnotationMetadataConfiguration([
                         ROOT_PATH . '/entity/Models',
-                    ], APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', self::getContainer(self::getConfig('doctrine')['metadata_cache']['cache_name'], ['database' => self::getConfig('doctrine')['metadata_cache']['database']]), $useSimpleAnnotationReader);
+                    ], APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', $metadata_cache, $useSimpleAnnotationReader);
                 }
                 if (APPLICATION_ENV == "development") {
                     $configuration->setAutoGenerateProxyClasses(true);
@@ -57,11 +60,13 @@ class CoreUtils
                     $configuration->setAutoGenerateProxyClasses(true);
                 }
                 //设置缓存组件
-                if (self::getConfig('doctrine')['query_cache']['is_open']) {
-                    $configuration->setQueryCacheImpl(self::getContainer(self::getConfig('doctrine')['query_cache']['cache_name'], ['database' => self::getConfig('doctrine')['query_cache']['database']]));
+                if ($doctrine_config['query_cache']['is_open']) {
+                    $query_cache = self::getContainer(self::getConfig('doctrine')['query_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
+                    $configuration->setQueryCacheImpl($query_cache);
                 }
-                if (self::getConfig('doctrine')['result_cache']['is_open']) {
-                    $configuration->setResultCacheImpl(self::getContainer(self::getConfig('doctrine')['result_cache']['cache_name'], ['database' => self::getConfig('doctrine')['result_cache']['database']]));
+                if ($doctrine_config['result_cache']['is_open']) {
+                    $result_cache = self::getContainer(self::getConfig('doctrine')['result_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
+                    $configuration->setResultCacheImpl($result_cache);
                 }
                 if ($type == "entityManager") {
                     $db = EntityManager::create($conn_config
@@ -210,6 +215,10 @@ class CoreUtils
                 return null;
             }
         }
-        return Bootstrap::getApplication()->getContainer()->get($component_name);
+        $cacheObj = Bootstrap::getApplication()->getContainer()->get($component_name);
+        if (isset($param['database']) && $component_name === CoreUtils::REDIS) {
+            $cacheObj->select($param['database']);
+        }
+        return $cacheObj;
     }
 }
