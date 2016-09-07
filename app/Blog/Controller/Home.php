@@ -9,8 +9,9 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
-        $query = $em->createQuery('SELECT order_file FROM Entity\Models\OrderFile order_file');
+        echo "hello";
+        //$em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
+        //$query = $em->createQuery('SELECT order_file FROM Entity\Models\OrderFile order_file');
         /*$this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);
         CoreUtils::getContainer('sessionContainer')->user = array("username" => 20, "age" => 30);
         $abc = CoreUtils::getContainer('abc');*/
@@ -27,9 +28,9 @@ class Home extends Controller
        // $co->addItem('aaaa' , 'lllllllllll');
         //echo $co->getItem('aaaa');
         //print_r(get_class_methods($co->getOptions()->getResourceManager()->getResource('an')->hSet('gghf' , 'mmm' , 90)));
-        $this->render($response, '/home/index.twig', array(
+        /*$this->render($response, '/home/index.twig', array(
             'somevar' => date('c'),
-        ));
+        ));*/
     }
 
     public function hello($request, $response, $args)
