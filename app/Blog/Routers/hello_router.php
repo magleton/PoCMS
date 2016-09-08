@@ -1,4 +1,4 @@
 <?php
-$app = \Core\Utils\CoreUtils::getContainer('app');
+//$app = \Core\Utils\CoreUtils::getContainer('app');
 
-$app->get("/hello/show", "Blog\controller\Hello:show")->setName("hello.show");
+$app->get("/hello/show", "Blog\Controller\Hello:show")->setName("hello.show");
