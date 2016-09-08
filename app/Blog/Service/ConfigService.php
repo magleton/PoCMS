@@ -11,6 +11,7 @@ namespace Blog\Service;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Noodlehaus\Config;
 
 class ConfigService implements ServiceProviderInterface
 {
@@ -26,7 +27,7 @@ class ConfigService implements ServiceProviderInterface
     {
         $pimple['config'] = function ($container) {
             return $container['lazy_service_factory']->getLazyServiceDefinition(\Noodlehaus\Config::class, function () use ($container) {
-                return new \Noodlehaus\Config([APP_PATH . 'Config' , APP_PATH . 'Config/Test', ROOT_PATH . '/core/Config']);
+                return new Config([APP_PATH . 'Config' , APP_PATH . 'Config/Test', ROOT_PATH . '/core/Config']);
             });
         };
     }
