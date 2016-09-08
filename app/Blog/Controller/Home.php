@@ -10,6 +10,7 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         echo "hello";
+        CoreUtils::getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
         //$em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
         //$query = $em->createQuery('SELECT order_file FROM Entity\Models\OrderFile order_file');
         /*$this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);

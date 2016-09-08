@@ -3,17 +3,14 @@ namespace Blog\Controller;
 
 
 use Core\Controller\Controller;
+use Core\Utils\CoreUtils;
 
 class Hello extends Controller
 {
     public function show($request, $response, $args)
     {
-        $app = Bootstrap::getApp();
-        $view = $app->getContainer()->get('view');
-        $view->render($response, 'profile.html', [
-            'name' => "aaaaaa"
-        ]);
-        echo "aaaa";
+        echo "aaa";
+        print_r(CoreUtils::getContainer('session')->get('user_info'));
     }
 
     public function show1($request, $response, $args)

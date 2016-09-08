@@ -11,7 +11,11 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Spiechu\LazyPimple\Factory\LazyLoadingValueHolderFactoryFactory;
+use Spiechu\LazyPimple\Factory\LazyServiceFactory;
+use Slim\App;
+use Core\Utils\CoreUtils;
+use Slim\Http\Body;
 
 class InitAppService implements ServiceProviderInterface
 {
@@ -25,14 +29,68 @@ class InitAppService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
+        $pimple['lazy_loading_value_holder_factory_factory'] = function ($container) {
+            return (new LazyLoadingValueHolderFactoryFactory())
+                ->getFactory($container['proxy_manager_cache_target_dir']);
+        };
+        $pimple['lazy_service_factory'] = function ($container) {
+            return new LazyServiceFactory($container['lazy_loading_value_holder_factory_factory']);
+        };
+        $pimple['proxy_manager_cache_target_dir'] = function ($container) {
+            $targetDir = ROOT_PATH . '/proxy_cache_dir';
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0775, true);
+            }
+            return $targetDir;
+        };
+        $pimple['notAllowedHandler'] = function ($container) {
+            return function ($request, $response, $methods) use ($container) {
+                return $container['response']
+                    ->withStatus(405)
+                    ->withHeader('Allow', implode(', ', $methods))
+                    ->withHeader('Content-type', 'text/html')
+                    ->write('Method must be one of: ' . implode(', ', $methods));
+            };
+        };
+        $pimple['notFoundHandler'] = function ($container) {
+            return function ($request, $response) use ($container) {
+                if (CoreUtils::getConfig('customer')['is_rest']) {
+                    return $container['response']
+                        ->withStatus(404)
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withJson(['code' => 1, 'msg' => '404', 'data' => []]);
+                } else {
+                    $body = new Body(@fopen(TEMPLATE_PATH . '404.twig', 'r'));
+                    return $container['response']
+                        ->withStatus(404)
+                        ->withHeader('Content-Type', 'text/html')
+                        ->withBody($body);
+                }
+            };
+        };
+        $pimple['phpErrorHandler'] = function ($container) {
+            return $container['errorHandler'];
+        };
+        $pimple['errorHandler'] = function ($container) {
+            return function ($request, $response, $exception) use ($container) {
+                $container->register(new LoggerService());
+                $container['logger']->error($exception->__toString());
+                if (CoreUtils::getConfig('customer')['is_rest']) {
+                    return $container['response']
+                        ->withStatus(500)
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withJson(['code' => 500, 'msg' => '500 status', 'data' => []]);
+                } else {
+                    $body = new Body(@fopen(TEMPLATE_PATH . 'error.twig', 'r'));
+                    return $container['response']
+                        ->withStatus(500)
+                        ->withHeader('Content-Type', 'text/html')
+                        ->withBody($body);
+                };
+            };
+        };
         $pimple['app'] = function (Container $container) {
-            $container->register(new ErrorHandler());
-            $container->register(new NotFoundHandler());
-            $container->register(new PhpErrorHandler());
-            $container->register(new NotAllowedHandler());
-            $container->register(new LazyService());
-            return new \Slim\App($container);
+            return new App($container);
         };
     }
-
 }
