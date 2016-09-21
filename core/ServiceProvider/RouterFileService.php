@@ -26,10 +26,10 @@ class RouterFileService implements ServiceProviderInterface
         $pimple['routerFile'] = function ($container) {
             if (!file_exists(APP_PATH . '/Routers/router.lock') || APPLICATION_ENV == "development") {
                 if (file_exists($container['application']->getConfig('customer')['router_cache_file'])) @unlink($container['application']->getConfig('customer')['router_cache_file']);
-                $router_file_contents = '<?php ' . "\n" . '$app = app()->getContainer(\'app\')';
+                $router_file_contents = '<?php ' . "\n" . '$app = $container[\'application\']->getContainer(\'app\')';
                 if ($container['application']->getConfig('middleware')) {
                     foreach ($container['application']->getConfig('middleware') as $key => $middleware) {
-                        $router_file_contents .= '->add(app()->getContainer("' . $key . '"))';
+                        $router_file_contents .= '->add($container[\'application\']->getContainer("' . $key . '"))';
                     }
                 }
                 $router_file_contents .= ';' . "\n";
