@@ -16,4 +16,5 @@ require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 // 导入自定义函数
 require APP_PATH . '/Lib/func.inc.php';
-\Core\Boot\Bootstrap::start();
+$app = new \Core\Boot\Application();
+$app->start();
