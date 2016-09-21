@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Doctrine\Common\EventManager;
 
 class DoctrineEventManagerService implements ServiceProviderInterface
 {
@@ -25,9 +26,7 @@ class DoctrineEventManagerService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple["doctrineEventManager"] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\EventManager::class, function () {
-                return new \Doctrine\Common\EventManager();
-            });
+            return new EventManager();
         };
     }
 }

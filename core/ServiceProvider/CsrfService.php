@@ -23,14 +23,12 @@ class CsrfService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['csrf'] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Csrf\Guard::class, function () use ($container) {
-                $guard = new \Slim\Csrf\Guard();
-                $guard->setFailureCallable(function ($request, $response, $next) {
-                    $request = $request->withAttribute("csrf_status", false);
-                    return $next($request, $response);
-                });
-                return $guard;
+            $guard = new \Slim\Csrf\Guard();
+            $guard->setFailureCallable(function ($request, $response, $next) {
+                $request = $request->withAttribute("csrf_status", false);
+                return $next($request, $response);
             });
+            return $guard;
         };
     }
 }

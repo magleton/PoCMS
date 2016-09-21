@@ -18,9 +18,7 @@ class SessionService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['session'] = function (Container $container) {
-            $session = new Session();
-            return $session;
+            return new Session();
         };
     }
-
 }

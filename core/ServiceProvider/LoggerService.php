@@ -27,13 +27,11 @@ class LoggerService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['logger'] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(Logger::class, function () use ($container) {
-                $settings = CoreUtils::getConfig('slim')['settings'];
-                $logger = new Logger($settings['logger']['name']);
-                $logger->pushProcessor(new UidProcessor());
-                $logger->pushHandler(new StreamHandler($settings['logger']['path'], $settings['logger']['level']));
-                return $logger;
-            });
+            $settings = CoreUtils::getConfig('slim')['settings'];
+            $logger = new Logger($settings['logger']['name']);
+            $logger->pushProcessor(new UidProcessor());
+            $logger->pushHandler(new StreamHandler($settings['logger']['path'], $settings['logger']['level']));
+            return $logger;
         };
     }
 }

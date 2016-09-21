@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Doctrine\Common\Cache\XcacheCache;
 
 class XcacheService implements ServiceProviderInterface
 {
@@ -25,9 +26,7 @@ class XcacheService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['xcache'] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Doctrine\Common\Cache\XcacheCache::class, function () {
-                return new \Doctrine\Common\Cache\XcacheCache();
-            });
+            return new XcacheCache();
         };
     }
 }

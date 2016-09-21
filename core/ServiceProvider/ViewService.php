@@ -9,6 +9,9 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Core\Utils\CoreUtils;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
 
 class ViewService implements ServiceProviderInterface
 {
@@ -23,12 +26,10 @@ class ViewService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['view'] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Slim\Views\Twig::class, function () use ($container) {
-                $twig_config = \Core\Utils\CoreUtils::getConfig('twig') ? \Core\Utils\CoreUtils::getConfig('twig') : [];
-                $view = new \Slim\Views\Twig(TEMPLATE_PATH, $twig_config);
-                $view->addExtension(new \Slim\Views\TwigExtension($container['router'], $container['request']->getUri()));
-                return $view;
-            });
+            $twig_config = CoreUtils::getConfig('twig') ? CoreUtils::getConfig('twig') : [];
+            $view = new Twig(TEMPLATE_PATH, $twig_config);
+            $view->addExtension(new TwigExtension($container['router'], $container['request']->getUri()));
+            return $view;
         };
     }
 }

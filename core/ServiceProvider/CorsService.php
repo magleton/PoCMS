@@ -25,24 +25,22 @@ class CorsService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['cors'] = function ($container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Tuupola\Middleware\Cors::class, function () {
-                return new \Tuupola\Middleware\Cors([
-                    "origin" => ["*"],
-                    "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-                    "headers.allow" => ["token", "Content-Type", "Accept", "Origin", "User-Agent", "DNT", "Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since"],
-                    "headers.expose" => ["Etag"],
-                    "credentials" => true,
-                    "cache" => 0,
-                    "error" => function ($request, $response, $arguments) {
-                        $data["status"] = "error";
-                        $data["msg"] = $arguments["message"];
-                        $data['code'] = 99;
-                        return $response
-                            ->withHeader("Content-Type", "application/json")
-                            ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-                    }
-                ]);
-            });
+            return new \Tuupola\Middleware\Cors([
+                "origin" => ["*"],
+                "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+                "headers.allow" => ["token", "Content-Type", "Accept", "Origin", "User-Agent", "DNT", "Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since"],
+                "headers.expose" => ["Etag"],
+                "credentials" => true,
+                "cache" => 0,
+                "error" => function ($request, $response, $arguments) {
+                    $data["status"] = "error";
+                    $data["msg"] = $arguments["message"];
+                    $data['code'] = 99;
+                    return $response
+                        ->withHeader("Content-Type", "application/json")
+                        ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+                }
+            ]);
         };
     }
 }

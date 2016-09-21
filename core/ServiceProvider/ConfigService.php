@@ -26,9 +26,7 @@ class ConfigService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['config'] = function ($container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Noodlehaus\Config::class, function () use ($container) {
-                return new Config([APP_PATH . 'Config', ROOT_PATH . '/core/Config']);
-            });
+            return new Config([APP_PATH . 'Config', ROOT_PATH . '/core/Config']);
         };
     }
 }

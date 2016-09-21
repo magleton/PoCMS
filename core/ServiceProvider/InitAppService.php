@@ -29,20 +29,6 @@ class InitAppService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['lazy_loading_value_holder_factory_factory'] = function ($container) {
-            return (new LazyLoadingValueHolderFactoryFactory())
-                ->getFactory($container['proxy_manager_cache_target_dir']);
-        };
-        $pimple['lazy_service_factory'] = function ($container) {
-            return new LazyServiceFactory($container['lazy_loading_value_holder_factory_factory']);
-        };
-        $pimple['proxy_manager_cache_target_dir'] = function ($container) {
-            $targetDir = ROOT_PATH . '/proxy_cache_dir';
-            if (!is_dir($targetDir)) {
-                mkdir($targetDir, 0775, true);
-            }
-            return $targetDir;
-        };
         $pimple['notAllowedHandler'] = function ($container) {
             return function ($request, $response, $methods) use ($container) {
                 return $container['response']

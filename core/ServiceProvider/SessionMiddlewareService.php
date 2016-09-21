@@ -18,9 +18,7 @@ class SessionMiddlewareService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['sessionMiddleware'] = function (Container $container) {
-            $sessionMiddleware = new SessionMiddleware();
-            return $sessionMiddleware;
+            return new SessionMiddleware();
         };
     }
-
 }

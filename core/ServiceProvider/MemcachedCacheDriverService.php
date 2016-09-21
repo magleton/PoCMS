@@ -26,16 +26,14 @@ class MemcachedCacheDriverService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple["memcachedCacheDriver"] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(MemcachedCache::class, function () use ($container) {
-                $namespace = 'memcachedCacheDriver';
-                if (CoreUtils::getContainer('namespace')) {
-                    $namespace = CoreUtils::getContainer('namespace');
-                }
-                $memcachedCacheDriver = new MemcacheCached();
-                $memcachedCacheDriver->setNamespace($namespace);
-                $memcachedCacheDriver->setMemcache(CoreUtils::getContainer('memcached'));
-                return $memcachedCacheDriver;
-            });
+            $namespace = 'memcachedCacheDriver';
+            if (CoreUtils::getContainer('namespace')) {
+                $namespace = CoreUtils::getContainer('namespace');
+            }
+            $memcachedCacheDriver = new MemcacheCached();
+            $memcachedCacheDriver->setNamespace($namespace);
+            $memcachedCacheDriver->setMemcache(CoreUtils::getContainer('memcached'));
+            return $memcachedCacheDriver;
         };
     }
 }

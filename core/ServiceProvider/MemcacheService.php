@@ -26,19 +26,17 @@ class MemcacheService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['memcache'] = function (Container $container) {
-            return $container['lazy_service_factory']->getLazyServiceDefinition(\Memcache::class, function () use ($container) {
-                $cacheConfig = CoreUtils::getConfig('cache');
-                $server_name = 'server1';
-                $type = 'memcache';
-                if (CoreUtils::getContainer('server_name')) {
-                    $server_name = CoreUtils::getContainer('server_name');
-                }
-                $memcache = new \Memcache();
-                foreach ($cacheConfig[$type][$server_name]['servers'] as $key=>$server){
-                    $memcache->addServer($server['host'], $server['port'], $server['timeout']);
-                }
-                return $memcache;
-            });
+            $cacheConfig = CoreUtils::getConfig('cache');
+            $server_name = 'server1';
+            $type = 'memcache';
+            if (CoreUtils::getContainer('server_name')) {
+                $server_name = CoreUtils::getContainer('server_name');
+            }
+            $memcache = new \Memcache();
+            foreach ($cacheConfig[$type][$server_name]['servers'] as $key => $server) {
+                $memcache->addServer($server['host'], $server['port'], $server['timeout']);
+            }
+            return $memcache;
         };
     }
 
