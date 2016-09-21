@@ -17,7 +17,7 @@ class Hello extends Controller
     {
         $app = Bootstrap::getApp();
         $view = $app->getContainer()->get('view');
-        $view->render($response, 'profile.html', [
+        $view->render($response, 'profile.twig', [
             'name' => "aaaaaa"
         ]);
         echo "aaaa";
