@@ -1,6 +1,7 @@
 <?php
 namespace Core\Utils;
 
+use Core\Boot\Application;
 use Doctrine\Common\EventManager;
 
 class CoreUtils
@@ -89,5 +90,16 @@ class CoreUtils
     public static function getContainer($component_name, $param = [])
     {
         return app()->getContainer($component_name, $param);
+    }
+
+    /**
+     * 获取应用实例
+     *
+     * @author macro chen <macro_fengye@163.com>
+     * @return static
+     */
+    public static function getApplication()
+    {
+        return Application::getInstance();
     }
 }

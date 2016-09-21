@@ -11,7 +11,8 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         echo "hello";
-        app()->getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
+        print_r(CoreUtils::getConfig('customer'));
+        CoreUtils::getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
         $redis = CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
         print_r($redis->get('key2'));
         //$em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
@@ -39,12 +40,14 @@ class Home extends Controller
 
     public function hello($request, $response, $args)
     {
-        $event = $this->addEvent(self::ENTITY, 'db1', 'event_namespace', 'Events::prePersist');
-        $em = $this->getDbInstance(self::ENTITY, 'db1');
+        /*$event = $this->addEvent(self::ENTITY, 'db1', 'event_namespace', 'Events::prePersist');
+        $em = $this->getDbInstance(self::ENTITY, 'db1');*/
         // print_r(get_class_methods($event));
         /*$this->render($response, "/home/hello.twig", array(
             'name' => 'Macro',
         ));*/
+        $se = CoreUtils::getContainer('session')->get('user_info');
+        print_r($se);
     }
 
 

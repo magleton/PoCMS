@@ -103,6 +103,7 @@ final class Application
         register_shutdown_function('fatal_handler');
         $this->container = new Container();
         $this->container->register(new InitAppService());
+        $this->container['application'] = $this;
         static::setInstance($this);
     }
 

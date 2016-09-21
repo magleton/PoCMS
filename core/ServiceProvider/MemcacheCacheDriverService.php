@@ -25,12 +25,12 @@ class MemcacheCacheDriverService implements ServiceProviderInterface
     {
         $pimple["memcacheCacheDriver"] = function (Container $container) {
             $namespace = 'memcacheCacheDriver';
-            if (app()->getContainer('namespace')) {
-                $namespace = app()->getContainer('namespace');
+            if ($container['application']->getContainer('namespace')) {
+                $namespace = $container['application']->getContainer('namespace');
             }
             $memcacheCacheDriver = new MemcacheCache();
             $memcacheCacheDriver->setNamespace($namespace);
-            $memcacheCacheDriver->setMemcache(app()->getContainer('memcache'));
+            $memcacheCacheDriver->setMemcache($container['application']->getContainer('memcache'));
             return $memcacheCacheDriver;
         };
     }

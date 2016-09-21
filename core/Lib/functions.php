@@ -175,7 +175,12 @@ function writeLog($message, array $content, $file = '', $log_name = "LOG", $leve
     $logger->$function_name($message, $content);
 }
 
-
+/**
+ * 获取应用实例
+ *
+ * @author macro chen <macro_fengye@163.com>
+ * @return static
+ */
 function app()
 {
     return Application::getInstance();
