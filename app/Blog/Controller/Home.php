@@ -11,6 +11,7 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         echo "hello";
+        haha();
         print_r(CoreUtils::getConfig('customer'));
         CoreUtils::getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
         $redis = CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
