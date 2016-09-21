@@ -9,7 +9,6 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Core\Utils\CoreUtils;
 use Doctrine\Common\Cache\MemcacheCache;
 
 class MemcacheCacheDriverService implements ServiceProviderInterface
@@ -26,12 +25,12 @@ class MemcacheCacheDriverService implements ServiceProviderInterface
     {
         $pimple["memcacheCacheDriver"] = function (Container $container) {
             $namespace = 'memcacheCacheDriver';
-            if (CoreUtils::getContainer('namespace')) {
-                $namespace = CoreUtils::getContainer('namespace');
+            if (app()->getContainer('namespace')) {
+                $namespace = app()->getContainer('namespace');
             }
             $memcacheCacheDriver = new MemcacheCache();
             $memcacheCacheDriver->setNamespace($namespace);
-            $memcacheCacheDriver->setMemcache(CoreUtils::getContainer('memcache'));
+            $memcacheCacheDriver->setMemcache(app()->getContainer('memcache'));
             return $memcacheCacheDriver;
         };
     }

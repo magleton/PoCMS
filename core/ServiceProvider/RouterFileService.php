@@ -8,10 +8,8 @@
 
 namespace Core\ServiceProvider;
 
-
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Core\Utils\CoreUtils;
 
 class RouterFileService implements ServiceProviderInterface
 {
@@ -27,11 +25,11 @@ class RouterFileService implements ServiceProviderInterface
     {
         $pimple['routerFile'] = function ($container) {
             if (!file_exists(APP_PATH . '/Routers/router.lock') || APPLICATION_ENV == "development") {
-                if (file_exists(CoreUtils::getConfig('customer')['router_cache_file'])) @unlink(CoreUtils::getConfig('customer')['router_cache_file']);
-                $router_file_contents = '<?php ' . "\n" . '$app = \Core\Utils\CoreUtils::getContainer(\'app\')';
-                if (CoreUtils::getConfig('middleware')) {
-                    foreach (CoreUtils::getConfig('middleware') as $key => $middleware) {
-                        $router_file_contents .= '->add(\Core\Utils\CoreUtils::getContainer("' . $key . '"))';
+                if (file_exists(app()->getConfig('customer')['router_cache_file'])) @unlink(app()->getConfig('customer')['router_cache_file']);
+                $router_file_contents = '<?php ' . "\n" . '$app = app()->getContainer(\'app\')';
+                if (app()->getConfig('middleware')) {
+                    foreach (app()->getConfig('middleware') as $key => $middleware) {
+                        $router_file_contents .= '->add(app()->getContainer("' . $key . '"))';
                     }
                 }
                 $router_file_contents .= ';' . "\n";
@@ -43,7 +41,7 @@ class RouterFileService implements ServiceProviderInterface
                     }
                 }
                 file_put_contents(APP_PATH . 'Routers/router.php', $router_file_contents);
-                $container['router']->setCacheFile(CoreUtils::getConfig('customer')['router_cache_file']);
+                $container['router']->setCacheFile(app()->getConfig('customer')['router_cache_file']);
                 touch(APP_PATH . '/Routers/router.lock');
             }
             require_once APP_PATH . 'Routers/router.php';

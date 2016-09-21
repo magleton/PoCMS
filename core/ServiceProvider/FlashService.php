@@ -8,8 +8,6 @@
 
 namespace Core\ServiceProvider;
 
-
-use Core\Utils\CoreUtils;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use \Slim\Flash\Messages;

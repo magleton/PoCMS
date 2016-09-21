@@ -18,4 +18,5 @@ require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 // 导入自定义函数
 require dirname(__DIR__) . '/Lib/func.inc.php';
-\Core\Boot\Bootstrap::startConsole();
+$app = new \Core\Boot\Application();
+$app->startConsole();

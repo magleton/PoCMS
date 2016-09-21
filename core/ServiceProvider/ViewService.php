@@ -9,7 +9,6 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Core\Utils\CoreUtils;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
@@ -26,7 +25,7 @@ class ViewService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['view'] = function (Container $container) {
-            $twig_config = CoreUtils::getConfig('twig') ? CoreUtils::getConfig('twig') : [];
+            $twig_config = app()->getConfig('twig') ? app()->getConfig('twig') : [];
             $view = new Twig(TEMPLATE_PATH, $twig_config);
             $view->addExtension(new TwigExtension($container['router'], $container['request']->getUri()));
             return $view;

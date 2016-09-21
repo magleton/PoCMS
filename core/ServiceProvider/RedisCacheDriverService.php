@@ -10,7 +10,6 @@ namespace Core\ServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Doctrine\Common\Cache\RedisCache;
-use Core\Utils\CoreUtils;
 
 class RedisCacheDriverService implements ServiceProviderInterface
 {
@@ -29,8 +28,9 @@ class RedisCacheDriverService implements ServiceProviderInterface
             $namespace = $container->has('namespace') ? $container->get('namespace') : 'redisCacheDriver';
             $database = $container->has('database') ? $container->get('database') : 0;
             //设置缓存的命名空间
+            $type = 'redis';
             $redisCacheDriver->setNamespace($namespace);
-            $redisCacheDriver->setRedis(CoreUtils::getContainer(CoreUtils::REDIS, ['database' => $database]));
+            $redisCacheDriver->setRedis(app()->getContainer($type, ['database' => $database]));
             return $redisCacheDriver;
         };
     }

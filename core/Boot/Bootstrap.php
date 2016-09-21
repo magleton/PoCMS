@@ -1,39 +1,30 @@
 <?php
 namespace Core\Boot;
 
-use Core\ServiceProvider\InitAppService;
+
 use Core\Utils\CoreUtils;
-use Slim\Container;
 
-class Bootstrap
+
+final class Bootstrap
 {
-    private static $app = NULL;
-
     /**
      * 引导WEB应用
      *
      * @author macro chen <macro_fengye@163.com>
      */
-    public static function start()
+    public function start()
     {
-        if (APPLICATION_ENV == 'production') {
-            if (!ini_get('display_errors')) {
-                ini_set('display_errors', 'off');
-            }
-            error_reporting(0);
-        }
         try {
-            register_shutdown_function('fatal_handler');
-            $container = new Container();
-            $container->register(new InitAppService());
-            self::$app = $container['app'];
-            CoreUtils::getContainer('routerFile');
-            CoreUtils::getContainer('app')->run();
+            $core = new CoreUtils();
+            $core->startApp();
+            //CoreUtils::startApp();
+            $core->getContainer('routerFile');
+            $core->getContainer('app')->run();
         } catch (\Exception $e) {
             echo \GuzzleHttp\json_encode(['code' => 1000, 'msg' => $e->getMessage(), 'data' => []]);
             return false;
         }
-        if (CoreUtils::getConfig('customer')['show_use_memory']) {
+        if ($core->getConfig('customer')['show_use_memory']) {
             echo "分配内存量 : " . convert(memory_get_usage(true));
             echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "内存的峰值 : " . convert(memory_get_peak_usage(true));
@@ -45,25 +36,8 @@ class Bootstrap
      *
      * @author macro chen <macro_fengye@163.com>
      */
-    public static function startConsole()
+    public function startConsole()
     {
-        if (APPLICATION_ENV == 'production') {
-            if (!ini_get('display_errors')) {
-                ini_set('display_errors', 'off');
-            }
-            error_reporting(0);
-        }
-        $container = new Container();
-        $container->register(new InitAppService());
-        self::$app = $container['app'];
-    }
-
-    /**
-     * 获取Slim APP
-     * @return \Slim\APP
-     */
-    public static function getApplication()
-    {
-        return self::$app;
+        CoreUtils::startApp();
     }
 }

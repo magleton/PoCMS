@@ -1,4 +1,6 @@
 <?php
+use \Core\Boot\Application;
+
 /**
  * 字节转换
  *
@@ -171,4 +173,10 @@ function writeLog($message, array $content, $file = '', $log_name = "LOG", $leve
     $logger->pushHandler(new \Monolog\Handler\StreamHandler($file ? $file : APP_PATH . '/log/log.log', $level));
     $function_name = $levels[$level];
     $logger->$function_name($message, $content);
+}
+
+
+function app()
+{
+    return Application::getInstance();
 }

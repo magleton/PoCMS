@@ -11,6 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Slim\Middleware\JwtAuthentication;
 
 class JwtService implements ServiceProviderInterface
 {
@@ -25,12 +26,12 @@ class JwtService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple["jwt"] = function ($container) {
-            return new \Slim\Middleware\JwtAuthentication([
+            return new JwtAuthentication([
                 "header" => "token",
                 "regexp" => "/(.*)/",
                 "secure" => false,
                 //"secret" => '62f47d0439a14f8bddb465dff4317fdb',
-                "secret" => \Core\Utils\CoreUtils::getContainer('sessionContainer')['secret'],
+                "secret" => app()->getContainer('sessionContainer')['secret'],
                 "path" => ["/user", "/loan", "/merchant"],
                 'passthrough' => ['/user/generateCaptcha', '/user/sendSMS', '/user/login', '/user/register', '/user/retrievePassword', '/user/logout'],
                 "error" => function ($request, $response, $arguments) {

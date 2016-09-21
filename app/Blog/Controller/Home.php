@@ -1,6 +1,7 @@
 <?php
 namespace Blog\Controller;
 
+use Core\Boot\Application;
 use Core\Controller\Controller;
 use Core\Utils\CoreUtils;
 
@@ -10,7 +11,9 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         echo "hello";
-        CoreUtils::getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
+        app()->getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
+        $redis = CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
+        print_r($redis->get('key2'));
         //$em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
         //$query = $em->createQuery('SELECT order_file FROM Entity\Models\OrderFile order_file');
         /*$this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);
@@ -22,7 +25,7 @@ class Home extends Controller
         //print_r(get_class_methods($co));
         //$co = CoreUtils::getContainer('redisCache' , ['server_name'=>'server2']);
         //$co = CoreUtils::getContainer('memcacheCacheDriver' , ['server_name'=>'server2','resource_id'=>2 , 'namespace'=>'abc']);
-        $memcacheCache = CoreUtils::getContainer('memcache');
+        $memcacheCache = app()->getContainer('memcache');
         //$memcacheCache->getMemcache()->set('name' , 'jerry');
         //$co->set('name' , 'macrochen');
         //$co->set('aaaa' , '0999');

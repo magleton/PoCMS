@@ -25,11 +25,11 @@ class MemcachedService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['memcached'] = function (Container $container) {
-            $cacheConfig = CoreUtils::getConfig('cache');
+            $cacheConfig = app()->getConfig('cache');
             $server_name = 'server1';
             $type = 'memcached';
-            if (CoreUtils::getContainer('server_name')) {
-                $server_name = CoreUtils::getContainer('server_name');
+            if (app()->getContainer('server_name')) {
+                $server_name = app()->getContainer('server_name');
             }
             $memcached = new \Memcached();
             foreach ($cacheConfig[$type][$server_name]['servers'] as $key => $server) {

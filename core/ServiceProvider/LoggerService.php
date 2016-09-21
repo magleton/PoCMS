@@ -9,7 +9,6 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Core\Utils\CoreUtils;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Monolog\Handler\StreamHandler;
@@ -27,7 +26,7 @@ class LoggerService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['logger'] = function (Container $container) {
-            $settings = CoreUtils::getConfig('slim')['settings'];
+            $settings = app()->getConfig('slim')['settings'];
             $logger = new Logger($settings['logger']['name']);
             $logger->pushProcessor(new UidProcessor());
             $logger->pushHandler(new StreamHandler($settings['logger']['path'], $settings['logger']['level']));

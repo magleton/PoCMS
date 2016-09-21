@@ -11,10 +11,7 @@ namespace Core\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Spiechu\LazyPimple\Factory\LazyLoadingValueHolderFactoryFactory;
-use Spiechu\LazyPimple\Factory\LazyServiceFactory;
 use Slim\App;
-use Core\Utils\CoreUtils;
 use Slim\Http\Body;
 
 class InitAppService implements ServiceProviderInterface
@@ -40,7 +37,7 @@ class InitAppService implements ServiceProviderInterface
         };
         $pimple['notFoundHandler'] = function ($container) {
             return function ($request, $response) use ($container) {
-                if (CoreUtils::getConfig('customer')['is_rest']) {
+                if (app()->getConfig('customer')['is_rest']) {
                     return $container['response']
                         ->withStatus(404)
                         ->withHeader('Content-Type', 'application/json')
@@ -61,7 +58,7 @@ class InitAppService implements ServiceProviderInterface
             return function ($request, $response, $exception) use ($container) {
                 $container->register(new LoggerService());
                 $container['logger']->error($exception->__toString());
-                if (CoreUtils::getConfig('customer')['is_rest']) {
+                if (app()->getConfig('customer')['is_rest']) {
                     return $container['response']
                         ->withStatus(500)
                         ->withHeader('Content-Type', 'application/json')

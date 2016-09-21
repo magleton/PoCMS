@@ -21,6 +21,7 @@ class JwtDataService implements ServiceProviderInterface
      * It should not get services.
      *
      * @param Container $pimple A container instance
+     * @return mixed
      */
     public function register(Container $pimple)
     {

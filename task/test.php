@@ -4,9 +4,9 @@
  * Date: 16-4-29
  * Time: 上午10:35
  */
-include_once 'boot/bootstrap.task.php';
+include_once 'Boot/bootstrap.task.php';
 
-class Test extends \Boot\BootTask
+class Test
 {
     private $shard_id = 1;
 
@@ -28,6 +28,8 @@ class Test extends \Boot\BootTask
         $redis->rpush('submit_order' , '201605250859498864');*/
         //echo "asasa";
         writeLog('test_message' , ['name'=>'jack'] , APP_PATH.'/log.log');
+        $redis = \Core\Utils\CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
+        $redis->set("key2" , "value2value2value2value2");
     }
 }
 

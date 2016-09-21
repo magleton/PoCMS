@@ -18,6 +18,7 @@
     "tuupola/cors-middleware": "*",
     "tuupola/slim-jwt-auth": "*",
     "guzzlehttp/guzzle":"*",
+    "vlucas/phpdotenv":"*",
     "ext-pdo": "*",
     "ext-simplexml": "*",
     "ext-exif": "*"
