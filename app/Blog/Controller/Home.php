@@ -10,12 +10,17 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        echo "hello";
+        $em = CoreUtils::getDbInstance(CoreUtils::ENTITY , "db1");
+        //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
+        /*if(get_class($em->getConnection()) == get_class($conn)){
+            echo "aaaaa";
+        }*/
+        /*echo "hello";
         haha();
         print_r(CoreUtils::getConfig('customer'));
         CoreUtils::getContainer('session')->set('user_info' , ['user_id'=>123 , 'user_phone'=>'15887798765']);
         $redis = CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
-        print_r($redis->get('key2'));
+        print_r($redis->get('key2'));*/
         //$em = CoreUtils::getDbInstance(CoreUtils::ENTITY , 'db1');
         //$query = $em->createQuery('SELECT order_file FROM Entity\Models\OrderFile order_file');
         /*$this->consoleDebug(self::LOG, 'tips', ['name' => 'jack']);

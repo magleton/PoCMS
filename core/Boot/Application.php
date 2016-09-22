@@ -8,24 +8,17 @@
 
 namespace Core\Boot;
 
-
+use Doctrine\Common\Cache\ArrayCache;
 use Slim\Container;
 use Core\ServiceProvider\InitAppService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Monolog\Logger;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\EventManager;
-use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Tools\Setup;
 
 final class Application
 {
-    const ENTITY = "entityManager";
-    const CONNECTION = "Connection";
-
     const REDIS = "redis";
     const MEMCACHE = "memcache";
     const MEMCACHED = 'memcached';
@@ -110,60 +103,33 @@ final class Application
     /**
      * 根据不同的数据库链接类型，实例化不同的数据库链接对象
      *
-     * @param $type
-     * $type == entityManager的实例可以支持事务
-     * $type == driverManager支持分库分表
      * @param $dbName string
      * @throws \Doctrine\ORM\ORMException
      * @return array
      */
-    public function getDbInstance($type, $dbName)
+    public function getDbInstance($dbName)
     {
-        if (!$this->getContainer("dataBase" . $type . $dbName)) {
+        if (!$this->getContainer('entityManager-' . $dbName)) {
             $dbConfig = $this->getConfig('db')[APPLICATION_ENV];
-            $db = NULL;
+            $entityManager = NULL;
             if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
-                $doctrine_config = $this->getConfig('doctrine');
-                $conn_config = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
-                $useSimpleAnnotationReader = $conn_config['useSimpleAnnotationReader'];
-                unset($conn_config['useSimpleAnnotationReader']);
-                $metadata_cache = $this->getContainer($doctrine_config['metadata_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
-                if ($useSimpleAnnotationReader) {
-                    $configuration = Setup::createConfiguration(APPLICATION_ENV == 'development');
-                    $configuration->setMetadataCacheImpl($metadata_cache);
-                    $annotationDriver = new AnnotationDriver(new AnnotationReader(), ROOT_PATH . "/entity/Models");
-                    AnnotationRegistry::registerLoader("class_exists");
-                    $configuration->setMetadataDriverImpl($annotationDriver);
-                } else {
-                    $configuration = Setup::createAnnotationMetadataConfiguration([
-                        ROOT_PATH . '/entity/Models',
-                    ], APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', $metadata_cache, $useSimpleAnnotationReader);
-                }
+                $doctrineConfig = $this->getConfig('doctrine');
+                $connConfig = $dbConfig[$dbName] ? $dbConfig[$dbName] : [];
+                $useSimpleAnnotationReader = $connConfig['useSimpleAnnotationReader'];
+                unset($connConfig['useSimpleAnnotationReader']);
                 if (APPLICATION_ENV == "development") {
-                    $configuration->setAutoGenerateProxyClasses(true);
+                    $cache = new ArrayCache();
                 } else {
-                    $configuration->setAutoGenerateProxyClasses(true);
+                    $cache = $this->getContainer($doctrineConfig['metadata_cache']['cache_name'], ['database' => $doctrineConfig['metadata_cache']['database']]);
                 }
-                //设置缓存组件
-                if ($doctrine_config['query_cache']['is_open']) {
-                    $query_cache = $this->getContainer($this->getConfig('doctrine')['query_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
-                    $configuration->setQueryCacheImpl($query_cache);
-                }
-                if ($doctrine_config['result_cache']['is_open']) {
-                    $result_cache = $this->getContainer($this->getConfig('doctrine')['result_cache']['cache_name'], ['database' => $doctrine_config['metadata_cache']['database']]);
-                    $configuration->setResultCacheImpl($result_cache);
-                }
-                if ($type == self::ENTITY) {
-                    $db = EntityManager::create($conn_config
-                        , $configuration, $this->getContainer("eventManager"));
-                } else if ($type == self::CONNECTION) {
-                    $db = DriverManager::getConnection($conn_config
-                        , $configuration, $this->getContainer("eventManager"));
-                }
+                $configuration = Setup::createAnnotationMetadataConfiguration([
+                    ROOT_PATH . '/entity/Models',
+                ], APPLICATION_ENV == 'development', ROOT_PATH . '/entity/Proxies/', $cache, $useSimpleAnnotationReader);
+                $entityManager = EntityManager::create($connConfig, $configuration, $this->getContainer("eventManager"));
             }
-            $this->container["dataBase" . $type . $dbName] = $db;
+            $this->container["entityManager-" . $dbName] = $entityManager;
         }
-        return $this->container["dataBase" . $type . $dbName];
+        return $this->container["entityManager-" . $dbName];
     }
 
     /**
@@ -192,7 +158,7 @@ final class Application
      */
     public function addEvent(array $params = [])
     {
-        $event_manager = $this->getContainer('doctrineEventManager');
+        $eventManager = $this->getContainer('doctrineEventManager');
         $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
@@ -210,13 +176,13 @@ final class Application
                 if (!isset($value['dbName'])) {
                     throw new \Exception("dbName必须设置");
                 }
-                $db_eventManager = $this->getDbInstance($value['type'], $value['dbName'])->getEventManager();
+                $db_eventManager = $this->getDbInstance($value['dbName'])->getEventManager();
                 $db_eventManager->addEventListener($key, new $class_name($data));
                 continue;
             }
-            $event_manager->addEventListener($key, new $class_name($data));
+            $eventManager->addEventListener($key, new $class_name($data));
         }
-        return $event_manager;
+        return $eventManager;
     }
 
     /**
@@ -229,13 +195,13 @@ final class Application
      */
     public function addSubscriber(array $params = [])
     {
-        $event_manager = $this->getContainer('doctrineEventManager');
+        $eventManager = $this->getContainer('doctrineEventManager');
         $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
                 throw new \Exception("class_name必须设置");
             }
-            $class_name = $value['class_name'];
+            $className = $value['class_name'];
             $data = $value['data'];
             if ($reflect == null) {
                 $reflect = new \ReflectionClass(Events::class);
@@ -247,65 +213,64 @@ final class Application
                 if (!isset($value['dbName'])) {
                     throw new \Exception("dbName必须设置");
                 }
-                $db_eventManager = $this->getDbInstance($value['type'], $value['dbName'])->getEventManager();
-                $db_eventManager->addEventSubscriber(new $class_name($data));
+                $dbEventManager = $this->getDbInstance($value['dbName'])->getEventManager();
+                $dbEventManager->addEventSubscriber(new $className($data));
                 continue;
             }
-            $event_manager->addEventSubscriber(new $class_name($data));
+            $eventManager->addEventSubscriber(new $className($data));
         }
-        return $event_manager;
+        return $eventManager;
     }
 
     /**
      * 获取拥有命名明空间的缓存实例
      *
-     * @param $cache_type
+     * @param $cacheType
      * @param array $params
      * @deprecated
      * @throws \Exception
      * @return mixed
      */
-    public function getCacheInstanceHaveNamespace($cache_type, array $params = [])
+    public function getCacheInstanceHaveNamespace($cacheType, array $params = [])
     {
         if (!isset($params['resource_id'])) {
             throw new \Exception('资源ID必须设置', 400);
         }
-        $resource_id = $params['resource_id'];
+        $resourceId = $params['resource_id'];
         unset($params['resource_id']);
-        $cache = $this->getContainer($cache_type . 'Cache', $params)->getOptions()->getResourceManager()->getResource($resource_id);
+        $cache = $this->getContainer($cacheType . 'Cache', $params)->getOptions()->getResourceManager()->getResource($resourceId);
         return $cache;
     }
 
     /**
      * 获取指定组件名字的对象
      *
-     * @param $component_name
+     * @param $componentName
      * @param array $param
      * @return mixed|null
      */
-    public function getContainer($component_name, $param = [])
+    public function getContainer($componentName, $param = [])
     {
-        if (!$this->container->has($component_name)) {
-            $class_name = '';
+        if (!$this->container->has($componentName)) {
+            $className = '';
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
-            if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($component_name) . "Service")) {
-                $class_name = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($component_name) . "Service";
-            } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($component_name) . "Service")) {
-                $class_name = 'Core\\ServiceProvider\\' . ucfirst($component_name) . "Service";
+            if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service")) {
+                $className = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service";
+            } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($componentName) . "Service")) {
+                $className = 'Core\\ServiceProvider\\' . ucfirst($componentName) . "Service";
             }
-            if ($class_name) {
-                $this->container->register(new $class_name(), $param);
+            if ($className) {
+                $this->container->register(new $className(), $param);
             } else {
                 return null;
             }
         }
-        $cacheObj = $this->container->get($component_name);
-        if ($component_name === self::REDIS && isset($param['database']) && $param['database']) {
+        $cacheObj = $this->container->get($componentName);
+        if ($componentName === self::REDIS && isset($param['database']) && $param['database']) {
             $cacheObj->select($param['database']);
         }
         return $cacheObj;
     }
-
 
     /**
      * Set the globally available instance of the container.
@@ -317,18 +282,17 @@ final class Application
         if (is_null(static::$instance)) {
             static::$instance = new static;
         }
-
         return static::$instance;
     }
 
     /**
      * Set the shared instance of the container.
      *
+     * @param Application $application
      * @return static
      */
     public static function setInstance($application = null)
     {
         return static::$instance = $application;
     }
-
 }

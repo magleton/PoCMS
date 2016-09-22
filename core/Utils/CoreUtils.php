@@ -7,7 +7,6 @@ use Doctrine\Common\EventManager;
 class CoreUtils
 {
     const ENTITY = "entityManager";
-    const CONNECTION = "Connection";
 
     const REDIS = "redis";
     const MEMCACHE = "memcache";
@@ -25,7 +24,7 @@ class CoreUtils
      */
     public static function getDbInstance($type, $dbName)
     {
-        return app()->getDbInstance($type, $dbName);
+        return self::getApplication()->getDbInstance($dbName);
     }
 
     /**
@@ -37,7 +36,7 @@ class CoreUtils
      */
     public static function getConfig($key)
     {
-        return app()->getConfig($key);
+        return self::getApplication()->getConfig($key);
     }
 
     /**
@@ -50,7 +49,7 @@ class CoreUtils
      */
     public static function addEvent(array $params = [])
     {
-        return app()->addEvent($params);
+        return self::getApplication()->addEvent($params);
     }
 
     /**
@@ -63,33 +62,33 @@ class CoreUtils
      */
     public static function addSubscriber(array $params = [])
     {
-        return app()->addSubscriber($params);
+        return self::getApplication()->addSubscriber($params);
     }
 
     /**
      * 获取拥有命名明空间的缓存实例
      *
-     * @param $cache_type
+     * @param $cacheType
      * @param array $params
      * @deprecated
      * @throws \Exception
      * @return mixed
      */
-    public static function getCacheInstanceHaveNamespace($cache_type, array $params = [])
+    public static function getCacheInstanceHaveNamespace($cacheType, array $params = [])
     {
-        return app()->getCacheInstanceHaveNamespace($cache_type, $params);
+        return self::getApplication()->getCacheInstanceHaveNamespace($cacheType, $params);
     }
 
     /**
      * 获取指定组件名字的对象
      *
-     * @param $component_name
+     * @param $componentName
      * @param array $param
      * @return mixed|null
      */
-    public static function getContainer($component_name, $param = [])
+    public static function getContainer($componentName, $param = [])
     {
-        return app()->getContainer($component_name, $param);
+        return self::getApplication()->getContainer($componentName, $param);
     }
 
     /**
