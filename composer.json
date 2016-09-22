@@ -24,6 +24,14 @@
     "ext-exif": "*"
   },
   "require-dev": {
+    "zendframework/zend-dom": "2.*",
+    "symfony/yaml": "2.5.*@dev",
+    "satooshi/php-coveralls": "dev-master",
+    "phpunit/phpunit": "~4.0",
+    "phpunit/dbunit": "1.*",
+    "facebook/webdriver": "~1.0",
+    "mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "^3.0.0",
+    "mysql-workbench-schema-exporter/doctrine2-exporter": "^3.0.0"
   },
   "bin": [
     "composer/bin/dbunit"
