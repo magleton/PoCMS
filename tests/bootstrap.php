@@ -11,7 +11,6 @@ define("MODEL_PATH", ROOT_PATH . "/app/Admin/");
 define('CACHE_DIR', ROOT_PATH . "/app/" . APP_NAME . "/");
 define('ROUTER_PATH', ROOT_PATH . "/app/" . APP_NAME . "/");
 define('ENTITY_NAMESPACE', 'Entity\\Models');//数据模型的命名空间
-define("API_MODE", 'test'); //设置马上消费API的模式
 define('STATIC_FILE_DIR', dirname(__DIR__) . '/static');
 require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
