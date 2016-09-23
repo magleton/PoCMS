@@ -12,17 +12,14 @@ class CoreUtils
     const MEMCACHE = "memcache";
     const MEMCACHED = 'memcached';
 
+
     /**
      * 根据不同的数据库链接类型，实例化不同的数据库链接对象
-     *
-     * @param $type
-     * $type == entityManager的实例可以支持事务
-     * $type == driverManager支持分库分表
      * @param $dbName string
      * @throws \Doctrine\ORM\ORMException
-     * @return array
+     * @return \Doctrine\ORM\EntityManager
      */
-    public static function getDbInstance($type, $dbName)
+    public static function getDbInstance($dbName)
     {
         return self::getApplication()->getDbInstance($dbName);
     }
