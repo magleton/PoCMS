@@ -10,7 +10,9 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $em = CoreUtils::getDbInstance(CoreUtils::ENTITY , "db1");
+        $em = CoreUtils::getDbInstance( "db1");
+        $obj = $em->find('Entity\Models\Eorder' , 17);
+        print_r($obj);
         //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
         /*if(get_class($em->getConnection()) == get_class($conn)){
             echo "aaaaa";

@@ -8,7 +8,10 @@
 
 namespace Core\Boot;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Slim\Container;
 use Core\ServiceProvider\InitAppService;
 use Doctrine\ORM\EntityManager;
