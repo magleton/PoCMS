@@ -4,7 +4,7 @@ use Facebook\WebDriver\Remote\WebDriverCapabilityType;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
-require_once 'vendor/symfony/yaml/Symfony/Component/Yaml/Tests/DumperTest.php';
+//require_once 'vendor/symfony/yaml/Symfony/Component/Yaml/Tests/DumperTest.php';
 
 /**
  * A test case.

@@ -15,7 +15,7 @@ class BrandTest extends TestCase
      * @var Brand
      */
     private $Brand;
-    
+
     private $entityManager;
 
     /**
@@ -24,9 +24,9 @@ class BrandTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->entityManager = Bootstrap::getApp()->container->get("entityManager");
+        $this->entityManager = \Core\Utils\CoreUtils::getDbInstance('db1');
         // TODO Auto-generated BrandTest::setUp()
-        
+
     }
 
     /**
@@ -49,14 +49,11 @@ class BrandTest extends TestCase
      */
     public function testSetId()
     {
-        $actor = new Actor();
-        $actor->setFirstName("chen");
-       $actor->setLastName("macro");
-       $dateTimeZone = new DateTimeZone("Asia/Shanghai");
-       $actor->setLastUpdate(new DateTime(time(), $dateTimeZone));
-       print_r($actor->getLastUpdate());
-       $this->entityManager -> persist($actor);
-        $this->entityManager->flush($actor);
+        $order = new \Entity\Models\Eorder();
+        $order->setLoanMoney(100);
+        $order->setManagerPhone('13456789870');
+        $this->entityManager->persist($order);
+        $this->entityManager->flush($order);
     }
 
 }
