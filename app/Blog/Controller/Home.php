@@ -21,12 +21,10 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $std = new \stdClass();
-        $std->abc = '';
-        $test = new Region();
-        $error = array();
+        $std = new \Blog\Models\Test();
+        $std->setFirstName('aa');
         $validator = CoreUtils::getContainer('validator');
-        print_r($validator->validate($std->abc , new NotBlank()));
+        print_r($validator->validate($std));
         die();
         //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
         /*if(get_class($em->getConnection()) == get_class($conn)){
