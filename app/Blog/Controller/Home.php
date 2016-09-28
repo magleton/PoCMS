@@ -4,15 +4,30 @@ namespace Blog\Controller;
 use Core\Boot\Application;
 use Core\Controller\Controller;
 use Core\Utils\CoreUtils;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Entity\Models\Region;
+use Entity\Models\Test;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validation;
+
+
+
 
 class Home extends Controller
 {
 
     public function index($request, $response, $args)
     {
-        $em = CoreUtils::getDbInstance( "db1");
-        $obj = $em->find('Entity\Models\Eorder' , 17);
-        print_r($obj);
+        $std = new \stdClass();
+        $std->abc = '';
+        $test = new Region();
+        $error = array();
+        $validator = CoreUtils::getContainer('validator');
+        print_r($validator->validate($std->abc , new NotBlank()));
+        die();
         //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
         /*if(get_class($em->getConnection()) == get_class($conn)){
             echo "aaaaa";
