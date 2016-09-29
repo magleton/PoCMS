@@ -1,17 +1,12 @@
 <?php
 namespace Blog\Controller;
 
-use Core\Boot\Application;
 use Core\Controller\Controller;
 use Core\Utils\CoreUtils;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Blog\Models\Employee;
+use Entity\Models\Eorder;
 use Entity\Models\Region;
 use Entity\Models\Test;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Validation;
 
 
 
@@ -21,10 +16,23 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $std = new \Blog\Models\Test();
-        $std->setFirstName('aa');
-        $validator = CoreUtils::getContainer('validator');
-        print_r($validator->validate($std));
+        $em = CoreUtils::getDbInstance('db1');
+        //$e = $em->find('Entity\Models\Person' , 2);
+        $employee = new Employee();
+        $employee->setName('macro');
+        $employee->setPosition('11111');
+        $employee->setSalary('1111');
+        $error = CoreUtils::getContainer('validator')->validate($employee);
+        $user_id = 0;
+        if(!count($error)) {
+            $em->persist($employee);
+            $em->flush();
+        }else{
+            print_r($error);die();
+        }
+        echo $employee->getId();
+        $e = $em->find('Entity\Models\Person' , $employee->getId());
+        print_r($e);
         die();
         //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
         /*if(get_class($em->getConnection()) == get_class($conn)){

@@ -8,44 +8,44 @@ $db = [
                 'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
                 'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
                 'driver' => 'pdo_mysql',
-                'host' => '10.0.25.2',
-                'port' => 3308,
+                'host' => '127.0.0.1',
+                'port' => 3306,
                 'user' => 'root',
-                'password' => '111111',
-                'dbname' => 'zdai',
+                'password' => 'root',
+                'dbname' => 'test',
                 "charset" => "UTF8",
                 'global' => array(
                     'driver' => 'pdo_mysql',
-                    'host' => '10.0.25.2',
-                    'port' => 3308,
-                    'dbname' => 'zdai',
+                    'host' => '127.0.0.1',
+                    'port' => 3306,
+                    'dbname' => 'test',
                     'user' => 'root',
-                    'password' => '111111',
+                    'password' => 'root',
                     'charset' => 'UTF8'
                 ),
                 'shards' => array(
                     array(
                         'id' => 1,
                         'driver' => 'pdo_mysql',
-                        'host' => '10.0.25.2',
+                        'host' => '127.0.0.1',
                         'user' => 'root',
-                        'password' => '111111',
-                        'dbname' => 'zdai',
+                        'password' => 'root',
+                        'dbname' => 'test',
                         'charset' => 'UTF8',
-                        'port' => 3308
+                        'port' => 3306
                     ),
                     array(
                         'id' => 2,
                         'driver' => 'pdo_mysql',
-                        'host' => '192.168.0.182',
+                        'host' => '127.0.0.1',
                         'user' => 'root',
-                        'password' => '111111',
+                        'password' => 'root',
                         'dbname' => 'test',
                         'charset' => 'UTF8',
                         'port' => 3306
                     )
                 ),
-                "useSimpleAnnotationReader" => true,
+                "useSimpleAnnotationReader" => false,
             ),
 
             "db2" => array(
