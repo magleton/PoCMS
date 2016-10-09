@@ -3,16 +3,16 @@
  * Created by PhpStorm.
  * User: macro
  * Date: 16-8-26
- * Time: 下午4:03
+ * Time: 上午9:24
  */
 
-namespace Core\ServiceProvider;
-
+namespace Core\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Slim\Flash\Messages;
 
-class JwtDataService implements ServiceProviderInterface
+class FlashService implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -21,10 +21,11 @@ class JwtDataService implements ServiceProviderInterface
      * It should not get services.
      *
      * @param Container $pimple A container instance
-     * @return mixed
      */
     public function register(Container $pimple)
     {
-        return new StdClass;
+        $pimple['flash'] = function (Container $container) {
+            return new Messages();
+        };
     }
 }

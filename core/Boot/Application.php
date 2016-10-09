@@ -10,7 +10,7 @@ namespace Core\Boot;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Slim\Container;
-use Core\ServiceProvider\InitAppService;
+use Core\Providers\InitAppService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Monolog\Logger;
@@ -254,10 +254,10 @@ final class Application
         if (!$this->container->has($componentName)) {
             $className = '';
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
-            if (class_exists(SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service")) {
-                $className = SERVICE_NAMESPACE . '\\Service\\' . ucfirst($componentName) . "Service";
-            } else if (class_exists('Core\\ServiceProvider\\' . ucfirst($componentName) . "Service")) {
-                $className = 'Core\\ServiceProvider\\' . ucfirst($componentName) . "Service";
+            if (class_exists(SERVICE_NAMESPACE . '\\Providers\\' . ucfirst($componentName) . "Service")) {
+                $className = SERVICE_NAMESPACE . '\\Providers\\' . ucfirst($componentName) . "Service";
+            } else if (class_exists('Core\\Providers\\' . ucfirst($componentName) . "Service")) {
+                $className = 'Core\\Providers\\' . ucfirst($componentName) . "Service";
             }
             if ($className) {
                 $this->container->register(new $className(), $param);

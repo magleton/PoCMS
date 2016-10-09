@@ -5,7 +5,7 @@
  * Date: 16-8-26
  * Time: 上午9:24
  */
-namespace Core\ServiceProvider;
+namespace Core\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

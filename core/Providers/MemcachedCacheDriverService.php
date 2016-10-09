@@ -6,10 +6,8 @@
  * Time: 20:12
  */
 
-namespace Core\ServiceProvider;
+namespace Core\Providers;
 
-
-use Doctrine\Common\Cache\MemcachedCache;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -3,16 +3,15 @@
  * Created by PhpStorm.
  * User: Administrator
  * Date: 2016/9/1
- * Time: 19:45
+ * Time: 19:46
  */
 
-namespace Core\ServiceProvider;
-
+namespace Core\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class MemcacheService implements ServiceProviderInterface
+class MemcachedService implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -24,18 +23,18 @@ class MemcacheService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['memcache'] = function (Container $container) {
+        $pimple['memcached'] = function (Container $container) {
             $cacheConfig = $container['application']->getConfig('cache');
             $server_name = 'server1';
-            $type = 'memcache';
+            $type = 'memcached';
             if ($container['application']->getContainer('server_name')) {
                 $server_name = $container['application']->getContainer('server_name');
             }
-            $memcache = new \Memcache();
+            $memcached = new \Memcached();
             foreach ($cacheConfig[$type][$server_name]['servers'] as $key => $server) {
-                $memcache->addServer($server['host'], $server['port'], $server['timeout']);
+                $memcached->addServer($server['host'], $server['port'], $server['timeout']);
             }
-            return $memcache;
+            return $memcached;
         };
     }
 

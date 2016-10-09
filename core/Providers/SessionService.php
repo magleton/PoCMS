@@ -6,8 +6,7 @@
  * Time: 上午8:38
  */
 
-namespace Core\ServiceProvider;
-
+namespace Core\Providers;
 
 use Core\Middleware\Session;
 use Pimple\Container;

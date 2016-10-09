@@ -6,7 +6,7 @@
  * Time: 下午3:52
  */
 
-namespace Core\ServiceProvider;
+namespace Core\Providers;
 
 
 use Pimple\Container;

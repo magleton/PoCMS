@@ -1,12 +1,12 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: macro
- * Date: 16-8-26
- * Time: 下午4:07
+ * User: Administrator
+ * Date: 2016/8/26
+ * Time: 22:38
  */
 
-namespace Core\ServiceProvider;
+namespace Blog\Providers;
 
 
 use Pimple\Container;
@@ -26,7 +26,7 @@ class ConfigService implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['config'] = function ($container) {
-            return new Config([APP_PATH . 'Config', ROOT_PATH . '/core/Config']);
+            return new Config([APP_PATH . 'Config', APP_PATH . 'Config/Test', ROOT_PATH . '/core/Config']);
         };
     }
 }

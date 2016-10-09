@@ -6,7 +6,7 @@
  * Time: 下午3:55
  */
 
-namespace Core\ServiceProvider;
+namespace Core\Providers;
 
 
 use Core\Utils\CoreUtils;

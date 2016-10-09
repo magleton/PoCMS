@@ -6,11 +6,10 @@
  * Time: 下午3:04
  */
 
-namespace Core\ServiceProvider;
+namespace Core\Providers;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Validator\Validation;
