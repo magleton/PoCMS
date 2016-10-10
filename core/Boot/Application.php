@@ -252,12 +252,12 @@ final class Application
     public function getContainer($componentName, $param = [])
     {
         if (!$this->container->has($componentName)) {
-            $className = '';
             if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
-            if (class_exists(SERVICE_NAMESPACE . '\\Providers\\' . ucfirst($componentName) . "Service")) {
-                $className = SERVICE_NAMESPACE . '\\Providers\\' . ucfirst($componentName) . "Service";
-            } else if (class_exists('Core\\Providers\\' . ucfirst($componentName) . "Service")) {
-                $className = 'Core\\Providers\\' . ucfirst($componentName) . "Service";
+            $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $componentName)))));
+            if (class_exists(SERVICE_NAMESPACE . '\\Providers\\' . $className . "Service")) {
+                $className = SERVICE_NAMESPACE . '\\Providers\\' . $className . "Service";
+            } else if (class_exists('Core\\Providers\\' . $className . "Service")) {
+                $className = 'Core\\Providers\\' . $className . "Service";
             }
             if ($className) {
                 $this->container->register(new $className(), $param);
