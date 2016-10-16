@@ -77,6 +77,7 @@ $common_config = [
         'is_rest' => true, //接口形式提供服务
         'is_api_rate_limit' => false,  // API速率限制
         'show_use_memory' => false,
+        'initial_epoch' => 1476614506000, //用于SnowFlake产生ID
     ],
 
     //定义数据缓存的Cache

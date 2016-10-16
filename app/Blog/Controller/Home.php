@@ -4,11 +4,12 @@ namespace Blog\Controller;
 use Core\Controller\Controller;
 use Core\Utils\CoreUtils;
 use Blog\Models\Employee;
+use Core\Utils\SnowFlake;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Sharding\ShardManager;
 use Entity\Models\Eorder;
 use Entity\Models\Region;
 use Entity\Models\Test;
-
-
 
 
 class Home extends Controller
@@ -17,8 +18,14 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         $em = CoreUtils::getDbInstance('db1');
+        echo SnowFlake::generateID();
+        //print_r(CoreUtils::getContainer('current_database'));
+        $em->getConnection()->connect(1);
+        $r = $em->getConnection()->query('select * from address WHERE id=89584885122377')->fetch();
+        print_r($r);
+        //print_r($em->getConnection()->query('SELECT @@server_id as server_id LIMIT 1')->fetch());
         //$e = $em->find('Entity\Models\Person' , 2);
-        $employee = new Employee();
+        /*$employee = new Employee();
         $employee->setName('macro');
         $employee->setPosition('11111');
         $employee->setSalary('1111');
@@ -32,7 +39,7 @@ class Home extends Controller
         }
         echo $employee->getId();
         $e = $em->find('Entity\Models\Person' , $employee->getId());
-        print_r($e);
+        print_r($e);*/
         die();
         //$conn = CoreUtils::getDbInstance(CoreUtils::CONNECTION , 'db1');
         /*if(get_class($em->getConnection()) == get_class($conn)){
@@ -59,7 +66,7 @@ class Home extends Controller
         //$memcacheCache->getMemcache()->set('name' , 'jerry');
         //$co->set('name' , 'macrochen');
         //$co->set('aaaa' , '0999');
-       // $co->addItem('aaaa' , 'lllllllllll');
+        // $co->addItem('aaaa' , 'lllllllllll');
         //echo $co->getItem('aaaa');
         //print_r(get_class_methods($co->getOptions()->getResourceManager()->getResource('an')->hSet('gghf' , 'mmm' , 90)));
         /*$this->render($response, '/home/index.twig', array(
@@ -80,7 +87,8 @@ class Home extends Controller
     }
 
 
-    public function test($request , $response , $args){
+    public function test($request, $response, $args)
+    {
         /* @var $eventDispatcher EventDispatcherInterface */
         $eventDispatcher = $this->getContainer('event_dispatcher');
         /* @var $eventEmittingService EventEmittingService */
