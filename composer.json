@@ -26,7 +26,6 @@
     "ext-exif": "*"
   },
   "require-dev": {
-    "zendframework/zend-dom": "2.*",
     "symfony/yaml": "2.5.*@dev",
     "satooshi/php-coveralls": "dev-master",
     "phpunit/phpunit": "~4.0",
@@ -46,7 +45,8 @@
       "Core\\": "core\\",
       "Entity\\": "entity\\",
       "Blog\\": "app\\Blog",
-      "CMS\\": "app\\CMS"
+      "CMS\\": "app\\CMS",
+      "Task\\": "task\\"
     },
     "files": [
       "core\\Lib\\functions_include.php"

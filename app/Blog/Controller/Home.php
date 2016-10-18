@@ -20,7 +20,7 @@ class Home extends Controller
     public function index($request, $response, $args)
     {
         //$em = CoreUtils::getDbInstance('db1');
-        print_r(get_class_methods($this->app->getContainer('session')));
+        print_r(get_class_methods($this->app->component('session')));
         //echo SnowFlake::generateID();
         //print_r(CoreUtils::getContainer('current_database'));
         //$em->getConnection()->connect(1);

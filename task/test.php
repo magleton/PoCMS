@@ -6,17 +6,8 @@
  */
 include_once 'Boot/bootstrap.task.php';
 
-class Test
+class Test extends \Task\Boot\BootTask
 {
-    protected $app;
-
-    public function __construct()
-    {
-        $this->app = new \Core\Boot\Application();
-        $this->app->startConsole();
-    }
-
-
     private $shard_id = 1;
 
     public function run()
@@ -39,9 +30,9 @@ class Test
         // writeLog('test_message' , ['name'=>'jack'] , APP_PATH.'/log.log');
         //$redis = \Core\Utils\CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
         //$redis->set("key2" , "value2value2value2value2");
-        $db1 = $this->app->getDbInstance('db1');
-        $result = $db1->getConnection()->query('select * from address limit 1')->fetch();
-        print_r($result);
+        $db1 = $this->app->db('db1');
+        //$result = $db1->getConnection()->query('select * from address limit 1')->fetch();
+        print_r($db1);
         //$e = $this->getContainer('session');
         //print_r($e);
         echo "aaaa";

@@ -11,6 +11,9 @@ use Interop\Container\ContainerInterface;
 
 class Controller
 {
+    /**
+     * 日志记录相关
+     */
     const LOG = 'log';    // 一般日志
     const ERROR = 'error';  // 错误日志
     const INFO = 'info';   // 信息日志
@@ -20,15 +23,25 @@ class Controller
     const LOG_CSS = 'log';    // 自定义日志的样式，第三个参数为css样式
 
     /**
+     * 数据存储相关
+     */
+    const ENTITY = "entityManager";
+    const REDIS = "redis";
+    const MEMCACHE = "memcache";
+    const MEMCACHED = 'memcached';
+
+    /**
      * Slim框架自动注册的Container
      * @var ContainerInterface
      */
+
     protected $ci;
 
     /**
      * 整个框架的应用
      * @var \Core\Boot\Application
      */
+
     protected $app;
 
     public function __construct(ContainerInterface $ci)
@@ -45,7 +58,7 @@ class Controller
      */
     protected function render($response, $template, $data)
     {
-        return CoreUtils::getContainer('view')->render($response, $template, $data);
+        return $this->app->component('view')->render($response, $template, $data);
     }
 
     /**
@@ -57,9 +70,9 @@ class Controller
      */
     protected function consoleDebug($log_level = self::LOG, $tips, $data, $style = '')
     {
-        if (extension_loaded('curl') && CoreUtils::getConfig('debug')['is_open_socket_log_debug']) {
+        if (extension_loaded('curl') && $this->app->config('debug')['is_open_socket_log_debug']) {
             $slog = new \Slog();
-            $slog->config(CoreUtils::getConfig('debug')['socket_log'], 'config');
+            $slog->config($this->app->config('debug')['socket_log'], 'config');
             $log = [
                 'tips' => $tips,
                 'log' => $data
