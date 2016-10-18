@@ -280,25 +280,25 @@ final class Application
 
     /**
      * Set the globally available instance of the container.
-     *
+     * @deprecated
      * @return static
      */
-    /*public static function getInstance()
+    public static function getInstance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
         }
         return static::$instance;
-    }*/
+    }
 
     /**
      * Set the shared instance of the container.
-     *
+     * @deprecated
      * @param Application $application
      * @return static
      */
-    /*public static function setInstance($application = null)
+    public static function setInstance($application = null)
     {
         return static::$instance = $application;
-    }*/
+    }
 }
