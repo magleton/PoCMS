@@ -12,17 +12,20 @@ use Entity\Models\Region;
 use Entity\Models\Test;
 
 
+
 class Home extends Controller
 {
 
+
     public function index($request, $response, $args)
     {
-        $em = CoreUtils::getDbInstance('db1');
-        echo SnowFlake::generateID();
+        //$em = CoreUtils::getDbInstance('db1');
+        print_r(get_class_methods($this->app->getContainer('session')));
+        //echo SnowFlake::generateID();
         //print_r(CoreUtils::getContainer('current_database'));
-        $em->getConnection()->connect(1);
-        $r = $em->getConnection()->query('select * from address WHERE id=89584885122377')->fetch();
-        print_r($r);
+        //$em->getConnection()->connect(1);
+       // $r = $em->getConnection()->query('select * from address WHERE id=89584885122377')->fetch();
+        //print_r(($em->getConnection()->getActiveShardId ()));
         //print_r($em->getConnection()->query('SELECT @@server_id as server_id LIMIT 1')->fetch());
         //$e = $em->find('Entity\Models\Person' , 2);
         /*$employee = new Employee();

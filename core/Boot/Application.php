@@ -102,7 +102,7 @@ final class Application
         $this->container = new Container();
         $this->container->register(new InitAppService());
         $this->container['application'] = $this;
-        static::setInstance($this);
+       // static::setInstance($this);
     }
 
     /**
@@ -283,13 +283,13 @@ final class Application
      *
      * @return static
      */
-    public static function getInstance()
+    /*public static function getInstance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
         }
         return static::$instance;
-    }
+    }*/
 
     /**
      * Set the shared instance of the container.
@@ -297,8 +297,8 @@ final class Application
      * @param Application $application
      * @return static
      */
-    public static function setInstance($application = null)
+    /*public static function setInstance($application = null)
     {
         return static::$instance = $application;
-    }
+    }*/
 }

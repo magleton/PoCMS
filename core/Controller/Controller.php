@@ -7,6 +7,7 @@
 namespace Core\Controller;
 
 use Core\Utils\CoreUtils;
+use Interop\Container\ContainerInterface;
 
 class Controller
 {
@@ -17,6 +18,23 @@ class Controller
     const TRACE = 'trace';  // 输入日志同时会打出调用栈
     const ALERT = 'alert';  // 将日志以alert方式弹出
     const LOG_CSS = 'log';    // 自定义日志的样式，第三个参数为css样式
+
+    /**
+     * Slim框架自动注册的Container
+     * @var ContainerInterface
+     */
+    protected $ci;
+
+    /**
+     * 整个框架的应用
+     * @var \Core\Boot\Application
+     */
+    protected $app;
+
+    public function __construct(ContainerInterface $ci)
+    {
+        $this->app = $ci->application;
+    }
 
     /**
      * 模板渲染
