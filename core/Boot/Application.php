@@ -102,7 +102,7 @@ final class Application
         $this->container = new Container();
         $this->container->register(new InitAppService());
         $this->container['application'] = $this;
-        // static::setInstance($this);
+        static::setInstance($this);
     }
 
     /**
@@ -280,7 +280,7 @@ final class Application
 
     /**
      * Set the globally available instance of the container.
-     * @deprecated
+     *
      * @return static
      */
     public static function getInstance()
@@ -293,7 +293,7 @@ final class Application
 
     /**
      * Set the shared instance of the container.
-     * @deprecated
+     *
      * @param Application $application
      * @return static
      */
