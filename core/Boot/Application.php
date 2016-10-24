@@ -299,7 +299,7 @@ final class Application
 
 
     /**
-     * 获取业务模型实例
+     * 获取业务模型或者实体模型实例
      * @param $model  模型的名字
      * @param array $parameters 实例化时需要的参数
      * @param int $type 模型类型
@@ -322,7 +322,7 @@ final class Application
 
 
     /**
-     * 
+     *
      * 获取EntityRepository
      * @param $entityName
      * @param $db
