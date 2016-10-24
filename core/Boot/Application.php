@@ -253,10 +253,10 @@ final class Application
     public function component($componentName, $param = [])
     {
         if (!$this->container->has($componentName)) {
-            if (!defined('SERVICE_NAMESPACE')) define('SERVICE_NAMESPACE', APP_NAME);
+            if (!defined('PROVIDERS_NAMESPACE')) define('PROVIDERS_NAMESPACE', APP_NAME);
             $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $componentName)))));
-            if (class_exists(SERVICE_NAMESPACE . '\\Providers\\' . $className . "Service")) {
-                $className = SERVICE_NAMESPACE . '\\Providers\\' . $className . "Service";
+            if (class_exists(PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Service")) {
+                $className = PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Service";
             } else if (class_exists('Core\\Providers\\' . $className . "Service")) {
                 $className = 'Core\\Providers\\' . $className . "Service";
             }
@@ -295,5 +295,20 @@ final class Application
     public static function setInstance($application = null)
     {
         return static::$instance = $application;
+    }
+
+    /**
+     * @param $model
+     * @param array $parameters
+     * @return null|string
+     */
+    public function model($model, array $parameters = [])
+    {
+        if (!defined('MODEL_NAMESPACE')) define('MODEL_NAMESPACE', APP_NAME);
+        $className = MODEL_NAMESPACE . '\\Models\\' . ucfirst($model) . 'Model';
+        if (class_exists($className)) {
+            return new $className($parameters);
+        }
+        return null;
     }
 }
