@@ -319,4 +319,23 @@ final class Application
         }
         return null;
     }
+
+
+    /**
+     * 
+     * 获取EntityRepository
+     * @param $entityName
+     * @param $db
+     * @return \Doctrine\ORM\EntityRepository | null
+     */
+    public function repository($entityName, $db)
+    {
+        if (!defined('REPOSITORIES_NAMESPACE')) define('REPOSITORIES_NAMESPACE', 'Entity\\Repositories');
+        if (!defined('ENTITY_NAMESPACE')) define('ENTITY_NAMESPACE', 'Entity\\Models');
+        $className = REPOSITORIES_NAMESPACE . '\\' . ucfirst($entityName) . 'Repository';
+        if (class_exists($className)) {
+            return $this->db($db)->getRepository(ENTITY_NAMESPACE . '\\' . ucfirst($entityName));
+        }
+        return null;
+    }
 }
