@@ -21,7 +21,7 @@ class FuncUtils
         srand((float)microtime() * 1000000);
         shuffle($arr[$type]);
         for ($i = 0; $i < $len; $i++) {
-            $word .= $arr[$type][random(0, $cnt)];
+            $word .= $arr[$type][rand(0, $cnt)];
         }
         if (strlen($word) > $len) {
             $word = substr($word, 0, $len);
