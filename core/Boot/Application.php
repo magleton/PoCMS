@@ -298,14 +298,16 @@ final class Application
     }
 
     /**
-     * @param $model
-     * @param array $parameters
-     * @return null|string
+     * 获取业务模型实例
+     * @param $model  模型的名字
+     * @param array $parameters 实例化时需要的参数
+     * @param string $path 附加路径
+     * @return mixed
      */
-    public function model($model, array $parameters = [])
+    public function model($model, array $parameters = [], $path = '')
     {
         if (!defined('MODEL_NAMESPACE')) define('MODEL_NAMESPACE', APP_NAME);
-        $className = MODEL_NAMESPACE . '\\Models\\' . ucfirst($model) . 'Model';
+        $className = MODEL_NAMESPACE . '\\Models\\' . ($path ? ucfirst($path) . '\\' : '') . ucfirst($model) . 'Model';
         if (class_exists($className)) {
             return new $className($parameters);
         }
