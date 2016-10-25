@@ -2,7 +2,9 @@
 //自定义配置
 $customer_config = [
     'middleware' => [
-        'sessionMiddleware' => \Core\Middleware\SessionMiddleware::class
+        'ssss' => stdClass::class,
+        'checkLogin' => stdClass::class,
+        'sessionMiddleware' => \Core\Middleware\SessionMiddleware::class,
     ],
 ];
 
