@@ -25,7 +25,7 @@ class RouterFileService implements ServiceProviderInterface
     {
         $pimple['routerFile'] = function (Container $container) {
             if (!file_exists(APP_PATH . '/Routers/router.lock') || APPLICATION_ENV == "development") {
-                if (file_exists($container['application']->config('customer')['router_cache_file'])) @unlink($container['application']->config('customer')['router_cache_file']);
+                if (file_exists($container['application']->config('customer.router_cache_file'))) @unlink($container['application']->config('customer.router_cache_file'));
                 $router_file_contents = '<?php ' . "\n" . '$app = $container[\'application\']->component(\'app\')';
                 if ($container['application']->config('middleware')) {
                     foreach ($container['application']->config('middleware') as $key => $middleware) {
@@ -45,7 +45,7 @@ class RouterFileService implements ServiceProviderInterface
                     }
                 }
                 file_put_contents(APP_PATH . 'Routers/router.php', $router_file_contents);
-                $container['router']->setCacheFile($container['application']->config('customer')['router_cache_file']);
+                $container['router']->setCacheFile($container['application']->config('customer.router_cache_file'));
                 touch(APP_PATH . '/Routers/router.lock');
             }
             require_once APP_PATH . 'Routers/router.php';
