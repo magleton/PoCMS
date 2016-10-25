@@ -29,7 +29,7 @@ class RouterFileService implements ServiceProviderInterface
                 $router_file_contents = '<?php ' . "\n" . '$app = $container[\'application\']->component(\'app\')';
                 if ($container['application']->config('middleware')) {
                     foreach ($container['application']->config('middleware') as $key => $middleware) {
-                        if (is_callable($key)) {
+                        if (function_exists($key) && is_callable($key)) {
                             $router_file_contents .= '->add("' . $key . '")';
                         } elseif (class_exists($middleware)) {
                             $router_file_contents .= '->add($container[\'application\']->component("' . $key . '"))';

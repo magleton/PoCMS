@@ -36,6 +36,13 @@ function checkPermission($request, $response, $next){
  * @author macro chen <macro_fengye@163.com>
  */
 function ssss($request, $response, $next){
+    logger(__FUNCTION__ , [__FUNCTION__] , APP_PATH.'/log/ppl.log');
+    $response = $next($request, $response);
+    return $response;
+}
+
+function kk($request, $response, $next){
+    logger(__FUNCTION__ , [__FUNCTION__] , APP_PATH.'/log/ppl.log');
     $response = $next($request, $response);
     return $response;
 }

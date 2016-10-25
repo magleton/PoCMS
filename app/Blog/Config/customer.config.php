@@ -3,7 +3,8 @@
 $customer_config = [
     'middleware' => [
         'ssss' => stdClass::class,
-        'checkLogin' => stdClass::class,
+        'kk' => stdClass::class,
+        //'checkLogin' => stdClass::class,
         'sessionMiddleware' => \Core\Middleware\SessionMiddleware::class,
     ],
 ];

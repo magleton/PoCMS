@@ -2,8 +2,10 @@
 namespace Blog\Controller;
 
 use Core\Controller\Controller;
+use Core\Utils\Constants;
 use Core\Utils\CoreUtils;
 use Blog\Models\Employee;
+use Core\Utils\FuncUtils;
 use Core\Utils\SnowFlake;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Sharding\ShardManager;
@@ -18,9 +20,11 @@ class Home extends Controller
 
 
     public function index($request, $response, $args)
-    {
+    {echo $this->app->config('db.development.db1.wrapperClass');
         //$em = CoreUtils::getDbInstance('db1');
-        print_r(get_class_methods($this->app->component('session')));
+       // echo FuncUtils::generateSalt();
+
+        //print_r(get_class_methods($this->app->component('session')));
         //echo SnowFlake::generateID();
         //print_r(CoreUtils::getContainer('current_database'));
         //$em->getConnection()->connect(1);
