@@ -91,6 +91,11 @@ $common_config = [
             'cache_name' => 'memcacheCache'
         ],
     ],
+
+    //IP地址白名单列表
+    'ip_list' => [
+        '127.0.0.1'
+    ],
 ];
 
 return $common_config;

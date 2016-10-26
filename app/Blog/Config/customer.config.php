@@ -4,6 +4,7 @@ $customer_config = [
     'middleware' => [
         'ssss' => stdClass::class,
         'kk' => stdClass::class,
+        'ip_filter' => \Blog\Providers\IpFilterService::class,
         //'checkLogin' => stdClass::class,
         'sessionMiddleware' => \Core\Middleware\SessionMiddleware::class,
     ],

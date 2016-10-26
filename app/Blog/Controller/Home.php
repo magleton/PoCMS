@@ -20,7 +20,7 @@ class Home extends Controller
 
 
     public function index($request, $response, $args)
-    {echo $this->app->config('db.development.db1.wrapperClass');
+    {echo "aaaa";
         //$em = CoreUtils::getDbInstance('db1');
        // echo FuncUtils::generateSalt();
 
