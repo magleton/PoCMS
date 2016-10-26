@@ -9,6 +9,7 @@ use Core\Utils\FuncUtils;
 use Core\Utils\SnowFlake;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Sharding\ShardManager;
+use Entity\Models\Address;
 use Entity\Models\Eorder;
 use Entity\Models\Region;
 use Entity\Models\Test;
@@ -20,7 +21,10 @@ class Home extends Controller
 
 
     public function index($request, $response, $args)
-    {echo "aaaa";
+    {
+        $m = $this->app->model('address');
+        $r = $m->validate();
+        print_r($r->__toString());
         //$em = CoreUtils::getDbInstance('db1');
        // echo FuncUtils::generateSalt();
 
