@@ -63,14 +63,7 @@ class Model
             foreach ($this->rules as $property => $constraint) {
                 $constraints = [];
                 foreach ($constraint as $cls => $params) {
-                    $class = '';
-                    if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
-                        $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
-                    } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
-                        $class = APP_NAME . '\\Constraints\\' . $cls;
-                    } elseif (class_exists('Core\\Constraints\\' . $cls)) {
-                        $class = 'Core\\Constraints\\' . $cls;
-                    }
+                    $class = $this->getConstraintClass($cls);
                     if (!empty(trim($class))) $constraints[] = new $class($params);
                 }
                 $classMetadata->addPropertyConstraints($property, $constraints);
@@ -94,14 +87,7 @@ class Model
                 if (isset($this->rules[$key])) {
                     $constraints = [];
                     foreach ($this->rules[$key] as $cls => $params) {
-                        $class = '';
-                        if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
-                            $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
-                        } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
-                            $class = APP_NAME . '\\Constraints\\' . $cls;
-                        } elseif (class_exists('Core\\Constraints\\' . $cls)) {
-                            $class = 'Core\\Constraints\\' . $cls;
-                        }
+                        $class = $this->getConstraintClass($cls);
                         if (!empty(trim($class))) $constraints[] = new $class($params);
                     }
                     $errors = $this->validator->validate($val, $constraints);
@@ -112,5 +98,26 @@ class Model
                 }
             }
         }
+    }
+
+    /**
+     * @param string $cls
+     *
+     * @return string
+     */
+    private function getConstraintClass($cls = '')
+    {
+        $class = '';
+        if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
+            $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
+            return $class;
+        } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
+            $class = APP_NAME . '\\Constraints\\' . $cls;
+            return $class;
+        } elseif (class_exists('Core\\Constraints\\' . $cls)) {
+            $class = 'Core\\Constraints\\' . $cls;
+            return $class;
+        }
+        return $class;
     }
 }

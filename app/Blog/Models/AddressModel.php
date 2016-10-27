@@ -59,7 +59,7 @@ class AddressModel extends Model
          $this->validateObj->setAddress('aaa');
          return $this->validate();*/
         try {
-            $this->validateField(['address' => 'aaaff']);
+            $this->validateField(['address' => 'aaaffgggt']);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
