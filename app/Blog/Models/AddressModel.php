@@ -28,13 +28,13 @@ class AddressModel extends Model
      */
     protected $rules = [
         'address' => [
-            /*'NotBlank' => ['message' => 'address不能为空'],
+            'NotBlank' => ['message' => 'address不能为空'],
             'Length' => [
                 'min' => 8,
                 'max' => 16,
                 'minMessage' => '不能少于8',
                 'maxMessage' => '不能大于16'
-            ],
+            ],/*
             'Email' => [
                 'message' => "The email '{{ value }}' is not a valid email.",
                 'checkMX' => true
@@ -44,7 +44,7 @@ class AddressModel extends Model
                 'match' => false,
                 'message' => "Your name cannot contain a number"
             ],*/
-            'Callback' => ['Core\Utils\FuncUtils', 'validate'],
+            //'Callback' => ['Core\Utils\FuncUtils', 'validate'],
 
             /*'ContainsAlphanumeric'=>[
                 'message'=>'mmkk'
@@ -52,11 +52,18 @@ class AddressModel extends Model
         ],
     ];
 
-    public function __construct()
+    public function add()
     {
-        $this->app = app();
-        $this->validateObj = $this->app->entity('address');
-        $this->validateObj->setAddress('aaaaaa@qq.com');
+        /* $this->app = app();
+         $this->validateObj = $this->app->entity('address');
+         $this->validateObj->setAddress('aaa');
+         return $this->validate();*/
+        try {
+            $this->validateField(['address' => 'aaaff']);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        return $this;
         print_r($this->validateObj);
     }
 }

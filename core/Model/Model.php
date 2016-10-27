@@ -52,11 +52,11 @@ class Model
     }
 
     /**
-     * 验证指定字段是否符合规范
+     * 验证指定对象的指定字段
      *
-     * @return boolean
+     * @return mixed
      */
-    public function validate()
+    public function validateObject()
     {
         $classMetadata = $this->validator->getMetadataFor($this->validateObj);
         if (!empty($this->rules)) {
@@ -78,5 +78,39 @@ class Model
         }
         $error = $this->validator->validate($this->validateObj);
         return $error;
+    }
+
+    /**
+     * 验证用户提交的表单数据
+     *
+     * @param array $data
+     * @throws \Exception
+     */
+    public function validateField(array $data)
+    {
+        $data = array_merge($this->app->component('request')->getParams(), $data);
+        if ($data) {
+            foreach ($data as $key => $val) {
+                if (isset($this->rules[$key])) {
+                    $constraints = [];
+                    foreach ($this->rules[$key] as $cls => $params) {
+                        $class = '';
+                        if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
+                            $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
+                        } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
+                            $class = APP_NAME . '\\Constraints\\' . $cls;
+                        } elseif (class_exists('Core\\Constraints\\' . $cls)) {
+                            $class = 'Core\\Constraints\\' . $cls;
+                        }
+                        if (!empty(trim($class))) $constraints[] = new $class($params);
+                    }
+                    $errors = $this->validator->validate($val, $constraints);
+                    if (count($errors)) {
+                        $errorsString = (string)$errors;
+                        throw new \Exception($errorsString);
+                    }
+                }
+            }
+        }
     }
 }
