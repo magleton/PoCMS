@@ -45,6 +45,11 @@ class Model
      */
     protected $validateObj = null;
 
+    public function __construct()
+    {
+        $this->app = app();
+        $this->validator = $this->app->component('validator');
+    }
 
     /**
      * 验证指定字段是否符合规范
@@ -53,9 +58,7 @@ class Model
      */
     public function validate()
     {
-        $this->validator = $this->app->component('validator');
-        $entityObj = $this->app->entity($this->table);
-        $classMetadata = $this->validator->getMetadataFor($entityObj);
+        $classMetadata = $this->validator->getMetadataFor($this->validateObj);
         if (!empty($this->rules)) {
             foreach ($this->rules as $property => $constraint) {
                 $constraints = [];
