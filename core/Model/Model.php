@@ -67,6 +67,11 @@ class Model
      */
     protected $validateGroups = [];
 
+    /**
+     * 模型构造函数
+     *
+     * Model constructor.
+     */
     public function __construct()
     {
         $this->app = app();
@@ -75,18 +80,15 @@ class Model
     }
 
     /**
-     * 生成数据库表的实体对象，并设置值
+     * 生成数据库表的实体对象
      *
      * @param int $target
      * @param array $data
+     * @return array
      */
-    protected function makeEntity($target = Constants::MODEL_FIELD, array $data = [])
+    protected function make($target = Constants::MODEL_FIELD, array $data = [])
     {
-        try {
-            $this->validate(Constants::MODEL_FIELD, $data);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
+        return $this->validate($target, $data);
     }
 
     /**
@@ -118,69 +120,98 @@ class Model
     private function mergeParams(array $data = [])
     {
         if ($this->mappingField) {
-            $data = array_merge(array_combine($this->mappingField, $this->app->component('request')->getParams()), $data);
+            $data = array_combine($this->mappingField, $this->app->component('request')->getParams());
             return $data;
         } else {
-            $data = array_merge($this->app->component('request')->getParams(), $data);
+            $data = $this->app->component('request')->getParams();
             return $data;
         }
-        return $data;
     }
 
     /**
      * 给实体验证对象设置值
+     *
      * @param int $target
      * @param array $data
      * @throws \Exception
-     * @return mixed
+     * @return array
      */
     private function validate($target = Constants::MODEL_FIELD, array $data = [])
     {
-        $data = $this->mergeParams($data);
+        $data ?: $data = $this->mergeParams($data);
+        $returnData = [];
         switch ($target) {
             case Constants::MODEL_FIELD:
-                foreach ($data as $key => $val) {
-                    if (isset($this->rules[$key])) {
-                        $constraints = [];
-                        foreach ($this->rules[$key] as $cls => $params) {
-                            $class = $this->getConstraintClass($cls);
-                            if (!empty(trim($class))) $constraints[] = new $class($params);
-                        }
-                        $errors = $this->validator->validate($val, $constraints);
-                        if (count($errors)) {
-                            $errorsString = (string)$errors;
-                            throw new \Exception($errorsString);
-                        }
-                    }
-                }
+                $returnData = $this->validateFields($data);
                 break;
             case Constants::MODEL_OBJECT:
-                foreach ($data as $k => $v) {
-                    $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
-                    if (method_exists($this->validateObj, $setMethod)) {
-                        $this->validateObj->$setMethod($v);
-                    }
-                }
-                $classMetadata = $this->validator->getMetadataFor($this->validateObj);
-                if (!empty($this->rules)) {
-                    foreach ($this->rules as $property => $constraint) {
-                        $constraints = [];
-                        foreach ($constraint as $cls => $params) {
-                            $class = $this->getConstraintClass($cls);
-                            if (!empty(trim($class))) $constraints[] = new $class($params);
-                        }
-                        $classMetadata->addPropertyConstraints($property, $constraints);
-                    }
-                }
-                $errors = $this->validator->validate($this->validateObj);
-                if (count($errors)) {
-                    $errorsString = (string)$errors;
-                    throw new \Exception($errorsString);
-                }
+                $returnData = $this->validateObject($data);
                 break;
             default:
                 break;
         }
-        return $this->validateObj;
+        return $returnData;
+    }
+
+    /**
+     * 验证数据字段
+     *
+     * @param array $data
+     * @return array
+     */
+    private function validateFields(array $data = [])
+    {
+        $returnData = [];
+        foreach ($data as $key => $val) {
+            if (isset($this->rules[$key])) {
+                $constraints = [];
+                foreach ($this->rules[$key] as $cls => $params) {
+                    $class = $this->getConstraintClass($cls);
+                    if (!empty(trim($class))) $constraints[] = new $class($params);
+                }
+                $error = $this->validator->validate($val, $constraints);
+                if (count($error)) {
+                    foreach ($error as $obj) {
+                        $returnData[$key] = $obj->getMessage();
+                    }
+                }
+            }
+        }
+        return $returnData;
+    }
+
+    /**
+     * 给对象赋值并且验证对象的值是否合法
+     *
+     * @param array $data
+     * @return array
+     */
+    private function validateObject(array $data = [])
+    {
+        $returnData = [];
+        foreach ($data as $k => $v) {
+            $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
+            if (method_exists($this->validateObj, $setMethod)) {
+                $this->validateObj->$setMethod($v);
+            }
+        }
+        $classMetadata = $this->validator->getMetadataFor($this->validateObj);
+        if (!empty($this->rules)) {
+            foreach ($this->rules as $property => $constraint) {
+                $constraints = [];
+                foreach ($constraint as $cls => $params) {
+                    $class = $this->getConstraintClass($cls);
+                    if (!empty(trim($class))) $constraints[] = new $class($params);
+                }
+                $classMetadata->addPropertyConstraints($property, $constraints);
+            }
+        }
+        $errors = $this->validator->validate($this->validateObj);
+        if (count($errors)) {
+            foreach ($errors as $obj) {
+                $returnData[$obj->getPropertyPath()] = $obj->getMessage();
+            }
+        }
+        return $returnData;
     }
 }
