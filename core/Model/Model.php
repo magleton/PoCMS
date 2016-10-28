@@ -84,11 +84,16 @@ class Model
      *
      * @param int $target
      * @param array $data
+     * @throws \Exception
      * @return array
      */
     protected function make($target = Constants::MODEL_FIELD, array $data = [])
     {
-        return $this->validate($target, $data);
+        try {
+            return $this->validate($target, $data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -113,19 +118,21 @@ class Model
     }
 
     /**
-     * @param array $data
-     *
      * @return array
+     * @throws \Exception
      */
-    private function mergeParams(array $data = [])
+    private function mergeParams()
     {
+        $data = $this->app->component('request')->getParams();
         if ($this->mappingField) {
-            $data = array_combine($this->mappingField, $this->app->component('request')->getParams());
-            return $data;
-        } else {
-            $data = $this->app->component('request')->getParams();
-            return $data;
+            if (count($this->mappingField) != count($data)) {
+                throw new \Exception('映射字段与请求的字段不相等！');
+            } else {
+                $data = array_combine($this->mappingField, $data);
+                return $data;
+            }
         }
+        return $data;
     }
 
     /**
@@ -138,7 +145,7 @@ class Model
      */
     private function validate($target = Constants::MODEL_FIELD, array $data = [])
     {
-        $data ?: $data = $this->mergeParams($data);
+        $data ?: $data = $this->mergeParams();
         $returnData = [];
         switch ($target) {
             case Constants::MODEL_FIELD:
