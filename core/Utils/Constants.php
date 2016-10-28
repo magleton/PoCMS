@@ -43,4 +43,11 @@ class Constants
      */
     const DENY = 0;
     const ALLOW = 1;
+
+
+    /**
+     * 模型对象要验证的目标
+     */
+    const MODEL_FIELD = 1;   //验证字段
+    const MODEL_OBJECT = 2;  //验证对象
 }
