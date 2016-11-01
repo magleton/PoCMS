@@ -10,6 +10,7 @@ namespace Blog\Models;
 
 
 use Core\Model\Model;
+use Core\Utils\Constants;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class AddressModel extends Model
@@ -50,6 +51,14 @@ class AddressModel extends Model
                 'message'=>'mmkk'
             ]*/
         ],
+        'info'=>[
+            'NotBlank'=>['message'=>'jjkkll']
+        ],
+    ];
+
+    protected $mappingField = [
+        'dd' => 'address',
+        'address_info' => 'info'
     ];
 
     public function add()
@@ -59,7 +68,8 @@ class AddressModel extends Model
          $this->validateObj->setAddress('aaa');
          return $this->validate();*/
         try {
-            $this->validateField(['address' => 'aaaffgggt']);
+            $r = $this->make(Constants::BUSINESS_MODEL, ['dd' => 'aaaft']);
+            print_r($r);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
