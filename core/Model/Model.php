@@ -56,6 +56,7 @@ class Model
 
     /**
      * 表的主键
+     *
      * @var string
      */
     protected $primaryKey = '';
@@ -84,6 +85,7 @@ class Model
      *
      * @param int $target
      * @param array $data
+     *
      * @throws \Exception
      * @return array
      */
@@ -118,19 +120,20 @@ class Model
     }
 
     /**
+     * @param array $data
+     *
      * @return array
      * @throws \Exception
      */
-    private function mergeParams()
+    private function mergeParams(array $data = [])
     {
-        $data = $this->app->component('request')->getParams();
+        $data ?: $data = $this->app->component('request')->getParams();
         if ($this->mappingField) {
-            if (count($this->mappingField) != count($data)) {
-                throw new \Exception('映射字段与请求的字段不相等！');
-            } else {
-                $data = array_combine($this->mappingField, $data);
-                return $data;
+            $combineData = [];
+            foreach ($data as $key => $value) {
+                isset($this->mappingField[$key]) ? $combineData[$this->mappingField[$key]] = $value : $combineData[$key] = $value;
             }
+            return $combineData;
         }
         return $data;
     }
@@ -140,12 +143,13 @@ class Model
      *
      * @param int $target
      * @param array $data
+     *
      * @throws \Exception
      * @return array
      */
     private function validate($target = Constants::MODEL_FIELD, array $data = [])
     {
-        $data ?: $data = $this->mergeParams();
+        $data = $this->mergeParams($data);
         $returnData = [];
         switch ($target) {
             case Constants::MODEL_FIELD:
@@ -157,6 +161,7 @@ class Model
             default:
                 break;
         }
+
         return $returnData;
     }
 
@@ -164,6 +169,7 @@ class Model
      * 验证数据字段
      *
      * @param array $data
+     *
      * @return array
      */
     private function validateFields(array $data = [])
@@ -173,8 +179,14 @@ class Model
             if (isset($this->rules[$key])) {
                 $constraints = [];
                 foreach ($this->rules[$key] as $cls => $params) {
+                    if (is_numeric($cls)) {
+                        $cls = $params;
+                        $params = null;
+                    }
                     $class = $this->getConstraintClass($cls);
-                    if (!empty(trim($class))) $constraints[] = new $class($params);
+                    if (!empty(trim($class))) {
+                        $constraints[] = new $class($params);
+                    }
                 }
                 $error = $this->validator->validate($val, $constraints);
                 if (count($error)) {
@@ -184,6 +196,7 @@ class Model
                 }
             }
         }
+
         return $returnData;
     }
 
@@ -191,6 +204,7 @@ class Model
      * 给对象赋值并且验证对象的值是否合法
      *
      * @param array $data
+     *
      * @return array
      */
     private function validateObject(array $data = [])
@@ -207,8 +221,14 @@ class Model
             foreach ($this->rules as $property => $constraint) {
                 $constraints = [];
                 foreach ($constraint as $cls => $params) {
+                    if (is_numeric($cls)) {
+                        $cls = $params;
+                        $params = null;
+                    }
                     $class = $this->getConstraintClass($cls);
-                    if (!empty(trim($class))) $constraints[] = new $class($params);
+                    if (!empty(trim($class))) {
+                        $constraints[] = new $class($params);
+                    }
                 }
                 $classMetadata->addPropertyConstraints($property, $constraints);
             }
@@ -219,6 +239,7 @@ class Model
                 $returnData[$obj->getPropertyPath()] = $obj->getMessage();
             }
         }
+
         return $returnData;
     }
 }
