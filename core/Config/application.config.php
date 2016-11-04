@@ -96,6 +96,12 @@ $common_config = [
     'ip_list' => [
         '127.0.0.1'
     ],
+
+    //Session的处理类
+    'session_handler' => [
+        'cls'=>\Core\Session\SecureHandler::class,
+        'params'=>''
+    ]
 ];
 
 return $common_config;

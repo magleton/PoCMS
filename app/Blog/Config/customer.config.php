@@ -6,7 +6,6 @@ $customer_config = [
         'kk' => stdClass::class,
         //'ip_filter' => \Blog\Providers\IpFilterService::class,
         //'checkLogin' => stdClass::class,
-        'sessionMiddleware' => \Core\Middleware\SessionMiddleware::class,
     ],
 ];
 

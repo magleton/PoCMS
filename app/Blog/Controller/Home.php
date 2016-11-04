@@ -22,7 +22,8 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        $m = $this->app->model('company')->add();
+
+       echo $this->app->component('session')->get('key1');
        // print_r($m->__toString());
         //$em = CoreUtils::getDbInstance('db1');
        // echo FuncUtils::generateSalt();
@@ -92,8 +93,7 @@ class Home extends Controller
         /*$this->render($response, "/home/hello.twig", array(
             'name' => 'Macro',
         ));*/
-        $se = CoreUtils::getContainer('session')->get('user_info');
-        print_r($se);
+        $this->app->component('session')->set('key1' , 'mllkkkk');
     }
 
 
