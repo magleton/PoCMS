@@ -1,5 +1,5 @@
-# MacroPHP
-# MacroPHP一个可组合的PHP框架
+# Polymer
+# Polymer一个可组合的PHP框架
 # 环境要求
 * PHP >= 5.5.x
 
