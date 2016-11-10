@@ -4,7 +4,8 @@
   "require": {
     "php": ">=5.6.0",
     "slim/slim": "3.*",
-    "doctrine/orm": "~2.5",
+    "doctrine/orm": "*",
+    "doctrine/migrations": "*",
     "monolog/monolog": "~1.18",
     "hassankhan/config": "*",
     "symfony/validator": "~3.0",
@@ -22,10 +23,6 @@
     "ext-exif": "*"
   },
   "require-dev": {
-    "stoneworld/wechat": "dev-master",
-    "overtrue/wechat": "~3.1",
-    "sodabinbin/enterprise-wechat": "dev-master",
-    "leo108/corp_wechat": "dev-master",
     "symfony/yaml": "2.5.*@dev",
     "satooshi/php-coveralls": "dev-master",
     "phpunit/phpunit": "~4.0",

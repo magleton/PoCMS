@@ -18,34 +18,34 @@ $db = [
                     'driver' => 'pdo_mysql',
                     'host' => '127.0.0.1',
                     'port' => 3306,
+                    'dbname' => 'test',
                     'user' => 'root',
                     'password' => 'root',
-                    'dbname' => 'test',
-                    "charset" => "UTF8",
+                    'charset' => 'UTF8'
                 ),
                 'shards' => array(
                     array(
                         'id' => 1,
                         'driver' => 'pdo_mysql',
-                        'host' => '10.0.25.2',
+                        'host' => '127.0.0.1',
                         'user' => 'root',
-                        'password' => '111111',
-                        'dbname' => 'zdai',
+                        'password' => 'root',
+                        'dbname' => 'test',
                         'charset' => 'UTF8',
-                        'port' => 3308
+                        'port' => 3306
                     ),
                     array(
                         'id' => 2,
                         'driver' => 'pdo_mysql',
-                        'host' => '10.0.25.2',
+                        'host' => '127.0.0.1',
                         'user' => 'root',
-                        'password' => '111111',
+                        'password' => 'root',
                         'dbname' => 'test',
                         'charset' => 'UTF8',
-                        'port' => 3308
+                        'port' => 3306
                     )
                 ),
-                "useSimpleAnnotationReader" => true,
+                "useSimpleAnnotationReader" => false,
             ),
 
             "db2" => array(
