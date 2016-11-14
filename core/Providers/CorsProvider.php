@@ -12,7 +12,7 @@ namespace Core\Providers;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class CorsService implements ServiceProviderInterface
+class CorsProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

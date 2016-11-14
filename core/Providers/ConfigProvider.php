@@ -13,7 +13,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Noodlehaus\Config;
 
-class ConfigService implements ServiceProviderInterface
+class ConfigProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

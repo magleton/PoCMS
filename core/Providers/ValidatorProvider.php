@@ -14,7 +14,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Validator\Validation;
 
-class ValidatorService implements ServiceProviderInterface
+class ValidatorProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {

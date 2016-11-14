@@ -14,7 +14,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Slim\Middleware\JwtAuthentication;
 
-class JwtService implements ServiceProviderInterface
+class JwtProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

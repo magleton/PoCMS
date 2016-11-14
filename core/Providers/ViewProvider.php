@@ -12,7 +12,7 @@ use Pimple\ServiceProviderInterface;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
-class ViewService implements ServiceProviderInterface
+class ViewProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

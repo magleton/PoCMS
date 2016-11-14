@@ -8,12 +8,11 @@
 
 namespace Core\Providers;
 
-
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Doctrine\Common\EventManager;
+use Slim\Flash\Messages;
 
-class DoctrineEventManagerService implements ServiceProviderInterface
+class FlashP implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -25,8 +24,8 @@ class DoctrineEventManagerService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["doctrineEventManager"] = function (Container $container) {
-            return new EventManager();
+        $pimple['flash'] = function (Container $container) {
+            return new Messages();
         };
     }
 }

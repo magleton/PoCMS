@@ -1,18 +1,19 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: macro
- * Date: 16-8-26
- * Time: 下午4:03
+ * User: Administrator
+ * Date: 2016/8/26
+ * Time: 22:38
  */
 
-namespace Core\Providers;
+namespace Blog\Providers;
 
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Noodlehaus\Config;
 
-class JwtDataService implements ServiceProviderInterface
+class ConfigProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -21,10 +22,11 @@ class JwtDataService implements ServiceProviderInterface
      * It should not get services.
      *
      * @param Container $pimple A container instance
-     * @return mixed
      */
     public function register(Container $pimple)
     {
-        return new StdClass;
+        $pimple['config'] = function ($container) {
+            return new Config([ROOT_PATH . '/core/Config' , APP_PATH . 'Config', APP_PATH . 'Config/Test']);
+        };
     }
 }

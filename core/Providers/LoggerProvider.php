@@ -13,7 +13,7 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Monolog\Handler\StreamHandler;
 
-class LoggerService implements ServiceProviderInterface
+class LoggerProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

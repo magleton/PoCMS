@@ -1,19 +1,19 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/8/26
- * Time: 22:38
+ * User: macro
+ * Date: 16-8-26
+ * Time: 上午9:24
  */
 
-namespace Blog\Providers;
+namespace Core\Providers;
 
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Noodlehaus\Config;
+use Doctrine\Common\EventManager;
 
-class ConfigService implements ServiceProviderInterface
+class DoctrineEventManagerProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -25,8 +25,8 @@ class ConfigService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['config'] = function ($container) {
-            return new Config([ROOT_PATH . '/core/Config' , APP_PATH . 'Config', APP_PATH . 'Config/Test']);
+        $pimple["doctrineEventManager"] = function (Container $container) {
+            return new EventManager();
         };
     }
 }

@@ -11,7 +11,7 @@ namespace Core\Providers;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class RouterFileService implements ServiceProviderInterface
+class RouterFileProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

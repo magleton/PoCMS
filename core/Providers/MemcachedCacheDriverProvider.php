@@ -1,17 +1,17 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: macro
- * Date: 16-8-26
- * Time: 上午9:24
+ * User: Administrator
+ * Date: 2016/9/1
+ * Time: 20:12
  */
+
 namespace Core\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Doctrine\Common\Cache\MemcacheCache;
 
-class MemcacheCacheDriverService implements ServiceProviderInterface
+class MemcachedCacheDriverProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -23,15 +23,15 @@ class MemcacheCacheDriverService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["memcacheCacheDriver"] = function (Container $container) {
-            $namespace = 'memcacheCacheDriver';
+        $pimple["memcachedCacheDriver"] = function (Container $container) {
+            $namespace = 'memcachedCacheDriver';
             if ($container['application']->component('namespace')) {
                 $namespace = $container['application']->component('namespace');
             }
-            $memcacheCacheDriver = new MemcacheCache();
-            $memcacheCacheDriver->setNamespace($namespace);
-            $memcacheCacheDriver->setMemcache($container['application']->component('memcache'));
-            return $memcacheCacheDriver;
+            $memcachedCacheDriver = new MemcacheCached();
+            $memcachedCacheDriver->setNamespace($namespace);
+            $memcachedCacheDriver->setMemcache($container['application']->component('memcached'));
+            return $memcachedCacheDriver;
         };
     }
 }

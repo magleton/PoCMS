@@ -11,7 +11,7 @@ namespace Core\Providers;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class MemcachedService implements ServiceProviderInterface
+class MemcachedProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

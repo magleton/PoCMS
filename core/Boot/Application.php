@@ -256,10 +256,10 @@ final class Application
         if (!$this->container->has($componentName)) {
             if (!defined('PROVIDERS_NAMESPACE')) define('PROVIDERS_NAMESPACE', APP_NAME);
             $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $componentName)))));
-            if (class_exists(PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Service")) {
-                $className = PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Service";
-            } else if (class_exists('Core\\Providers\\' . $className . "Service")) {
-                $className = 'Core\\Providers\\' . $className . "Service";
+            if (class_exists(PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Provider")) {
+                $className = PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Provider";
+            } else if (class_exists('Core\\Providers\\' . $className . "Provider")) {
+                $className = 'Core\\Providers\\' . $className . "Provider";
             }
             if (class_exists($className)) {
                 $this->container->register(new $className(), $param);

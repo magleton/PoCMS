@@ -14,7 +14,7 @@ use Core\Utils\Constants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class IpFilterService implements ServiceProviderInterface
+class IpFilterProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

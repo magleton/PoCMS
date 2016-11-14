@@ -5,14 +5,12 @@
  * Date: 16-8-26
  * Time: 上午9:24
  */
-
 namespace Core\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Slim\Flash\Messages;
 
-class FlashService implements ServiceProviderInterface
+class CsrfProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -24,8 +22,13 @@ class FlashService implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['flash'] = function (Container $container) {
-            return new Messages();
+        $pimple['csrf'] = function (Container $container) {
+            $guard = new \Slim\Csrf\Guard();
+            $guard->setFailureCallable(function ($request, $response, $next) {
+                $request = $request->withAttribute("csrf_status", false);
+                return $next($request, $response);
+            });
+            return $guard;
         };
     }
 }

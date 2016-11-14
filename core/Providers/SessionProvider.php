@@ -11,7 +11,7 @@ use Core\Session\Session;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class SessionService implements ServiceProviderInterface
+class SessionProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {

@@ -14,7 +14,7 @@ use Pimple\ServiceProviderInterface;
 use Slim\App;
 use Slim\Http\Body;
 
-class InitAppService implements ServiceProviderInterface
+class InitAppProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

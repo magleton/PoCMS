@@ -11,7 +11,7 @@ namespace Core\Providers;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class RedisService implements ServiceProviderInterface
+class RedisProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
