@@ -12,7 +12,6 @@ use Polymer\Providers\InitAppProvider;
 use Polymer\Utils\Constants;
 use Doctrine\Common\Cache\ArrayCache;
 use Slim\Container;
-use Polymer\Providers\InitAppService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Monolog\Logger;
