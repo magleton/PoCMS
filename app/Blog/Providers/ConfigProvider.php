@@ -26,7 +26,7 @@ class ConfigProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['config'] = function ($container) {
-            return new Config([ROOT_PATH . '/core/Config' , APP_PATH . 'Config', APP_PATH . 'Config/Test']);
+            return new Config([ROOT_PATH . '/framework/Config' , APP_PATH . 'Config', APP_PATH . 'Config/Test']);
         };
     }
 }
