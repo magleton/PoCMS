@@ -39,7 +39,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Core\\": "core\\",
+      "Core\\": "framework\\",
       "Entity\\": "entity\\",
       "Blog\\": "app\\Blog",
       "CMS\\": "app\\CMS",
