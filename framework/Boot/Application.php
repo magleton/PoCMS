@@ -6,12 +6,12 @@
  * Time: 18:02
  */
 
-namespace Core\Boot;
+namespace Polymer\Boot;
 
-use Core\Utils\Constants;
+use Polymer\Utils\Constants;
 use Doctrine\Common\Cache\ArrayCache;
 use Slim\Container;
-use Core\Providers\InitAppService;
+use Polymer\Providers\InitAppService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use Monolog\Logger;
@@ -258,8 +258,8 @@ final class Application
             $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $componentName)))));
             if (class_exists(PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Provider")) {
                 $className = PROVIDERS_NAMESPACE . '\\Providers\\' . $className . "Provider";
-            } else if (class_exists('Core\\Providers\\' . $className . "Provider")) {
-                $className = 'Core\\Providers\\' . $className . "Provider";
+            } else if (class_exists('Polymer\\Providers\\' . $className . "Provider")) {
+                $className = 'Polymer\\Providers\\' . $className . "Provider";
             }
             if (class_exists($className)) {
                 $this->container->register(new $className(), $param);

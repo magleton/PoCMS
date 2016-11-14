@@ -5,9 +5,9 @@
  * Time: 上午8:38
  */
 
-namespace Core\Providers;
+namespace Polymer\Providers;
 
-use Core\Session\Session;
+use Polymer\Session\Session;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

@@ -24,7 +24,7 @@ class BrandTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->entityManager = \Core\Utils\CoreUtils::getDbInstance('db1');
+        $this->entityManager = \Polymer\Utils\CoreUtils::getDbInstance('db1');
         // TODO Auto-generated BrandTest::setUp()
 
     }

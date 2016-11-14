@@ -9,8 +9,8 @@
 namespace Blog\Providers;
 
 
-use Core\Middleware\IpFilterMiddleware;
-use Core\Utils\Constants;
+use Polymer\Middleware\IpFilterMiddleware;
+use Polymer\Utils\Constants;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

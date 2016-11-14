@@ -6,7 +6,7 @@ define('APP_NAME', 'task');
 define('APP_PATH', ROOT_PATH . '/' . APP_NAME . '/');
 define('CONFIG_PATH', ROOT_PATH . '/' . APP_NAME . '/');
 require ROOT_PATH . '/vendor/autoload.php';
-$app = new \Core\Boot\Application();
+$app = new \Polymer\Boot\Application();
 $app->startConsole();
 $em = app()->db('db1');
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(

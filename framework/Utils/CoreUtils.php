@@ -1,7 +1,7 @@
 <?php
-namespace Core\Utils;
+namespace Polymer\Utils;
 
-use Core\Boot\Application;
+use Polymer\Boot\Application;
 use Doctrine\Common\EventManager;
 
 class CoreUtils

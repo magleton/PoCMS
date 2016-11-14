@@ -6,9 +6,9 @@
  * Time: 上午11:44
  */
 
-namespace Core\Middleware;
+namespace Polymer\Middleware;
 
-use Core\Utils\Constants;
+use Polymer\Utils\Constants;
 use \Psr\Http\Message\RequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 

@@ -28,7 +28,7 @@ class Test extends \Task\Boot\BootTask
         $redis->rpush('submit_order' , '201605250859498864');*/
         //echo "asasa";
         // writeLog('test_message' , ['name'=>'jack'] , APP_PATH.'/log.log');
-        //$redis = \Core\Utils\CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
+        //$redis = \Polymer\Utils\CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
         //$redis->set("key2" , "value2value2value2value2");
         $db1 = $this->app->db('db1');
         //$result = $db1->getConnection()->query('select * from address limit 1')->fetch();

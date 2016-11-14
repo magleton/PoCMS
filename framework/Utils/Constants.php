@@ -6,7 +6,7 @@
  * Time: 上午10:10
  */
 
-namespace Core\Utils;
+namespace Polymer\Utils;
 
 
 class Constants

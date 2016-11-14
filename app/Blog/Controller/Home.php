@@ -1,12 +1,12 @@
 <?php
 namespace Blog\Controller;
 
-use Core\Controller\Controller;
-use Core\Utils\Constants;
-use Core\Utils\CoreUtils;
+use Polymer\Controller\Controller;
+use Polymer\Utils\Constants;
+use Polymer\Utils\CoreUtils;
 use Blog\Models\Employee;
-use Core\Utils\FuncUtils;
-use Core\Utils\SnowFlake;
+use Polymer\Utils\FuncUtils;
+use Polymer\Utils\SnowFlake;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Sharding\ShardManager;
 use Entity\Models\Address;

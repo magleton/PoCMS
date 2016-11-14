@@ -5,7 +5,7 @@
  * Time: 19:36
  */
 
-namespace Core\Session;
+namespace Polymer\Session;
 
 
 class EncryptedSessionHandler extends \SessionHandler

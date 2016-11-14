@@ -9,8 +9,8 @@
 namespace Blog\Models;
 
 
-use Core\Model\Model;
-use Core\Utils\Constants;
+use Polymer\Model\Model;
+use Polymer\Utils\Constants;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class AddressModel extends Model
@@ -45,7 +45,7 @@ class AddressModel extends Model
                 'match' => false,
                 'message' => "Your name cannot contain a number"
             ],*/
-            //'Callback' => ['Core\Utils\FuncUtils', 'validate'],
+            //'Callback' => ['Polymer\Utils\FuncUtils', 'validate'],
 
             /*'ContainsAlphanumeric'=>[
                 'message'=>'mmkk'

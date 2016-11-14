@@ -6,7 +6,7 @@
  * Time: 19:46
  */
 
-namespace Core\Providers;
+namespace Polymer\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

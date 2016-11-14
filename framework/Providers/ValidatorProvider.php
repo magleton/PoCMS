@@ -6,7 +6,7 @@
  * Time: 下午3:04
  */
 
-namespace Core\Providers;
+namespace Polymer\Providers;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;

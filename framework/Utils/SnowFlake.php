@@ -6,7 +6,7 @@
  * Time: 18:40
  */
 
-namespace Core\Utils;
+namespace Polymer\Utils;
 
 
 use Doctrine\ORM\EntityManager;

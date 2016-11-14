@@ -6,7 +6,7 @@
  * Time: 19:32
  */
 
-namespace Core\Session;
+namespace Polymer\Session;
 
 class SecureHandler extends \SessionHandler
 {

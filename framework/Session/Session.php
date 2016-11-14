@@ -6,7 +6,7 @@
  * Time: 上午8:27
  */
 
-namespace Core\Session;
+namespace Polymer\Session;
 
 
 final class Session

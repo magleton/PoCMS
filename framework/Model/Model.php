@@ -5,9 +5,9 @@
  * Time: 19:42
  */
 
-namespace Core\Model;
+namespace Polymer\Model;
 
-use Core\Utils\Constants;
+use Polymer\Utils\Constants;
 
 class Model
 {
@@ -105,8 +105,8 @@ class Model
         } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
             $class = APP_NAME . '\\Constraints\\' . $cls;
             return $class;
-        } elseif (class_exists('Core\\Constraints\\' . $cls)) {
-            $class = 'Core\\Constraints\\' . $cls;
+        } elseif (class_exists('Polymer\\Constraints\\' . $cls)) {
+            $class = 'Polymer\\Constraints\\' . $cls;
             return $class;
         }
         return $class;

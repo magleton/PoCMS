@@ -4,9 +4,9 @@
  *
  * @author macro chen <macro_fengye@163.com>
  */
-namespace Core\Controller;
+namespace Polymer\Controller;
 
-use Core\Utils\Constants;
+use Polymer\Utils\Constants;
 use Interop\Container\ContainerInterface;
 
 class Controller
@@ -20,7 +20,7 @@ class Controller
 
     /**
      * 整个框架的应用
-     * @var \Core\Boot\Application
+     * @var \Polymer\Boot\Application
      */
 
     protected $app;

@@ -6,10 +6,10 @@
  * Time: 下午3:55
  */
 
-namespace Core\Providers;
+namespace Polymer\Providers;
 
 
-use Core\Utils\CoreUtils;
+use Polymer\Utils\CoreUtils;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Slim\Middleware\JwtAuthentication;

@@ -6,7 +6,7 @@
  * Time: 下午3:52
  */
 
-namespace Core\Providers;
+namespace Polymer\Providers;
 
 
 use Pimple\Container;

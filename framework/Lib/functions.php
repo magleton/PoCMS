@@ -1,5 +1,5 @@
 <?php
-use \Core\Boot\Application;
+use \Polymer\Boot\Application;
 
 if (!function_exists('convert')) {
     /**

@@ -99,7 +99,7 @@ $common_config = [
 
     //Session的处理类
     'session_handler' => [
-        'cls'=>\Core\Session\SecureHandler::class,
+        'cls'=>\Polymer\Session\SecureHandler::class,
         'params'=>''
     ]
 ];

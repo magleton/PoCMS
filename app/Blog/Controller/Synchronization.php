@@ -1,7 +1,7 @@
 <?php
 namespace Blog\controller;
 
-use Core\Controller\Controller;
+use Polymer\Controller\Controller;
 use Slim\Http\Request;
 
 
