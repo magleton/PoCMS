@@ -1,3 +1,9 @@
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
-dsafasfds{{somevar}}
+{% set t = {'yy':'ert'} %}
+{% set app = app().service('test') %}
+{{ this }}
+{% set arr = app.test(t) %}
+{% for k , a in arr %}
+    <li>{{ k }} : {{ a }}</li>
+{% endfor %}

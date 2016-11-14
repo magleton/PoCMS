@@ -22,7 +22,7 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-
+        return $this->render($response, '/home/index.twig');
        echo $this->app->component('session')->get('key1');
        // print_r($m->__toString());
         //$em = CoreUtils::getDbInstance('db1');
