@@ -46,7 +46,7 @@
       "Task\\": "task\\"
     },
     "files": [
-      "core\\Lib\\functions_include.php"
+      "framework\\Lib\\functions_include.php"
     ]
   }
 }
