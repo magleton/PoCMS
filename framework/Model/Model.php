@@ -40,11 +40,11 @@ class Model
     protected $validator = null;
 
     /**
-     * 要验证的对象
+     * 要验证的实体对象
      *
      * @var null
      */
-    protected $validateObj = null;
+    protected $EntityObject = null;
 
     /**
      * 表单字段映射
@@ -69,7 +69,7 @@ class Model
     {
         $this->app = app();
         $this->validator = $this->app->component('validator');
-        $this->validateObj = $this->app->entity($this->table);
+        $this->EntityObject = $this->app->entity($this->table);
     }
 
     /**
@@ -113,8 +113,9 @@ class Model
     }
 
     /**
-     * @param array $data
+     * 合并请求参数数据与自定义参数数据
      *
+     * @param array $data
      * @return array
      * @throws \Exception
      */
@@ -132,6 +133,8 @@ class Model
     }
 
     /**
+     * 验证对象,可通过参数指定要验证的目标
+     *
      * @param int $target
      * @param array $data
      * @throws \Exception
@@ -158,7 +161,6 @@ class Model
      * 根据自定义的规则验证数据字段
      *
      * @param array $data
-     *
      * @return array
      */
     private function validateFields(array $data = [])
@@ -167,11 +169,11 @@ class Model
         if (!empty($this->rules)) {
             foreach ($data as $property => $val) {
                 if (isset($this->rules[$property])) {
-                    $constraints = $this->composeConstraints($property);
+                    $constraints = $this->propertyConstraints($property);
                     $error = $this->validator->validate($val, $constraints);
                     if (count($error)) {
-                        foreach ($error as $obj) {
-                            $returnData[$property] = $obj->getMessage();
+                        foreach ($error as $error) {
+                            $returnData[$property] = $error->getMessage();
                         }
                     }
                 }
@@ -184,7 +186,6 @@ class Model
      * 给对象赋值并且验证对象的值是否合法
      *
      * @param array $data
-     *
      * @return array
      */
     private function validateObject(array $data = [])
@@ -192,23 +193,23 @@ class Model
         $returnData = [];
         foreach ($data as $k => $v) {
             $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
-            if (method_exists($this->validateObj, $setMethod)) {
-                $this->validateObj->$setMethod($v);
+            if (method_exists($this->EntityObject, $setMethod)) {
+                $this->EntityObject->$setMethod($v);
             }
         }
-        $classMetadata = $this->validator->getMetadataFor($this->validateObj);
+        $classMetadata = $this->validator->getMetadataFor($this->EntityObject);
         if (!empty($this->rules)) {
             foreach ($data as $property => $val) {
                 if (isset($this->rules[$property])) {
-                    $constraints = $this->composeConstraints($property);
+                    $constraints = $this->propertyConstraints($property);
                     $classMetadata->addPropertyConstraints($property, $constraints);
                 }
             }
         }
-        $errors = $this->validator->validate($this->validateObj);
+        $errors = $this->validator->validate($this->EntityObject);
         if (count($errors)) {
-            foreach ($errors as $obj) {
-                $returnData[$obj->getPropertyPath()] = $obj->getMessage();
+            foreach ($errors as $error) {
+                $returnData[$error->getPropertyPath()] = $error->getMessage();
             }
         }
         return $returnData;
@@ -220,7 +221,7 @@ class Model
      * @param string $property
      * @return array
      */
-    private function composeConstraints($property)
+    private function propertyConstraints($property)
     {
         $constraints = [];
         foreach ($this->rules[$property] as $cls => $params) {

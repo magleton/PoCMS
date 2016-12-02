@@ -68,12 +68,12 @@ class AddressModel extends Model
          $this->validateObj->setAddress('aaa');
          return $this->validate();*/
         try {
-            $r = $this->make(Constants::BUSINESS_MODEL, ['dd' => 'aaaft']);
+            $r = $this->make(Constants::MODEL_OBJECT, ['dd' => 'aaaft']);
             print_r($r);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
         return $this;
-        print_r($this->validateObj);
+        print_r($this->EntityObject);
     }
 }
