@@ -1,17 +1,17 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/9/1
- * Time: 20:12
+ * User: macro
+ * Date: 16-8-26
+ * Time: 上午9:24
  */
-
 namespace Polymer\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Doctrine\Common\Cache\MemcacheCache;
 
-class MemcachedCacheDriverProvider implements ServiceProviderInterface
+class MemcacheCacheDriverProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -23,15 +23,15 @@ class MemcachedCacheDriverProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["memcachedCacheDriver"] = function (Container $container) {
-            $namespace = 'memcachedCacheDriver';
+        $pimple["memcacheCache"] = function (Container $container) {
+            $namespace = 'memcacheCache';
             if ($container['application']->component('namespace')) {
                 $namespace = $container['application']->component('namespace');
             }
-            $memcachedCacheDriver = new MemcacheCached();
-            $memcachedCacheDriver->setNamespace($namespace);
-            $memcachedCacheDriver->setMemcache($container['application']->component('memcached'));
-            return $memcachedCacheDriver;
+            $memcacheCacheDriver = new MemcacheCache();
+            $memcacheCacheDriver->setNamespace($namespace);
+            $memcacheCacheDriver->setMemcache($container['application']->component('memcache'));
+            return $memcacheCacheDriver;
         };
     }
 }
