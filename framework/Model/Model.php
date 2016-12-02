@@ -7,6 +7,7 @@
 
 namespace Polymer\Model;
 
+use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Polymer\Utils\Constants;
 
 class Model
@@ -59,6 +60,14 @@ class Model
      * @var array
      */
     protected $validateGroups = [];
+
+    /**
+     * EntityManager实例
+     *
+     * @var NULL
+     */
+    protected $em = null;
+
 
     /**
      * 模型构造函数
@@ -235,5 +244,34 @@ class Model
             }
         }
         return $constraints;
+    }
+
+    /**
+     * 切换数据库的链接
+     *
+     * @param int $shardId
+     * @return boolean
+     * @throws \Exception
+     */
+    protected function switchConnect($shardId)
+    {
+        try {
+            return $this->em->getConnection()->connect(intval($shardId));
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 获取PoolingShardManager实例，用于全局查询
+     *
+     * @return PoolingShardManager|null
+     */
+    protected function sharedManager()
+    {
+        if ($this->em) {
+            return new PoolingShardManager($this->em->getConnection());
+        }
+        return null;
     }
 }

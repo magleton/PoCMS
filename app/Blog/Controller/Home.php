@@ -22,7 +22,9 @@ class Home extends Controller
 
     public function index($request, $response, $args)
     {
-        print_r($this->app->config('db'));
+        $company = $this->app->model('company');
+        $company->add();
+       // print_r($this->app->config('db'));
        // print_r($m->__toString());
         //$em = CoreUtils::getDbInstance('db1');
        // echo FuncUtils::generateSalt();

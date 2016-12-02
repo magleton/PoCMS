@@ -16,6 +16,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class AddressModel extends Model
 {
     /**
+     * 需要链接的数据配置
+     *
+     * @var string
+     */
+    private $schemaName = 'db1';
+
+    /**
      * 数据库表名
      *
      * @var string
