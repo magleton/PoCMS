@@ -13,7 +13,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Doctrine\Common\EventManager;
 
-class DoctrineEventManagerProvider implements ServiceProviderInterface
+class EventManagerProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -25,7 +25,7 @@ class DoctrineEventManagerProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["doctrineEventManager"] = function (Container $container) {
+        $pimple["eventManager"] = function (Container $container) {
             return new EventManager();
         };
     }

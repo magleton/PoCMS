@@ -160,7 +160,7 @@ final class Application
      */
     public function addEvent(array $params = [])
     {
-        $eventManager = $this->component('doctrineEventManager');
+        $eventManager = $this->component('eventManager');
         $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
@@ -197,7 +197,7 @@ final class Application
      */
     public function addSubscriber(array $params = [])
     {
-        $eventManager = $this->component('doctrineEventManager');
+        $eventManager = $this->component('eventManager');
         $reflect = null;
         foreach ($params as $key => $value) {
             if (!isset($value['class_name'])) {
