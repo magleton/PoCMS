@@ -175,10 +175,10 @@ final class Application
                 if (!isset($value['type'])) {
                     throw new \Exception("type必须设置");
                 }
-                if (!isset($value['dbName'])) {
-                    throw new \Exception("dbName必须设置");
+                if (!isset($value['db_name'])) {
+                    throw new \Exception("db_name必须设置");
                 }
-                $db_eventManager = $this->db($value['dbName'])->getEventManager();
+                $db_eventManager = $this->db($value['db_name'])->getEventManager();
                 $db_eventManager->addEventListener($key, new $class_name($data));
                 continue;
             }
@@ -212,10 +212,10 @@ final class Application
                 if (!isset($value['type'])) {
                     throw new \Exception("type必须设置");
                 }
-                if (!isset($value['dbName'])) {
-                    throw new \Exception("dbName必须设置");
+                if (!isset($value['db_name'])) {
+                    throw new \Exception("db_name必须设置");
                 }
-                $dbEventManager = $this->db($value['dbName'])->getEventManager();
+                $dbEventManager = $this->db($value['db_name'])->getEventManager();
                 $dbEventManager->addEventSubscriber(new $className($data));
                 continue;
             }
