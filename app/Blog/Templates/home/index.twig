@@ -5,6 +5,8 @@
     {% for k , a in arr %}
         <li>{{ k }} : {{ a }}</li>
     {% endfor %}
+
+    {% this.service('test').present().fullName() %}
 {% endblock %}
 
 {% block javascript %}

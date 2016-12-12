@@ -1,6 +1,7 @@
 <?php
 namespace Blog\Controller;
 
+use Blog\Presenter\TestPresenter;
 use Polymer\Controller\Controller;
 use Polymer\Utils\Constants;
 use Polymer\Utils\CoreUtils;
@@ -18,12 +19,17 @@ use Entity\Models\Test;
 
 class Home extends Controller
 {
-
-
     public function index($request, $response, $args)
     {
-        $company = $this->app->model('company');
-        $company->add();
+        $company = $this->app->repository('company' , 'db1');
+        $r = $company->findOneBy(['company_id'=>'11035442774995112489']);
+        //$presenter = new TestPresenter($r);
+        $this->app->service('test')->present()->fullName();
+       // echo $presenter->fullName();
+       // return $this->render($response, '/home/index.twig',array() );
+        die();
+        /*$company = $this->app->model('company');
+        $company->add();*/
        // print_r($this->app->config('db'));
        // print_r($m->__toString());
         //$em = CoreUtils::getDbInstance('db1');
