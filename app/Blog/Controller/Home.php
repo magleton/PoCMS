@@ -17,12 +17,15 @@ use Entity\Models\Address;
 use Entity\Models\Eorder;
 use Entity\Models\Region;
 use Entity\Models\Test;
+use Slim\Http\Response;
 
 
 class Home extends Controller
 {
-    public function index($request, $response, $args)
+    public function index($request, Response $response, $args)
     {
+        $response->withStatus(500)
+            ->withHeader('Content-Type', 'text/html')->write('aaaaaaaa');
         try {
             $company = $this->app->repository('company', 'db1');
             $r = $company->findOneBy(['company_id' => '11035442774995112489']);
