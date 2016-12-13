@@ -1,5 +1,5 @@
 <?php
-namespace Blog\subscriber;
+namespace Blog\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Blog\event\TestEvent;
@@ -20,15 +20,7 @@ class TestEventSubscriber implements EventSubscriber
 
     public function preFoo($args)
     {
-        $filter = new \Zend\I18n\Filter\Alpha();
-        $number = '12222sss333';
-       /* echo Validator::string()->validate($number);
-        echo "<br/>this is : " . Bootstrap::getApp()->container->get('v')
-            ->string()
-            ->validate($number) . "<br/>";*/
-       // $args->obj->setFirstName($filter->filter("kkkkk 123456"));
-        print_r($args->obj);
-        $this->preFooInvoked = true;
+        print_r($args);
         echo "adadsdad";
     }
 }

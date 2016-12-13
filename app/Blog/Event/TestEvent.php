@@ -1,14 +1,14 @@
 <?php
-namespace Blog\event;
+namespace Blog\Event;
 
 use Doctrine\Common\EventArgs;
 use Doctrine\Common\EventManager;
 
 class TestEvent {
 
-	const preFoo = "preFoo";
+	const preFoo = 'preFoo';
 
-	const postFoo = "postFoo";
+	const postFoo = 'postFoo';
 
 	private $_evm;
 
@@ -16,17 +16,18 @@ class TestEvent {
 
 	public $postFooInvoked = false;
 
-	public function __construct(EventManager $evm) {
+/*	public function __construct(EventManager $evm) {
 		$evm->addEventListener(array(
 			self::preFoo,
 			self::postFoo,
 		), $this);
-	}
+	}*/
 
 	public function preFoo(EventArgs $e) {
 		$obj = $e->obj;
-		$this->preFooInvoked = true;
-		$e->obj[0] = 9000;
+		/*$this->preFooInvoked = true;
+		$e->obj[0] = 9000;*/
+		echo 'aaaaaammmmmmmmm<br/>';
 	}
 
 	public function postFoo(EventArgs $e) {

@@ -1,7 +1,10 @@
 <?php
 namespace Blog\Controller;
 
+use Blog\Event\TestEvent;
 use Blog\Presenter\TestPresenter;
+use Blog\Subscriber\TestEventSubscriber;
+use Doctrine\Common\EventArgs;
 use Polymer\Controller\Controller;
 use Polymer\Utils\Constants;
 use Polymer\Utils\CoreUtils;
@@ -16,30 +19,42 @@ use Entity\Models\Region;
 use Entity\Models\Test;
 
 
-
 class Home extends Controller
 {
     public function index($request, $response, $args)
     {
-        $company = $this->app->repository('company' , 'db1');
-        $r = $company->findOneBy(['company_id'=>'11035442774995112489']);
+        try {
+            $company = $this->app->repository('company', 'db1');
+            $r = $company->findOneBy(['company_id' => '11035442774995112489']);
+            $this->app->addEvent([
+                TestEvent::preFoo => ['class_name' => TestEvent::class]
+            ]);
+            $this->app->addSubscriber([
+                TestEvent::preFoo => ['class_name' => TestEventSubscriber::class]
+            ]);
+            $eventManager = $this->app->component('eventManager');
+            $eventArgs = new EventArgs();
+            $eventArgs->obj = ['name' => 'macro', 'age' => 23];
+            $eventManager->dispatchEvent(TestEvent::preFoo, $eventArgs);
+        }catch (\Exception $e){
+            echo 'aaaaaaa';
+        }
         //$presenter = new TestPresenter($r);
-        $this->app->service('test')->present()->fullName();
-       // echo $presenter->fullName();
-       // return $this->render($response, '/home/index.twig',array() );
+        // echo $presenter->fullName();
+        // return $this->render($response, '/home/index.twig',array() );
         die();
         /*$company = $this->app->model('company');
         $company->add();*/
-       // print_r($this->app->config('db'));
-       // print_r($m->__toString());
+        // print_r($this->app->config('db'));
+        // print_r($m->__toString());
         //$em = CoreUtils::getDbInstance('db1');
-       // echo FuncUtils::generateSalt();
+        // echo FuncUtils::generateSalt();
 
         //print_r(get_class_methods($this->app->component('session')));
         //echo SnowFlake::generateID();
         //print_r(CoreUtils::getContainer('current_database'));
         //$em->getConnection()->connect(1);
-       // $r = $em->getConnection()->query('select * from address WHERE id=89584885122377')->fetch();
+        // $r = $em->getConnection()->query('select * from address WHERE id=89584885122377')->fetch();
         //print_r(($em->getConnection()->getActiveShardId ()));
         //print_r($em->getConnection()->query('SELECT @@server_id as server_id LIMIT 1')->fetch());
         //$e = $em->find('Entity\Models\Person' , 2);
@@ -100,7 +115,7 @@ class Home extends Controller
         /*$this->render($response, "/home/hello.twig", array(
             'name' => 'Macro',
         ));*/
-        $this->app->component('session')->set('key1' , 'mllkkkk');
+        $this->app->component('session')->set('key1', 'mllkkkk');
     }
 
 
