@@ -43,11 +43,17 @@ class InitAppProvider implements ServiceProviderInterface
                         ->withHeader('Content-Type', 'application/json')
                         ->withJson(['code' => 1, 'msg' => '404', 'data' => []]);
                 } else {
-                    $body = new Body(@fopen(TEMPLATE_PATH . '404.twig', 'r'));
-                    return $container['response']
-                        ->withStatus(404)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->withBody($body);
+                    try {
+                        $body = new Body(@fopen(TEMPLATE_PATH . '404.twig', 'rb'));
+                        return $container['response']
+                            ->withStatus(404)
+                            ->withHeader('Content-Type', 'text/html')
+                            ->withBody($body);
+                    } catch (\InvalidArgumentException $e) {
+                        return $container['response']
+                            ->withStatus(404)
+                            ->withHeader('Content-Type', 'text/html')->write($e->getMessage());
+                    }
                 }
             };
         };
@@ -64,16 +70,28 @@ class InitAppProvider implements ServiceProviderInterface
                         ->withHeader('Content-Type', 'application/json')
                         ->withJson(['code' => 500, 'msg' => '500 status', 'data' => []]);
                 } else {
-                    $body = new Body(@fopen(TEMPLATE_PATH . 'error.twig', 'r'));
-                    return $container['response']
-                        ->withStatus(500)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->withBody($body);
+                    try {
+                        $body = new Body(@fopen(TEMPLATE_PATH . 'error.twig', 'rb'));
+                        return $container['response']
+                            ->withStatus(500)
+                            ->withHeader('Content-Type', 'text/html')
+                            ->withBody($body);
+                    } catch (\InvalidArgumentException $e) {
+                        return $container['response']
+                            ->withStatus(500)
+                            ->withHeader('Content-Type', 'text/html')->write($e->getMessage());
+                    }
                 };
             };
         };
         $pimple['app'] = function (Container $container) {
-            return new App($container);
+            try {
+                return new App($container);
+            } catch (\InvalidArgumentException $e) {
+                return $container['response']
+                    ->withStatus(500)
+                    ->withHeader('Content-Type', 'text/html')->write($e->getMessage());
+            }
         };
     }
 }
