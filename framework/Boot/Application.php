@@ -108,13 +108,14 @@ final class Application
     }
 
     /**
-     * 根据不同的数据库链接类型，实例化不同的数据库链接对象
+     * 实例化数据库链接对象
      *
-     * @param $dbName string
+     * @param string $dbName
+     * @param string $folder 实体文件夹的名字
      * @throws \Doctrine\ORM\ORMException | \InvalidArgumentException
      * @return EntityManager
      */
-    public function db($dbName)
+    public function db($dbName, $folder = 'Models')
     {
         if (!$this->component('entityManager-' . $dbName)) {
             $dbConfig = $this->config('db.' . APPLICATION_ENV);
@@ -130,7 +131,7 @@ final class Application
                     $cache = $this->component($cacheName, ['database' => $database]);
                 }
                 $configuration = Setup::createAnnotationMetadataConfiguration([
-                    ROOT_PATH . '/entity/Models',
+                    ROOT_PATH . '/entity/' . $folder,
                 ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $useSimpleAnnotationReader);
                 try {
                     $entityManager = EntityManager::create($connConfig, $configuration, $this->component('eventManager'));
