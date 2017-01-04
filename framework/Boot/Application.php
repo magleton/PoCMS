@@ -133,6 +133,8 @@ final class Application
                 $configuration = Setup::createAnnotationMetadataConfiguration([
                     ROOT_PATH . '/entity/' . $folder,
                 ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $useSimpleAnnotationReader);
+                DoctrineExtConfigLoader::loadFunctionNode($configuration, DoctrineExtConfigLoader::MYSQL);
+                //DoctrineExtConfigLoader::load();
                 try {
                     $entityManager = EntityManager::create($connConfig, $configuration, $this->component('eventManager'));
                     $this->container['database_name'] = $dbName;
