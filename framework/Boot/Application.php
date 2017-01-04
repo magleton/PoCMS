@@ -11,6 +11,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Providers\InitAppProvider;
 use Polymer\Utils\Constants;
 use Doctrine\Common\Cache\ArrayCache;
+use Polymer\Utils\DoctrineExtConfigLoader;
 use Slim\Container;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
