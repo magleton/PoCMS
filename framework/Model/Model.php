@@ -9,23 +9,10 @@ namespace Polymer\Model;
 
 use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Polymer\Utils\Constants;
+use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 class Model
 {
-    /**
-     * 数据库表名
-     *
-     * @var string
-     */
-    protected $table = '';
-
-    /**
-     * 验证规则
-     *
-     * @var array
-     */
-    protected $rules = [];
-
     /**
      * 应用APP
      *
@@ -36,7 +23,7 @@ class Model
     /**
      * 验证组件
      *
-     * @var null
+     * @var RecursiveValidator
      */
     protected $validator = null;
 
@@ -46,13 +33,6 @@ class Model
      * @var null
      */
     protected $EntityObject = null;
-
-    /**
-     * 表单字段映射
-     *
-     * @var array
-     */
-    protected $mappingField = [];
 
     /**
      * 验证器的分组
@@ -206,20 +186,29 @@ class Model
                 $this->EntityObject->$setMethod($v);
             }
         }
-        $classMetadata = $this->validator->getMetadataFor($this->EntityObject);
-        if (!empty($this->rules)) {
-            foreach ($data as $property => $val) {
-                if (isset($this->rules[$property])) {
-                    $constraints = $this->propertyConstraints($property);
-                    $classMetadata->addPropertyConstraints($property, $constraints);
+        try {
+            $classMetadata = $this->validator->getMetadataFor($this->EntityObject);
+            foreach ($classMetadata->getReflectionClass()->getProperties() as $val) {
+                if (!isset($data[$val->getName()])) {
+                    $data[$val->getName()] = '';
                 }
             }
-        }
-        $errors = $this->validator->validate($this->EntityObject);
-        if (count($errors)) {
-            foreach ($errors as $error) {
-                $returnData[$error->getPropertyPath()] = $error->getMessage();
+            if (!empty($this->rules)) {
+                foreach ($data as $property => $val) {
+                    if (isset($this->rules[$property])) {
+                        $constraints = $this->propertyConstraints($property);
+                        $classMetadata->addPropertyConstraints($property, $constraints);
+                    }
+                }
             }
+            $errors = $this->validator->validate($this->EntityObject);
+            if (count($errors)) {
+                foreach ($errors as $error) {
+                    $returnData[$error->getPropertyPath()] = $error->getMessage();
+                }
+            }
+        } catch (\Exception $e) {
+            return null;
         }
         return $returnData;
     }
