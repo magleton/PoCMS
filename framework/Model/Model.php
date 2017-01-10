@@ -111,7 +111,7 @@ class Model
     private function mergeParams(array $data = [])
     {
         $data = array_merge($this->app->component('request')->getParams(), $data);
-        if ($this->mappingField) {
+        if (property_exists($this, 'mappingField')) {
             $combineData = [];
             foreach ($data as $key => $value) {
                 isset($this->mappingField[$key]) ? $combineData[$this->mappingField[$key]] = $value : $combineData[$key] = $value;
