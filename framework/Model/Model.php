@@ -159,9 +159,9 @@ class Model
             foreach ($data as $property => $val) {
                 if (isset($this->rules[$property])) {
                     $constraints = $this->propertyConstraints($property);
-                    $error = $this->validator->validate($val, $constraints);
-                    if (count($error)) {
-                        foreach ($error as $error) {
+                    $errors = $this->validator->validate($val, $constraints);
+                    if (count($errors)) {
+                        foreach ($errors as $error) {
                             $returnData[$property] = $error->getMessage();
                         }
                     }
