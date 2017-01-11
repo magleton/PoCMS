@@ -221,9 +221,6 @@ final class Application
                 $reflect = new \ReflectionClass(Events::class);
             }
             if ($reflect->getConstant($key)) {
-                if (!isset($value['type'])) {
-                    throw new \InvalidArgumentException('type必须设置');
-                }
                 if (!isset($value['db_name'])) {
                     throw new \InvalidArgumentException('db_name必须设置');
                 }
