@@ -249,7 +249,7 @@ class Model
     protected function switchConnect($shardId)
     {
         try {
-            return $this->em->getConnection()->connect(intval($shardId));
+            return $this->em->getConnection()->connect((int)$shardId);
         } catch (\Exception $e) {
             throw $e;
         }
