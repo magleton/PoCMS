@@ -35,11 +35,11 @@ class Model
     protected $EntityObject = null;
 
     /**
-     * 验证器的分组
+     * 验证器的规则
      *
      * @var array
      */
-    protected $validateGroups = [];
+    protected $validateRules = [];
 
     /**
      * EntityManager实例
@@ -150,14 +150,16 @@ class Model
      * 根据自定义的规则验证数据字段
      *
      * @param array $data
+     * @param array $rules
      * @return array
      */
-    private function validateFields(array $data = [])
+    private function validateFields(array $data = [], array $rules = [])
     {
         $returnData = [];
-        if (!empty($this->rules)) {
+        $this->validateRules = empty($rules) ? $this->rules : $rules;
+        if (!empty($this->validateRules)) {
             foreach ($data as $property => $val) {
-                if (isset($this->rules[$property])) {
+                if (isset($this->validateRules[$property])) {
                     $constraints = $this->propertyConstraints($property);
                     $errors = $this->validator->validate($val, $constraints);
                     if (count($errors)) {
@@ -175,11 +177,13 @@ class Model
      * 给对象赋值并且验证对象的值是否合法
      *
      * @param array $data
+     * @param array $rules
      * @return array
      */
-    private function validateObject(array $data = [])
+    private function validateObject(array $data = [], array $rules = [])
     {
         $returnData = [];
+        $this->validateRules = empty($rules) ? $this->rules : $rules;
         foreach ($data as $k => $v) {
             $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
             if (method_exists($this->EntityObject, $setMethod)) {
@@ -193,9 +197,9 @@ class Model
                     $data[$val->getName()] = '';
                 }
             }
-            if (!empty($this->rules)) {
+            if (!empty($this->validateRules)) {
                 foreach ($data as $property => $val) {
-                    if (isset($this->rules[$property])) {
+                    if (isset($this->validateRules[$property])) {
                         $constraints = $this->propertyConstraints($property);
                         $classMetadata->addPropertyConstraints($property, $constraints);
                     }
@@ -222,7 +226,7 @@ class Model
     private function propertyConstraints($property)
     {
         $constraints = [];
-        foreach ($this->rules[$property] as $cls => $params) {
+        foreach ($this->validateRules[$property] as $cls => $params) {
             if (is_numeric($cls)) {
                 $cls = $params;
                 $params = null;
