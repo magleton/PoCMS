@@ -66,14 +66,15 @@ class Model
      *
      * @param int $target
      * @param array $data
+     * @param array $validateRules
      *
      * @throws \Exception
      * @return array
      */
-    protected function make($target = Constants::MODEL_FIELD, array $data = [])
+    protected function make($target = Constants::MODEL_FIELD, array $data = [], array $validateRules = [])
     {
         try {
-            return $this->validate($target, $data);
+            return $this->validate($target, $data, $validateRules);
         } catch (\Exception $e) {
             throw $e;
         }
@@ -126,19 +127,21 @@ class Model
      *
      * @param int $target
      * @param array $data
+     * @param array $validateRules
+     *
      * @throws \Exception
      * @return array
      */
-    private function validate($target = Constants::MODEL_FIELD, array $data = [])
+    private function validate($target = Constants::MODEL_FIELD, array $data = [], array $validateRules = [])
     {
         $data = $this->mergeParams($data);
         $returnData = [];
         switch ($target) {
             case Constants::MODEL_FIELD:
-                $returnData = $this->validateFields($data);
+                $returnData = $this->validateFields($data, $validateRules);
                 break;
             case Constants::MODEL_OBJECT:
-                $returnData = $this->validateObject($data);
+                $returnData = $this->validateObject($data, $validateRules);
                 break;
             default:
                 break;
