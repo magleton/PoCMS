@@ -8,6 +8,8 @@
 namespace Polymer\Boot;
 
 use Doctrine\ORM\ORMException;
+use Noodlehaus\Config;
+use Noodlehaus\Exception\EmptyDirectoryException;
 use Polymer\Providers\InitAppProvider;
 use Polymer\Utils\Constants;
 use Doctrine\Common\Cache\ArrayCache;
@@ -36,6 +38,13 @@ final class Application
      * @var Container
      */
     private $container;
+
+    /**
+     * 配置文件对象
+     *
+     * @var Config $configObject
+     */
+    private $configObject = null;
 
     /**
      * 启动WEB应用
@@ -101,9 +110,8 @@ final class Application
         set_error_handler('handleError');
         set_exception_handler('handleException');
         register_shutdown_function('handleShutdown');
-        $this->container = new Container();
+        $this->container = new Container($this->config('slim'));
         $this->container->register(new InitAppProvider());
-        $this->component('config');
         $this->container['application'] = $this;
         static::setInstance($this);
     }
@@ -157,11 +165,21 @@ final class Application
      */
     public function config($key)
     {
-        if (!$this->component('config')->get($key)) {
-            logger('获取', [$key . '--不存在!'], APP_PATH . '/log/config.log', Logger::ERROR);
-            return NULL;
+        $configPaths = [ROOT_PATH . '/framework/Config'];
+        if (file_exists(ROOT_PATH . '/config') && is_dir(ROOT_PATH . '/config')) {
+            $configPaths[] = ROOT_PATH . '/config';
         }
-        return $this->component('config')->get($key);
+        if (file_exists(APP_PATH . '/Config') && is_dir(APP_PATH . '/Config')) {
+            $configPaths[] = APP_PATH . '/Config';
+        }
+        try {
+            if (null === $this->configObject) {
+                $this->configObject = new Config($configPaths);
+            }
+            return $this->configObject->get($key);
+        } catch (EmptyDirectoryException $e) {
+            return null;
+        }
     }
 
     /**
