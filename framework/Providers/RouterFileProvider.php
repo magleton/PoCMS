@@ -39,7 +39,7 @@ class RouterFileProvider implements ServiceProviderInterface
                 $router_file_contents .= ';' . "\n";
                 foreach (glob(APP_PATH . 'Routers/*_router.php') as $key => $file_name) {
                     $contents = file_get_contents($file_name);
-                    preg_match_all("/app->.*/", $contents, $matches);
+                    preg_match_all('/app->[\s\S]*/', $contents, $matches);
                     foreach ($matches[0] as $kk => $vv) {
                         $router_file_contents .= '$' . $vv . "\n";
                     }
