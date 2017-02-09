@@ -50,9 +50,9 @@ $common_config = [
                     // '' || '/tmp' || ['user1' => '/home/user1', 'user2' => '/home/user2']
                     'ConsoleHomeDirectory' => ['dev' => '/home/macro/wwwroot/Polymer'],
                     // terminal.js full URI
-                    'ConsoleTerminalJs' => 'http://local.blog.com/js/jquery.terminal.min.js',
+                    'ConsoleTerminalJs' =>  '/js/jquery.terminal.min.js',
                     // terminal.css full URI
-                    'ConsoleTerminalCss' => 'http://local.blog.com/css/jquery.terminal.min.css',
+                    'ConsoleTerminalCss' => '/css/jquery.terminal.min.css',
 
                     'ProfilerPanel' => [
                         // Memory usage 'primaryValue' set as Profiler::enable() or Profiler::enable(1)
