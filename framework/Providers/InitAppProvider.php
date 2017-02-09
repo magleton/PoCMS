@@ -93,5 +93,9 @@ class InitAppProvider implements ServiceProviderInterface
                     ->withHeader('Content-Type', 'text/html')->write($e->getMessage());
             }
         };
+
+        $pimple['twig_profile'] = function (Container $container) {
+            return new \Twig_Profiler_Profile();
+        };
     }
 }

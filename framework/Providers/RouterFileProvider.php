@@ -26,7 +26,8 @@ class RouterFileProvider implements ServiceProviderInterface
         $pimple['routerFile'] = function (Container $container) {
             if (APPLICATION_ENV === 'development' || !file_exists(APP_PATH . '/Routers/router.lock')) {
                 if (file_exists($container['application']->config('customer.router_cache_file'))) @unlink($container['application']->config('customer.router_cache_file'));
-                $router_file_contents = '<?php ' . "\n" . '$app = $container[\'application\']->component(\'app\')';
+                $router_file_contents = '<?php ' . "\n" . '$app = $container[\'application\']->component(\'app\');';
+                $router_file_contents .= "\n".'$app->add(new \RunTracy\Middlewares\TracyMiddleware($app))';
                 if ($container['application']->config('middleware')) {
                     foreach ($container['application']->config('middleware') as $middleware) {
                         if (function_exists($middleware) && is_callable($middleware)) {
