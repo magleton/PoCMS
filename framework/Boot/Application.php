@@ -161,9 +161,10 @@ final class Application
      *
      * @author macro chen <macro_fengye@163.com>
      * @param string $key
+     * @param mixed | array $default
      * @return mixed
      */
-    public function config($key)
+    public function config($key, $default = null)
     {
         $configPaths = [ROOT_PATH . '/framework/Config'];
         if (file_exists(ROOT_PATH . '/config') && is_dir(ROOT_PATH . '/config')) {
@@ -176,9 +177,11 @@ final class Application
             if (null === $this->configObject) {
                 $this->configObject = new Config($configPaths);
             }
-            return $this->configObject->get($key);
+            return $this->configObject->get($key, $default);
         } catch (EmptyDirectoryException $e) {
             return null;
+        } catch (\Exception $e) {
+            return $default;
         }
     }
 
