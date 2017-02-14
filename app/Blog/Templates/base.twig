@@ -21,7 +21,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-{% set this = app() %}
+{% set this = {'app':app()} %}
 {% block navbar %}
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">

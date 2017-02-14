@@ -1,7 +1,7 @@
 {% extends '/base.twig' %}
 {% block content %}
     {% set t = {'yy':'ert'} %}
-    {% set arr = this.service('test').test(t) %}
+    {% set arr = this.app.service('test').test(t) %}
     {% for k , a in arr %}
         <li>{{ k }} : {{ a }}</li>
     {% endfor %}
