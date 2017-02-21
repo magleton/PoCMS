@@ -124,33 +124,29 @@ final class Application
      * @throws \Doctrine\ORM\ORMException | \InvalidArgumentException
      * @return EntityManager
      */
-    public function db($dbName, $folder = 'Models')
+    public function db($dbName = '', $folder = 'Models')
     {
-        if (!$this->component('entityManager-' . $dbName)) {
-            $dbConfig = $this->config('db.' . APPLICATION_ENV);
-            if (isset($dbConfig[$dbName]) && $dbConfig[$dbName]) {
-                $connConfig = $dbConfig[$dbName] ?: [];
-                $useSimpleAnnotationReader = $connConfig['useSimpleAnnotationReader'];
-                unset($connConfig['useSimpleAnnotationReader']);
-                if (APPLICATION_ENV === 'development') {
-                    $cache = new ArrayCache();
-                } else {
-                    $cacheName = $this->config('doctrine.metadata_cache.cache_name');
-                    $database = $this->config('doctrine.metadata_cache.database');
-                    $cache = $this->component($cacheName, ['database' => $database]);
-                }
-                $configuration = Setup::createAnnotationMetadataConfiguration([
-                    ROOT_PATH . '/entity/' . $folder,
-                ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $useSimpleAnnotationReader);
-                DoctrineExtConfigLoader::loadFunctionNode($configuration, DoctrineExtConfigLoader::MYSQL);
-                DoctrineExtConfigLoader::load();
-                try {
-                    $entityManager = EntityManager::create($connConfig, $configuration, $this->component('eventManager'));
-                    $this->container['database_name'] = $dbName;
-                    $this->container['entityManager-' . $dbName] = $entityManager;
-                } catch (\InvalidArgumentException $e) {
-                    return null;
-                }
+        $dbConfig = $this->config('db.' . APPLICATION_ENV);
+        $dbName = $dbName ?: current(array_keys($dbConfig));
+        if (isset($dbConfig[$dbName]) && $dbConfig[$dbName] && !$this->component('entityManager-' . $dbName)) {
+            if (APPLICATION_ENV === 'development') {
+                $cache = new ArrayCache();
+            } else {
+                $cacheName = $this->config('doctrine.metadata_cache.cache_name');
+                $database = $this->config('doctrine.metadata_cache.database');
+                $cache = $this->component($cacheName, ['database' => $database]);
+            }
+            $configuration = Setup::createAnnotationMetadataConfiguration([
+                ROOT_PATH . '/entity/' . $folder,
+            ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $dbConfig[$dbName]['useSimpleAnnotationReader']);
+            DoctrineExtConfigLoader::loadFunctionNode($configuration, DoctrineExtConfigLoader::MYSQL);
+            DoctrineExtConfigLoader::load();
+            try {
+                $entityManager = EntityManager::create($dbConfig[$dbName], $configuration, $this->component('eventManager'));
+                $this->container['database_name'] = $dbName;
+                $this->container['entityManager-' . $dbName] = $entityManager;
+            } catch (\InvalidArgumentException $e) {
+                return null;
             }
         }
         return $this->container['entityManager-' . $dbName];
@@ -374,13 +370,13 @@ final class Application
     }
 
     /**
-     *
      * 获取EntityRepository
+     *
      * @param $entityName
-     * @param $db
+     * @param $dbName
      * @return \Doctrine\ORM\EntityRepository | null
      */
-    public function repository($entityName, $db)
+    public function repository($entityName, $dbName = '')
     {
         !defined('REPOSITORIES_NAMESPACE') && define('REPOSITORIES_NAMESPACE', 'Entity\\Repositories');
         !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', 'Entity\\Models');
@@ -388,7 +384,9 @@ final class Application
         $repositoryClassName = REPOSITORIES_NAMESPACE . '\\' . ucfirst($className) . 'Repository';
         if (class_exists($repositoryClassName)) {
             try {
-                return $this->db($db)->getRepository(ENTITY_NAMESPACE . '\\' . ucfirst($className));
+                $dbConfig = $this->config('db.' . APPLICATION_ENV);
+                $dbName = $dbName ?: current(array_keys($dbConfig));
+                return $this->db($dbName)->getRepository(ENTITY_NAMESPACE . '\\' . ucfirst($className));
             } catch (ORMException $e) {
                 return null;
             } catch (\InvalidArgumentException $e) {
