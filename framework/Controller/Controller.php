@@ -22,7 +22,6 @@ class Controller
      * 整个框架的应用
      * @var \Polymer\Boot\Application
      */
-
     protected $app;
 
     /**
@@ -59,7 +58,7 @@ class Controller
      * @param  int $encodingOptions Json encoding options
      * @return Response|string
      */
-    protected function json($data, $status = null, $encodingOptions = 0完善Controller的功能!)
+    protected function json($data, $status = null, $encodingOptions = 0)
     {
         try {
             return $this->app->component('response')->withJson($data, $status, $encodingOptions);
