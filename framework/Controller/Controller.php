@@ -58,7 +58,7 @@ class Controller
      * @param  int $encodingOptions Json encoding options
      * @return Response|string
      */
-    protected function json($data, $status = null, $encodingOptions = 0)
+    protected function withJson($data, $status = null, $encodingOptions = 0)
     {
         try {
             return $this->app->component('response')->withJson($data, $status, $encodingOptions);
