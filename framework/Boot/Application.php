@@ -163,8 +163,7 @@ final class Application
      * @param mixed | array $default
      * @return mixed
      */
-    public
-    function config($key, $default = null)
+    public function config($key, $default = null)
     {
         $configPaths = [ROOT_PATH . '/framework/Config'];
         if (file_exists(ROOT_PATH . '/config') && is_dir(ROOT_PATH . '/config')) {
@@ -193,8 +192,7 @@ final class Application
      * @throws \InvalidArgumentException | ORMException
      * @return EventManager
      */
-    public
-    function addEvent(array $params = [])
+    public function addEvent(array $params = [])
     {
         try {
             return $this->addEventOrSubscribe($params, 1);
@@ -212,8 +210,7 @@ final class Application
      * @throws \Exception
      * @return EventManager
      */
-    public
-    function addSubscriber(array $params = [])
+    public function addSubscriber(array $params = [])
     {
         try {
             return $this->addEventOrSubscribe($params, 0);
@@ -230,8 +227,7 @@ final class Application
      * @return mixed|null
      * @throws ORMException | \InvalidArgumentException
      */
-    private
-    function addEventOrSubscribe(array $params, $listener)
+    private function addEventOrSubscribe(array $params, $listener)
     {
         $method = $listener ? 'addEventListener' : 'addEventSubscriber';
         $reflect = null;
@@ -261,35 +257,13 @@ final class Application
     }
 
     /**
-     * 获取拥有命名明空间的缓存实例
-     *
-     * @param $cacheType
-     * @param array $params
-     * @deprecated
-     * @throws \Exception
-     * @return mixed
-     */
-    public
-    function getCacheInstanceHaveNamespace($cacheType, array $params = [])
-    {
-        if (!isset($params['resource_id'])) {
-            throw new \InvalidArgumentException('资源ID必须设置', 400);
-        }
-        $resourceId = $params['resource_id'];
-        unset($params['resource_id']);
-        $cache = $this->component($cacheType . 'Cache', $params)->getOptions()->getResourceManager()->getResource($resourceId);
-        return $cache;
-    }
-
-    /**
      * 获取指定组件名字的对象
      *
      * @param $componentName
      * @param array $param
      * @return mixed|null
      */
-    public
-    function component($componentName, array $param = [])
+    public function component($componentName, array $param = [])
     {
         if (!$this->container->has($componentName)) {
             !defined('PROVIDERS_NAMESPACE') && define('PROVIDERS_NAMESPACE', APP_NAME);
@@ -324,8 +298,7 @@ final class Application
      *
      * @return static
      */
-    public
-    static function getInstance()
+    public static function getInstance()
     {
         if (null === static::$instance) {
             static::$instance = new static;
@@ -339,8 +312,7 @@ final class Application
      * @param Application $application
      * @return static
      */
-    public
-    static function setInstance($application = null)
+    public static function setInstance($application = null)
     {
         return static::$instance = $application;
     }
@@ -353,8 +325,7 @@ final class Application
      * @param string $path 附加路径
      * @return mixed
      */
-    public
-    function model($modelName, array $parameters = [], $path = '')
+    public function model($modelName, array $parameters = [], $path = '')
     {
         !defined('BUSINESS_MODEL_NAMESPACE') && define('BUSINESS_MODEL_NAMESPACE', APP_NAME);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $modelName)))));
@@ -371,8 +342,7 @@ final class Application
      * @param mixed $folder 实体文件夹的名字
      * @return bool
      */
-    public
-    function entity($tableName, $folder = NULL)
+    public function entity($tableName, $folder = NULL)
     {
         if (null === $folder) {
             $folder = 'Entity\\Models';
@@ -394,8 +364,7 @@ final class Application
      * @param $dbName
      * @return \Doctrine\ORM\EntityRepository | null
      */
-    public
-    function repository($entityName, $dbName = '')
+    public function repository($entityName, $dbName = '')
     {
         !defined('REPOSITORIES_NAMESPACE') && define('REPOSITORIES_NAMESPACE', 'Entity\\Repositories');
         !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', 'Entity\\Models');
@@ -422,8 +391,7 @@ final class Application
      * @param array|null $params
      * @return null | Object
      */
-    public
-    function service($serviceName, array $params = null)
+    public function service($serviceName, array $params = null)
     {
         !defined('SERVICES_NAMESPACE') && define('SERVICES_NAMESPACE', APP_NAME . '\\Services');
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $serviceName)))));
