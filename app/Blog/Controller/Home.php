@@ -24,9 +24,18 @@ class Home extends Controller
 {
     public function index($request, Response $response, $args)
     {
-        $response->withStatus(500)
-            ->withHeader('Content-Type', 'text/html')->write('aaaaaaaa');
+        //$model = $this->app->model('user');
         try {
+            //$model = $this->app->model('address');
+            $model = $this->app->model('user');
+            $model->save(['created_time' => time(), 'updated_time' => time()]);
+        }catch (\Exception $e){
+
+        }
+
+        die();
+        try {
+
             $company = $this->app->repository('company', 'db1');
             $r = $company->findOneBy(['company_id' => '11035442774995112489']);
             $this->app->addEvent([
@@ -39,7 +48,7 @@ class Home extends Controller
             $eventArgs = new EventArgs();
             $eventArgs->obj = ['name' => 'macro', 'age' => 23];
             $eventManager->dispatchEvent(TestEvent::preFoo, $eventArgs);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             echo 'aaaaaaa';
         }
         //$presenter = new TestPresenter($r);

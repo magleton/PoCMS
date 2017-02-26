@@ -119,13 +119,16 @@ final class Application
     /**
      * 实例化数据库链接对象
      *
+     * @param mixed $entityFolder 实体文件夹的名字
      * @param string $dbName
-     * @param string $folder 实体文件夹的名字
      * @throws \Doctrine\ORM\ORMException | \InvalidArgumentException
      * @return EntityManager
      */
-    public function db($dbName = '', $folder = 'Models')
+    public function db($entityFolder = null, $dbName = '')
     {
+        if (null === $entityFolder) {
+            $entityFolder = '/entity/Models';
+        }
         $dbConfig = $this->config('db.' . APPLICATION_ENV);
         $dbName = $dbName ?: current(array_keys($dbConfig));
         if (isset($dbConfig[$dbName]) && $dbConfig[$dbName] && !$this->component('entityManager-' . $dbName)) {
@@ -137,7 +140,7 @@ final class Application
                 $cache = $this->component($cacheName, ['database' => $database]);
             }
             $configuration = Setup::createAnnotationMetadataConfiguration([
-                ROOT_PATH . '/entity/' . $folder,
+                ROOT_PATH . '/' . $entityFolder,
             ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $dbConfig[$dbName]['useSimpleAnnotationReader']);
             DoctrineExtConfigLoader::loadFunctionNode($configuration, DoctrineExtConfigLoader::MYSQL);
             DoctrineExtConfigLoader::load();
@@ -160,7 +163,8 @@ final class Application
      * @param mixed | array $default
      * @return mixed
      */
-    public function config($key, $default = null)
+    public
+    function config($key, $default = null)
     {
         $configPaths = [ROOT_PATH . '/framework/Config'];
         if (file_exists(ROOT_PATH . '/config') && is_dir(ROOT_PATH . '/config')) {
@@ -189,7 +193,8 @@ final class Application
      * @throws \InvalidArgumentException | ORMException
      * @return EventManager
      */
-    public function addEvent(array $params = [])
+    public
+    function addEvent(array $params = [])
     {
         try {
             return $this->addEventOrSubscribe($params, 1);
@@ -207,7 +212,8 @@ final class Application
      * @throws \Exception
      * @return EventManager
      */
-    public function addSubscriber(array $params = [])
+    public
+    function addSubscriber(array $params = [])
     {
         try {
             return $this->addEventOrSubscribe($params, 0);
@@ -224,7 +230,8 @@ final class Application
      * @return mixed|null
      * @throws ORMException | \InvalidArgumentException
      */
-    private function addEventOrSubscribe(array $params, $listener)
+    private
+    function addEventOrSubscribe(array $params, $listener)
     {
         $method = $listener ? 'addEventListener' : 'addEventSubscriber';
         $reflect = null;
@@ -262,7 +269,8 @@ final class Application
      * @throws \Exception
      * @return mixed
      */
-    public function getCacheInstanceHaveNamespace($cacheType, array $params = [])
+    public
+    function getCacheInstanceHaveNamespace($cacheType, array $params = [])
     {
         if (!isset($params['resource_id'])) {
             throw new \InvalidArgumentException('资源ID必须设置', 400);
@@ -280,7 +288,8 @@ final class Application
      * @param array $param
      * @return mixed|null
      */
-    public function component($componentName, array $param = [])
+    public
+    function component($componentName, array $param = [])
     {
         if (!$this->container->has($componentName)) {
             !defined('PROVIDERS_NAMESPACE') && define('PROVIDERS_NAMESPACE', APP_NAME);
@@ -315,7 +324,8 @@ final class Application
      *
      * @return static
      */
-    public static function getInstance()
+    public
+    static function getInstance()
     {
         if (null === static::$instance) {
             static::$instance = new static;
@@ -329,7 +339,8 @@ final class Application
      * @param Application $application
      * @return static
      */
-    public static function setInstance($application = null)
+    public
+    static function setInstance($application = null)
     {
         return static::$instance = $application;
     }
@@ -342,7 +353,8 @@ final class Application
      * @param string $path 附加路径
      * @return mixed
      */
-    public function model($modelName, array $parameters = [], $path = '')
+    public
+    function model($modelName, array $parameters = [], $path = '')
     {
         !defined('BUSINESS_MODEL_NAMESPACE') && define('BUSINESS_MODEL_NAMESPACE', APP_NAME);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $modelName)))));
@@ -356,13 +368,19 @@ final class Application
     /**
      * 获取实体模型实例
      * @param $tableName
+     * @param mixed $folder 实体文件夹的名字
      * @return bool
      */
-    public function entity($tableName)
+    public
+    function entity($tableName, $folder = NULL)
     {
-        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', 'Entity\\Models');
+        if (null === $folder) {
+            $folder = 'Entity\\Models';
+        }
+        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', $folder);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $tableName)))));
         $className = ENTITY_NAMESPACE . '\\' . ucfirst($className);
+        echo $className;
         if (class_exists($className)) {
             return new $className;
         }
@@ -376,7 +394,8 @@ final class Application
      * @param $dbName
      * @return \Doctrine\ORM\EntityRepository | null
      */
-    public function repository($entityName, $dbName = '')
+    public
+    function repository($entityName, $dbName = '')
     {
         !defined('REPOSITORIES_NAMESPACE') && define('REPOSITORIES_NAMESPACE', 'Entity\\Repositories');
         !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', 'Entity\\Models');
@@ -403,7 +422,8 @@ final class Application
      * @param array|null $params
      * @return null | Object
      */
-    public function service($serviceName, array $params = null)
+    public
+    function service($serviceName, array $params = null)
     {
         !defined('SERVICES_NAMESPACE') && define('SERVICES_NAMESPACE', APP_NAME . '\\Services');
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $serviceName)))));

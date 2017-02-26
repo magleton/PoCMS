@@ -42,7 +42,16 @@ class AddressModel extends Model
                 'max' => 16,
                 'minMessage' => '不能少于8',
                 'maxMessage' => '不能大于16'
-            ],/*
+            ],
+        ]
+        /*'address' => [
+            'NotBlank' => ['message' => 'address不能为空'],
+            'Length' => [
+                'min' => 8,
+                'max' => 16,
+                'minMessage' => '不能少于8',
+                'maxMessage' => '不能大于16'
+            ],
             'Email' => [
                 'message' => "The email '{{ value }}' is not a valid email.",
                 'checkMX' => true
@@ -52,15 +61,15 @@ class AddressModel extends Model
                 'match' => false,
                 'message' => "Your name cannot contain a number"
             ],*/
-            //'Callback' => ['Polymer\Utils\FuncUtils', 'validate'],
+        //'Callback' => ['Polymer\Utils\FuncUtils', 'validate'],
 
-            /*'ContainsAlphanumeric'=>[
-                'message'=>'mmkk'
-            ]*/
-        ],
-        'info'=>[
-            'NotBlank'=>['message'=>'jjkkll']
-        ],
+        /*'ContainsAlphanumeric'=>[
+            'message'=>'mmkk'
+        ]
+    ],
+    'info'=>[
+        'NotBlank'=>['message'=>'jjkkll']
+    ],*/
     ];
 
     protected $mappingField = [
@@ -68,19 +77,17 @@ class AddressModel extends Model
         'address_info' => 'info'
     ];
 
-    public function add()
+    public function save()
     {
-        /* $this->app = app();
-         $this->validateObj = $this->app->entity('address');
-         $this->validateObj->setAddress('aaa');
-         return $this->validate();*/
         try {
-            $r = $this->make(Constants::MODEL_OBJECT, ['dd' => 'aaaft']);
-            print_r($r);
+            $addressObj = $this->make(Constants::MODEL_OBJECT);
+            $userObj = $this->app->model('user');
+            $em = $this->app->db();
+            $em->persist($addressObj);
+            $em->flush();
         } catch (\Exception $e) {
             echo $e->getMessage();
+            print_r(($this->errors));
         }
-        return $this;
-        print_r($this->EntityObject);
     }
 }
