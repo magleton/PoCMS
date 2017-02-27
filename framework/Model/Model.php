@@ -9,8 +9,8 @@ namespace Polymer\Model;
 
 use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
 use Polymer\Boot\Application;
+use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Utils\Constants;
 use Symfony\Component\Validator\Exception\NoSuchMetadataException;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
@@ -85,7 +85,7 @@ class Model
             }
             $this->validate($target, $data, $validateRules);
             if ($this->app->component('error_collection')->get($this->table)) {
-                throw new EntityNotFoundException('实体验证错误!');
+                throw new EntityValidateErrorException('实体验证错误!');
             }
             return $this->EntityObject;
         } catch (\Exception $e) {

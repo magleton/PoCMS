@@ -8,7 +8,7 @@
 namespace Polymer\Exceptions;
 
 
-class ObjectValidateException extends \Exception
+class EntityValidateErrorException extends \Exception
 {
 
 }

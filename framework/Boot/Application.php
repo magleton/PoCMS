@@ -17,7 +17,6 @@ use Polymer\Utils\DoctrineExtConfigLoader;
 use Slim\Container;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
-use Monolog\Logger;
 use Doctrine\Common\EventManager;
 use Doctrine\ORM\Tools\Setup;
 use Interop\Container\Exception\ContainerException;
@@ -320,6 +319,7 @@ final class Application
 
     /**
      * 获取业务模型实例
+     *
      * @param string $modelName 模型的名字
      * @param array $parameters 实例化时需要的参数
      * @param string $path 附加路径
@@ -339,18 +339,17 @@ final class Application
     /**
      * 获取实体模型实例
      * @param $tableName
-     * @param mixed $folder 实体文件夹的名字
+     * @param mixed $entityNamespace 实体的命名空间
      * @return bool
      */
-    public function entity($tableName, $folder = NULL)
+    public function entity($tableName, $entityNamespace = null)
     {
-        if (null === $folder) {
-            $folder = 'Entity\\Models';
+        if (null === $entityNamespace) {
+            $entityNamespace = 'Entity\\Models';
         }
-        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', $folder);
+        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', $entityNamespace);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $tableName)))));
         $className = ENTITY_NAMESPACE . '\\' . ucfirst($className);
-        echo $className;
         if (class_exists($className)) {
             return new $className;
         }
@@ -360,21 +359,30 @@ final class Application
     /**
      * 获取EntityRepository
      *
-     * @param $entityName
-     * @param $dbName
+     * @param string $entityName 实体的名字
+     * @param string $dbName 数据库的名字
+     * @param null $entityFolder 实体文件的路径
+     * @param mixed $entityNamespace 实体的命名空间
+     * @param mixed $repositoryNamespace Repository的命名空间
      * @return \Doctrine\ORM\EntityRepository | null
      */
-    public function repository($entityName, $dbName = '')
+    public function repository($entityName, $dbName = '', $entityFolder = null, $entityNamespace = null, $repositoryNamespace = null)
     {
-        !defined('REPOSITORIES_NAMESPACE') && define('REPOSITORIES_NAMESPACE', 'Entity\\Repositories');
-        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', 'Entity\\Models');
+        if (null === $repositoryNamespace) {
+            $repositoryNamespace = 'Entity\\Repositories';
+        }
+        if (null === $entityNamespace) {
+            $entityNamespace = 'Entity\\Models';
+        }
+        !defined('REPOSITORIES_NAMESPACE') && define('REPOSITORIES_NAMESPACE', $repositoryNamespace);
+        !defined('ENTITY_NAMESPACE') && define('ENTITY_NAMESPACE', $entityNamespace);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $entityName)))));
         $repositoryClassName = REPOSITORIES_NAMESPACE . '\\' . ucfirst($className) . 'Repository';
         if (class_exists($repositoryClassName)) {
             try {
                 $dbConfig = $this->config('db.' . APPLICATION_ENV);
                 $dbName = $dbName ?: current(array_keys($dbConfig));
-                return $this->db($dbName)->getRepository(ENTITY_NAMESPACE . '\\' . ucfirst($className));
+                return $this->db($entityFolder, $dbName)->getRepository(ENTITY_NAMESPACE . '\\' . ucfirst($className));
             } catch (ORMException $e) {
                 return null;
             } catch (\InvalidArgumentException $e) {
@@ -389,11 +397,15 @@ final class Application
      *
      * @param string $serviceName
      * @param array|null $params
+     * @param mixed $serviceNamespace
      * @return null | Object
      */
-    public function service($serviceName, array $params = null)
+    public function service($serviceName, array $params = null, $serviceNamespace = null)
     {
-        !defined('SERVICES_NAMESPACE') && define('SERVICES_NAMESPACE', APP_NAME . '\\Services');
+        if (null === $serviceNamespace) {
+            $serviceNamespace = APP_NAME . '\\Services';
+        }
+        !defined('SERVICES_NAMESPACE') && define('SERVICES_NAMESPACE', $serviceNamespace);
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $serviceName)))));
         $className = SERVICES_NAMESPACE . '\\' . ucfirst($className) . 'Service';
         if (class_exists($className)) {
