@@ -27,17 +27,17 @@ class Home extends Controller
         //$model = $this->app->model('user');
         try {
             //$model = $this->app->model('address');
-            $model = $this->app->model('user');
-            $model->save(['created_time' => time(), 'updated_time' => time()]);
-        }catch (\Exception $e){
-
+            //$model = $this->app->model('user');
+            // $model->save(['created_time' => time(), 'updated_time' => time()]);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
-
-        die();
         try {
-
-            $company = $this->app->repository('company', 'db1');
-            $r = $company->findOneBy(['company_id' => '11035442774995112489']);
+echo 'ssss';
+            $company = $this->app->repository('company');
+            $r = $company->findOneBy(['company_id' => '11035452971785113632']);
+            print_r(($company->present($r)->fullName()));
+            die();
             $this->app->addEvent([
                 TestEvent::preFoo => ['class_name' => TestEvent::class]
             ]);

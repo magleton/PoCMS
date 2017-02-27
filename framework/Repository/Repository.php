@@ -1,8 +1,8 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * User: macro chen <macro_fengye@163.com>
+ * Date: 16-12-12
+ * Time: 上午8:55
  */
 
 namespace Polymer\Repository;
@@ -10,9 +10,17 @@ namespace Polymer\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Util\Inflector;
 use Exception;
+use Polymer\Exceptions\PresenterException;
 
 class Repository extends EntityRepository
 {
+    /**
+     * View presenter instance
+     *
+     * @var mixed
+     */
+    protected $presenterInstance;
+
     /**
      * 验证查询字段的值
      *
@@ -98,5 +106,23 @@ class Repository extends EntityRepository
         } else {
             return strtolower(trim(preg_replace('/[A-Z]/', '_\\0', $name), '_'));
         }
+    }
+
+    /**
+     * Prepare a new or cached presenter instance
+     *
+     * @param $entity
+     * @return mixed
+     * @throws PresenterException
+     */
+    public function present($entity)
+    {
+        if (!$this->presenter || !class_exists($this->presenter)) {
+            throw new PresenterException('Please set the $presenter property to your presenter path.');
+        }
+        if (!$this->presenterInstance) {
+            $this->presenterInstance = new $this->presenter($entity);
+        }
+        return $this->presenterInstance;
     }
 }
