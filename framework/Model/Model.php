@@ -81,7 +81,7 @@ class Model
                 if (null === $entityFolder) {
                     $entityFolder = property_exists($this, 'entityFolder') ? $this->entityFolder : null;
                 }
-                if (!$this->getEntityObject()) {
+                if (!$this->EntityObject) {
                     $this->EntityObject = $this->app->entity($this->table, $entityFolder);
                 }
             }
