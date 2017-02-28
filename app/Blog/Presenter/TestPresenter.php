@@ -15,4 +15,10 @@ class TestPresenter extends Presenter
     {
         return $this->name . ' ' . $this->address;
     }
+
+
+    public function abc()
+    {
+        return $this->name;
+    }
 }

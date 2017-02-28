@@ -26,17 +26,17 @@ class Home extends Controller
     {
         //$model = $this->app->model('user');
         try {
-            //$model = $this->app->model('address');
+           // $model = $this->app->model('address');
+            $model = $this->app->repository('company');
             //$model = $this->app->model('user');
             // $model->save(['created_time' => time(), 'updated_time' => time()]);
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
         try {
-echo 'ssss';
             $company = $this->app->repository('company');
-            $r = $company->findOneBy(['company_id' => '11035452971785113632']);
-            print_r(($company->present($r)->fullName()));
+            $r = $company->findBy(['name' => '陈哈哈']);
+            print_r(($company->present($r)->abc()));
             die();
             $this->app->addEvent([
                 TestEvent::preFoo => ['class_name' => TestEvent::class]
