@@ -24,7 +24,7 @@ class MemcachedCacheProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["memcachedCache"] = function (Container $container) {
+        $pimple['memcachedCache'] = function (Container $container) {
             $namespace = 'memcachedCache';
             if ($container['application']->component('namespace')) {
                 $namespace = $container['application']->component('namespace');

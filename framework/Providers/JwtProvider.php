@@ -26,7 +26,7 @@ class JwtProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["jwt"] = function ($container) {
+        $pimple['jwt'] = function ($container) {
             return new JwtAuthentication([
                 "header" => "token",
                 "regexp" => "/(.*)/",

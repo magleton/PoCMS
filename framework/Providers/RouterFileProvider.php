@@ -56,5 +56,4 @@ class RouterFileProvider implements ServiceProviderInterface
             require_once APP_PATH . 'Routers/router.php';
         };
     }
-
 }

@@ -25,7 +25,7 @@ class EventManagerProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple["eventManager"] = function (Container $container) {
+        $pimple['eventManager'] = function (Container $container) {
             return new EventManager();
         };
     }
