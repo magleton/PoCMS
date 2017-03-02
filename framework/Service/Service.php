@@ -27,7 +27,7 @@ class Service
     protected $app;
 
     /**
-     * SendMsgService constructor.
+     * Service constructor.
      *
      * @param Request|null $request
      * @param Application|null $app
