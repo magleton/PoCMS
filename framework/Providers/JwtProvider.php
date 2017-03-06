@@ -28,22 +28,21 @@ class JwtProvider implements ServiceProviderInterface
     {
         $pimple['jwt'] = function ($container) {
             return new JwtAuthentication([
-                "header" => "token",
-                "regexp" => "/(.*)/",
-                "secure" => false,
-                //"secret" => '62f47d0439a14f8bddb465dff4317fdb',
-                "secret" => $container['application']->component('session')->get('secret'),
-                "path" => ["/user", "/loan", "/merchant"],
+                'header' => 'token',
+                'regexp' => '/(.*)/',
+                'secure' => false,
+                'secret' => app()->component('application')->component('session') ? app()->component('application')->component('session')->get('secret') : '62f47d0439a14f8bddb465dff4317fdb',
+                'path' => ['/user', '/loan', '/merchant'],
                 'passthrough' => ['/user/generateCaptcha', '/user/sendSMS', '/user/login', '/user/register', '/user/retrievePassword', '/user/logout'],
-                "error" => function ($request, $response, $arguments) {
-                    $data["status"] = "error";
-                    $data["message"] = var_export($arguments, true);
+                'error' => function ($request, $response, $arguments) {
+                    $data['status'] = 'error';
+                    $data['message'] = var_export($arguments, true);
                     return $response
-                        ->withHeader("Content-Type", "application/json")
+                        ->withHeader('Content-Type', 'application/json')
                         ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
                 },
-                "callback" => function ($request, $response, $arguments) use ($container) {
-                    $container["jwtData"] = $arguments["decoded"];
+                'callback' => function ($request, $response, $arguments) use ($container) {
+                    $container['jwtData'] = $arguments['decoded'];
                 }
             ]);
         };

@@ -7,11 +7,11 @@ if (!function_exists('app')) {
      * @author <macro_fengye@163.com> macro chen
      * @param null $make 是否返回对象实例
      * @param array $parameters
-     * @return mixed|null
+     * @return Application
      */
     function app($make = null, $parameters = [])
     {
-        if (is_null($make)) {
+        if (null === $make) {
             return Application::getInstance();
         }
 
