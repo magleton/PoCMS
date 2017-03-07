@@ -12,6 +12,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Polymer\Validator\Validator;
 use Symfony\Component\Validator\Validation;
 
 class ValidatorProvider implements ServiceProviderInterface
@@ -22,10 +23,11 @@ class ValidatorProvider implements ServiceProviderInterface
             //AnnotationRegistry::registerFile(ROOT_PATH . "/vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php");
             //AnnotationRegistry::registerAutoloadNamespace("Symfony\Component\Validator\Constraint", ROOT_PATH."/entity/Models");
             //AnnotationRegistry::registerAutoloadNamespace("Entity\\Models\\", ROOT_PATH . "/entity/Models");
-            AnnotationRegistry::registerLoader('class_exists');
+            /*AnnotationRegistry::registerLoader('class_exists');
             $reader = new AnnotationReader();
             AnnotationReader::addGlobalIgnoredName('dummy');
-            return Validation::createValidatorBuilder()->enableAnnotationMapping($reader)->getValidator();
+            return Validation::createValidatorBuilder()->enableAnnotationMapping($reader)->getValidator();*/
+            return new Validator();
         };
     }
 }

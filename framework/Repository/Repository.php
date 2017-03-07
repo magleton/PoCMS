@@ -7,10 +7,19 @@
 
 namespace Polymer\Repository;
 
+use Blog\Listener\MyEventListener;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Common\Util\Inflector;
+use Doctrine\ORM\Events;
+use Entity\Models\Company;
 use Exception;
+use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Exceptions\PresenterException;
+use Polymer\Utils\Constants;
+use Symfony\Component\Validator\Constraints\Blank;
+use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Repository extends EntityRepository
 {
@@ -24,88 +33,19 @@ class Repository extends EntityRepository
     /**
      * 验证查询字段的值
      *
-     * @param array $rules
-     */
-    public function validate(array $rules = [])
-    {
-    }
-
-    /**
-     *  动态调用函数
-     *
-     * @example 调用方式  $this->getByAge(28) 查询age=28的值
-     * @example 调用方式  $this->getByFieldAge(28 , 'name'); 获取name的值,查询条件是age=28
-     * @param string $method
-     * @param array $arguments
+     * @param array $data 需要验证的数据
+     * @param array $rules 验证数据的规则
      * @throws Exception
-     * @return mixed
+     * @return $this
      */
-    public function __call($method, $arguments)
+    public function validate(array $data = [], array $rules = [])
     {
-        try {
-            if (0 === stripos($method, 'getBy')) {
-                // 根据某个字段获取记录
-                $field = $this->parseName(substr($method, 5));
-                if ($arguments) {
-                    $where[$field] = $arguments[0];
-                    return $this->getBy($where);
-                } else {
-                    throw new \InvalidArgumentException($method . '方法需要传入一个非空参数');
-                }
-            } elseif (0 === stripos($method, 'getFieldBy')) {
-                // 根据某个字段获取记录的某个值
-                $field = $this->parseName(substr($method, 10));
-                if (2 === count($arguments)) {
-                    $where[$field] = $arguments[0];
-                    return $this->getBy($where, $arguments[1]);
-                } else {
-                    throw new \InvalidArgumentException($method . '方法需要传入两个非空参数');
-                }
-            } else {
-                return parent::__call($method, $arguments);
-            }
-        } catch (Exception $e) {
-            throw $e;
+        $validator = app()->component('validator')->setProperty('validateRules', $rules);
+        $validator->validate(Constants::MODEL_FIELD, $data);
+        if (app()->component('error_collection')->get('error')) {
+            throw new EntityValidateErrorException('实体验证错误!');
         }
-    }
-
-    /**
-     * 获取指定对象的信息
-     *
-     * @param array $fieldWhere 查询对象的字段条件
-     * @param string $fieldTarget 默认为空，若指定则只返回指定字段的值
-     * @throws Exception
-     * @return mixed
-     */
-    protected function getBy(array $fieldWhere, $fieldTarget = '')
-    {
-        $object = $this->findOneBy($fieldWhere);
-        if ($object && $fieldTarget) {
-            $method = 'get' . lcfirst(Inflector::classify($fieldTarget));
-            if (method_exists($object, $method)) {
-                return $object->$method();
-            } else {
-                throw new \InvalidArgumentException('查询字段' . $fieldTarget . '不存在');
-            }
-        }
-        return $object;
-    }
-
-    /**
-     * 字符串命名风格转换
-     * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
-     *
-     * @param string $name 字符串
-     * @param integer $type 转换类型
-     * @return string
-     */
-    protected function parseName($name, $type = 0)
-    {
-        if ($type) {
-            return ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $name)))));
-        } else {
-            return strtolower(trim(preg_replace('/[A-Z]/', '_\\0', $name), '_'));
-        }
+        return $this;
     }
 
     /**
@@ -135,7 +75,7 @@ class Repository extends EntityRepository
      */
     protected function setProperty($propertyName, $value)
     {
-        if (!isset($this->$propertyName)) {
+        if (!isset($this->$propertyName) || !$this->$propertyName) {
             $this->$propertyName = $value;
         }
         return $this;
@@ -190,5 +130,51 @@ class Repository extends EntityRepository
     public function __isset($name)
     {
         return isset($this->$name);
+    }
+
+
+    /**
+     * 根据类名获取类的全名
+     *
+     * @param string $cls
+     * @return string
+     */
+    private function getConstraintClass($cls = '')
+    {
+        $class = '';
+        if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
+            $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
+            return $class;
+        } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
+            $class = APP_NAME . '\\Constraints\\' . $cls;
+            return $class;
+        } elseif (class_exists('Polymer\\Constraints\\' . $cls)) {
+            $class = 'Polymer\\Constraints\\' . $cls;
+            return $class;
+        }
+        return $class;
+    }
+
+
+    /**
+     * 实例化指定属性的验证器类
+     *
+     * @param string $property
+     * @return array
+     */
+    private function propertyConstraints($property)
+    {
+        $constraints = [];
+        foreach ($this->validateRules[$property] as $cls => $params) {
+            if (is_numeric($cls)) {
+                $cls = $params;
+                $params = null;
+            }
+            $class = $this->getConstraintClass($cls);
+            if (!empty(trim($class))) {
+                $constraints[] = new $class($params);
+            }
+        }
+        return $constraints;
     }
 }

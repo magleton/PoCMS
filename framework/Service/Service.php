@@ -48,7 +48,7 @@ class Service
      */
     protected function setProperty($propertyName, $value)
     {
-        if (!isset($this->$propertyName)) {
+        if (!isset($this->$propertyName) || !$this->$propertyName) {
             $this->$propertyName = $value;
         }
         return $this;
