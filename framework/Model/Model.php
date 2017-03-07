@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityManager;
 use Polymer\Boot\Application;
 use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Utils\Constants;
-use Symfony\Component\Validator\Exception\NoSuchMetadataException;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 class Model
@@ -140,9 +139,7 @@ class Model
      */
     protected function setProperty($propertyName, $value)
     {
-        if (!isset($this->$propertyName) || !$this->$propertyName) {
-            $this->$propertyName = $value;
-        }
+        $this->$propertyName = $value;
         return $this;
     }
 

@@ -8,12 +8,9 @@
 
 namespace Polymer\Providers;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Polymer\Validator\Validator;
-use Symfony\Component\Validator\Validation;
 
 class ValidatorProvider implements ServiceProviderInterface
 {

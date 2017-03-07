@@ -229,9 +229,7 @@ class Validator
      */
     public function setProperty($propertyName, $value)
     {
-        if (!isset($this->$propertyName) || !$this->$propertyName) {
-            $this->$propertyName = $value;
-        }
+        $this->$propertyName = $value;
         return $this;
     }
 

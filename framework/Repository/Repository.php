@@ -7,19 +7,11 @@
 
 namespace Polymer\Repository;
 
-use Blog\Listener\MyEventListener;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Common\Util\Inflector;
-use Doctrine\ORM\Events;
-use Entity\Models\Company;
 use Exception;
 use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Exceptions\PresenterException;
 use Polymer\Utils\Constants;
-use Symfony\Component\Validator\Constraints\Blank;
-use Symfony\Component\Validator\Constraints\EqualTo;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Repository extends EntityRepository
 {
@@ -75,9 +67,7 @@ class Repository extends EntityRepository
      */
     protected function setProperty($propertyName, $value)
     {
-        if (!isset($this->$propertyName) || !$this->$propertyName) {
-            $this->$propertyName = $value;
-        }
+        $this->$propertyName = $value;
         return $this;
     }
 
@@ -130,51 +120,5 @@ class Repository extends EntityRepository
     public function __isset($name)
     {
         return isset($this->$name);
-    }
-
-
-    /**
-     * 根据类名获取类的全名
-     *
-     * @param string $cls
-     * @return string
-     */
-    private function getConstraintClass($cls = '')
-    {
-        $class = '';
-        if (class_exists('\\Symfony\\Component\\Validator\\Constraints\\' . $cls)) {
-            $class = '\\Symfony\\Component\\Validator\\Constraints\\' . $cls;
-            return $class;
-        } elseif (class_exists(APP_NAME . '\\Constraints\\' . $cls)) {
-            $class = APP_NAME . '\\Constraints\\' . $cls;
-            return $class;
-        } elseif (class_exists('Polymer\\Constraints\\' . $cls)) {
-            $class = 'Polymer\\Constraints\\' . $cls;
-            return $class;
-        }
-        return $class;
-    }
-
-
-    /**
-     * 实例化指定属性的验证器类
-     *
-     * @param string $property
-     * @return array
-     */
-    private function propertyConstraints($property)
-    {
-        $constraints = [];
-        foreach ($this->validateRules[$property] as $cls => $params) {
-            if (is_numeric($cls)) {
-                $cls = $params;
-                $params = null;
-            }
-            $class = $this->getConstraintClass($cls);
-            if (!empty(trim($class))) {
-                $constraints[] = new $class($params);
-            }
-        }
-        return $constraints;
     }
 }
