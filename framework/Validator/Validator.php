@@ -79,6 +79,7 @@ class Validator
      */
     public function validate($target = Constants::MODEL_FIELD, array $data = [], $key = 'error')
     {
+        $key = $key ?: 'error';
         $data = $this->mergeParams($data);
         $target === Constants::MODEL_FIELD ? $this->validateFields($data, $key) : $this->validateObject($data, $key);
     }
