@@ -76,28 +76,17 @@ class Model
     {
         try {
             $validator = $this->app->component('validator');
-            $validateRules = [];
+            $tableName = $this->getProperty('table');
+            $entityFolder = $this->getProperty('entityFolder');
             if (Constants::MODEL_OBJECT) {
-                if (!$this->EntityObject) {
-                    $tableName = $this->getProperty('table');
-                    $entityFolder = $this->getProperty('entityFolder');
-                    $this->EntityObject = $this->app->entity($tableName, $entityFolder);
-                }
+                $this->EntityObject = $this->EntityObject ?: $this->app->entity($tableName, $entityFolder);
                 $validator = $validator->setProperty('EntityObject', $this->EntityObject);
             }
-            if ($rules) {
-                $validateRules = $rules;
-            } elseif (property_exists($this, 'validateRules')) {
-                $validateRules = $this->validateRules;
-            }
-            if ($validateRules) {
-                $validator = $validator->setProperty('validateRules', $validateRules);
-            }
-            if (property_exists($this, 'mappingField')) {
-                $validator = $validator->setProperty('mappingField', $this->mappingField);
-            }
-            $validator->validate($target, $data, $this->table);
-            if ($this->app->component('error_collection')->get($this->table)) {
+            $validateRules = $rules ?: $this->getProperty('validateRules');
+            $validator = $validator->setProperty('validateRules', $validateRules);
+            $validator = $validator->setProperty('mappingField', $this->getProperty('mappingField'));
+            $validator->validate($target, $data, $tableName);
+            if ($this->app->component('error_collection')->get($tableName)) {
                 throw new EntityValidateErrorException('实体验证错误!');
             }
             return $this->EntityObject;
