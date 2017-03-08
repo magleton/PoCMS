@@ -8,7 +8,6 @@
 
 namespace Blog\Providers;
 
-
 use Polymer\Middleware\IpFilterMiddleware;
 use Polymer\Utils\Constants;
 use Pimple\Container;
@@ -27,7 +26,7 @@ class IpFilterProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['ip_filter'] = function ($container) {
-            return new IpFilterMiddleware($container->get('config')->get('ip_list') , Constants::ALLOW);
+            return new IpFilterMiddleware($container['application']->config('ip_list'), Constants::ALLOW);
         };
     }
 

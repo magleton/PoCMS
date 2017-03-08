@@ -34,6 +34,8 @@ class RouterFileProvider implements ServiceProviderInterface
                     foreach ($container['application']->config('middleware') as $key => $middleware) {
                         if (function_exists($middleware) && is_callable($middleware)) {
                             $router_file_contents .= '->add("' . $middleware . '")';
+                        } elseif ($container['application']->component($middleware)) {
+                            $router_file_contents .= '->add($container[\'application\']->component("' . $middleware . '"))';
                         } elseif ($container['application']->component($key)) {
                             $router_file_contents .= '->add($container[\'application\']->component("' . $key . '"))';
                         } elseif (class_exists($middleware)) {
