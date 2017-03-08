@@ -60,7 +60,7 @@ class Service
      */
     protected function getProperty($propertyName)
     {
-        if (!isset($this->$propertyName)) {
+        if (isset($this->$propertyName)) {
             return $this->$propertyName;
         }
         return null;

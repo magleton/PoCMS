@@ -11,6 +11,7 @@ use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Doctrine\ORM\EntityManager;
 use Polymer\Boot\Application;
 use Polymer\Exceptions\EntityValidateErrorException;
+use Polymer\Exceptions\ModelInstanceErrorException;
 use Polymer\Utils\Constants;
 use Symfony\Component\Validator\Validator\RecursiveValidator;
 
@@ -38,13 +39,6 @@ class Model
     private $EntityObject = null;
 
     /**
-     * 验证器的规则
-     *
-     * @var array
-     */
-    protected $validateRules = [];
-
-    /**
      * EntityManager实例
      *
      * @var EntityManager
@@ -54,12 +48,18 @@ class Model
     /**
      * 模型构造函数
      *
-     * Model constructor.
+     * @throws ModelInstanceErrorException
      */
     public function __construct()
     {
-        $this->app = app();
-        $this->validator = $this->app->component('validator');
+        try {
+            $this->app = app();
+            $this->validator = $this->app->component('validator');
+            $schema = $this->getProperty('schema') ?: '';
+            $this->em = $this->app->db($schema);
+        } catch (\Exception $e) {
+            throw new ModelInstanceErrorException('模型实例化错误' . $e->getMessage());
+        }
     }
 
     /**
@@ -73,21 +73,27 @@ class Model
      * @throws \Exception
      * @return Object
      */
-    protected function make($target = Constants::MODEL_FIELD, array $data = [], $entityFolder = null, array $rules = [])
+    protected function make($target = Constants::MODEL_FIELD, array $data = [], array $rules = [])
     {
         try {
             $validator = $this->app->component('validator');
+            $validateRules = [];
             if (Constants::MODEL_OBJECT) {
-                if (null === $entityFolder) {
-                    $entityFolder = property_exists($this, 'entityFolder') ? $this->entityFolder : null;
-                }
                 if (!$this->EntityObject) {
-                    $this->EntityObject = $this->app->entity($this->table, $entityFolder);
+                    $tableName = $this->getProperty('table');
+                    $entityFolder = $this->getProperty('entityFolder');
+                    $this->EntityObject = $this->app->entity($tableName, $entityFolder);
                 }
                 $validator = $validator->setProperty('EntityObject', $this->EntityObject);
             }
-            $validateRules = $rules ?: $this->validateRules;
-            $validator = $validator->setProperty('validateRules', $validateRules);
+            if ($rules) {
+                $validateRules = $rules;
+            } elseif (property_exists($this, 'validateRules')) {
+                $validateRules = $this->validateRules;
+            }
+            if ($validateRules) {
+                $validator = $validator->setProperty('validateRules', $validateRules);
+            }
             if (property_exists($this, 'mappingField')) {
                 $validator = $validator->setProperty('mappingField', $this->mappingField);
             }
@@ -151,7 +157,7 @@ class Model
      */
     protected function getProperty($propertyName)
     {
-        if (!isset($this->$propertyName)) {
+        if (isset($this->$propertyName)) {
             return $this->$propertyName;
         }
         return null;

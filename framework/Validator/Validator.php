@@ -134,7 +134,7 @@ class Validator
                         $data[$val->getName()] = '';
                     }
                 }
-                if (!empty($this->validateRules)) {
+                if ($this->validateRules) {
                     foreach ($data as $property => $val) {
                         if (isset($this->validateRules[$property])) {
                             $constraints = $this->propertyConstraints($property);
@@ -242,7 +242,7 @@ class Validator
      */
     public function getProperty($propertyName)
     {
-        if (!isset($this->$propertyName)) {
+        if (isset($this->$propertyName)) {
             return $this->$propertyName;
         }
         return null;
