@@ -67,7 +67,6 @@ class Model
      *
      * @param int $target
      * @param array $data
-     * @param null $entityFolder
      * @param array $rules
      *
      * @throws \Exception
