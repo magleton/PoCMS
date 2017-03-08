@@ -7,8 +7,11 @@
 
 namespace Polymer\Repository;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping;
 use Exception;
+use Polymer\Boot\Application;
 use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Exceptions\PresenterException;
 use Polymer\Utils\Constants;
@@ -21,6 +24,25 @@ class Repository extends EntityRepository
      * @var mixed
      */
     protected $presenterInstance;
+
+    /**
+     * 全局应用实例
+     *
+     * @var Application
+     */
+    protected $app = null;
+
+    /**
+     * Initializes a new <tt>EntityRepository</tt>.
+     *
+     * @param EntityManager $em The EntityManager to use.
+     * @param Mapping\ClassMetadata $class The class descriptor.
+     */
+    public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->app = app();
+    }
 
     /**
      * 验证查询字段的值
