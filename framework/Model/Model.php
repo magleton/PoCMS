@@ -82,7 +82,7 @@ class Model
                 $this->EntityObject = $this->EntityObject ?: $this->app->entity($tableName, $entityFolder);
                 $validator = $validator->setProperty('EntityObject', $this->EntityObject);
             }
-            $validateRules = $rules ?: $this->getProperty('validateRules');
+            $validateRules = $rules ?: $this->getProperty('rules');
             $validator = $validator->setProperty('validateRules', $validateRules);
             $validator = $validator->setProperty('mappingField', $this->getProperty('mappingField'));
             $validator->validate($target, $data, $tableName);
