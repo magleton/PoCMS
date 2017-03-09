@@ -135,7 +135,7 @@ final class Application
                 $database = $this->config('doctrine.metadata_cache.database');
                 $cache = $this->component($cacheName, ['database' => $database]);
             }
-            $entityFolder = (null !== $entityFolder) ?: $entityFolder = ROOT_PATH . '/entity/Models';
+            $entityFolder = (null !== $entityFolder) ? $entityFolder : $entityFolder = ROOT_PATH . '/entity/Models';
             $configuration = Setup::createAnnotationMetadataConfiguration([
                 $entityFolder,
             ], APPLICATION_ENV === 'development', ROOT_PATH . '/entity/Proxies/', $cache, $dbConfig[$dbName]['useSimpleAnnotationReader']);
