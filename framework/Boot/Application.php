@@ -325,7 +325,7 @@ final class Application
      */
     public function model($modelName, array $parameters = [], $modelNamespace = null)
     {
-        $modelNamespace = (null !== $modelNamespace) ?: $modelNamespace = APP_NAME . '\\Models';
+        $modelNamespace = (null !== $modelNamespace) ? $modelNamespace : $modelNamespace = APP_NAME . '\\Models';
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $modelName)))));
         $className = $modelNamespace . '\\' . ucfirst($className) . 'Model';
         if (class_exists($className)) {
@@ -342,7 +342,7 @@ final class Application
      */
     public function entity($tableName, $entityNamespace = null)
     {
-        $entityNamespace = (null !== $entityNamespace) ?: $entityNamespace = 'Entity\\Models';
+        $entityNamespace = (null !== $entityNamespace) ? $entityNamespace : $entityNamespace = 'Entity\\Models';
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $tableName)))));
         $className = $entityNamespace . '\\' . ucfirst($className);
         if (class_exists($className)) {
@@ -363,8 +363,8 @@ final class Application
      */
     public function repository($entityName, $dbName = '', $entityFolder = null, $entityNamespace = null, $repositoryNamespace = null)
     {
-        $repositoryNamespace = (null !== $repositoryNamespace) ?: $repositoryNamespace = 'Entity\\Repositories';
-        $entityNamespace = (null !== $entityNamespace) ?: $entityNamespace = 'Entity\\Models';
+        $repositoryNamespace = (null !== $repositoryNamespace) ? $repositoryNamespace : $repositoryNamespace = 'Entity\\Repositories';
+        $entityNamespace = (null !== $entityNamespace) ? $entityNamespace : $entityNamespace = 'Entity\\Models';
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $entityName)))));
         $repositoryClassName = $repositoryNamespace . '\\' . ucfirst($className) . 'Repository';
         if (class_exists($repositoryClassName)) {
@@ -391,7 +391,7 @@ final class Application
      */
     public function service($serviceName, $serviceNamespace = null, array $params = null)
     {
-        $serviceNamespace = (null !== $serviceNamespace) ?: $serviceNamespace = APP_NAME . '\\Services';
+        $serviceNamespace = (null !== $serviceNamespace) ? $serviceNamespace : $serviceNamespace = APP_NAME . '\\Services';
         $className = ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $serviceName)))));
         $className = $serviceNamespace . '\\' . ucfirst($className) . 'Service';
         if (class_exists($className)) {
