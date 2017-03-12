@@ -23,24 +23,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected $app;
 
     /**
-     * Sets up the fixture, for example, open a network connection.
-     * This method is called before a test is executed.
+     * Constructs a test case with the given name.
+     *
+     * @param string $name
+     * @param array $data
+     * @param string $dataName
      */
-    protected function setUp()
+    public function __construct($name = null, array $data = array(), $dataName = '')
     {
-        parent::setUp();
+        parent::__construct($name, $data, $dataName);
         $this->app = app();
         $this->client = new Client($this->app->config('testing.config', []));
-    }
-
-    /**
-     * Tears down the fixture, for example, close a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
-        $this->app = null;
-        $this->client = null;
     }
 }
