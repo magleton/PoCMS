@@ -7,28 +7,45 @@
 
 namespace Blog\Services;
 
+use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Service\Service;
+use Polymer\Utils\Constants;
 
 class TestService extends Service
 {
-    public function test()
-    {
-        return [
-            'name' => 'Macro Chen',
-            'age' => 12
-        ];
-    }
+    /**
+     * 验证组件
+     *
+     * @var RecursiveValidator
+     */
+    protected $validator = null;
 
-    public function abc()
-    {
-        return 3;
-    }
+    protected $rules = [
+        'name' => [
+            'Length' => [
+                'min' => 1,
+                'max' => 50,
+                'minMessage' => "Your first name must be at least {{ limit }} characters long",
+                'maxMessage' => "Your first name cannot be longer than {{ limit }} characters"
+            ]
+        ]
+    ];
 
     public function add()
     {
         try {
-            return $this->app->model('address')->save();
+            return $this->app->model('company')->save();
         } catch (\Exception $e) {
+            return ['errCode' => 90];
+        }
+    }
+
+    public function update()
+    {
+        try {
+            return $this->app->model('company')->update();
+        } catch (\Exception $e) {
+            $errors = $this->app->component('error_collection')->all();
             return ['errCode' => 90];
         }
     }
