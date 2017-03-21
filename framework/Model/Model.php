@@ -36,7 +36,7 @@ class Model
      *
      * @var null
      */
-    private $EntityObject = null;
+    protected $entityObject = null;
 
     /**
      * EntityManager实例
@@ -54,9 +54,10 @@ class Model
     {
         try {
             $this->app = app();
-            $this->validator = $this->app->component('biz_validator');
             $schema = $this->getProperty('schema') ?: '';
-            $this->em = $this->app->db($schema);
+            if ($schema) {
+                $this->em = $this->app->db($schema);
+            }
         } catch (\Exception $e) {
             throw new ModelInstanceErrorException('模型实例化错误' . $e->getMessage());
         }
@@ -65,34 +66,73 @@ class Model
     /**
      * 生成数据库表的实体对象
      *
-     * @param int $target
-     * @param array $data
-     * @param array $rules
-     *
+     * @param array $data 自定义数据
+     * @param string $table 名表
+     * @param string $entityFolder 实体文件夹的路径
+     * @return bool|null
      * @throws \Exception
-     * @return Object
      */
-    protected function make($target = Constants::MODEL_FIELD, array $data = [], array $rules = [])
+    protected function make(array $data = [], $table = '', $entityFolder = '')
     {
         try {
-            $validator = $this->app->component('biz_validator');
-            $tableName = $this->getProperty('table');
-            $entityFolder = $this->getProperty('entityFolder');
-            if (Constants::MODEL_OBJECT) {
-                $this->EntityObject = $this->EntityObject ?: $this->app->entity($tableName, $entityFolder);
-                $validator = $validator->setProperty('EntityObject', $this->EntityObject);
+            $tableName = $table ?: $this->getProperty('table');
+            $entityFolder = $entityFolder ?: $this->getProperty('entityFolder');
+            $this->entityObject = $this->entityObject ?: $this->app->entity($tableName, $entityFolder);
+            foreach ($this->mergeParams($data) as $k => $v) {
+                $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
+                if (method_exists($this->entityObject, $setMethod)) {
+                    $this->entityObject->$setMethod($v);
+                }
             }
-            $validateRules = $rules ?: $this->getProperty('rules');
-            $validator = $validator->setProperty('validateRules', $validateRules);
-            $validator = $validator->setProperty('mappingField', $this->getProperty('mappingField'));
-            $validator->validate($target, $data, $tableName);
-            if ($this->app->component('error_collection')->get($tableName)) {
-                throw new EntityValidateErrorException('实体验证错误!');
-            }
-            return $this->EntityObject;
+            return $this->entityObject;
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 验证数据或者对象
+     *
+     * @param $object 要验证的数据或者对象
+     * @param array $rules 验证规则
+     * @param int $type 验证类型
+     * @return bool
+     * @throws \Exception
+     */
+    protected function validate($object, array $rules = [], $type = Constants::MODEL_OBJECT)
+    {
+        $method = [Constants::MODEL_FIELD => 'verifyField', Constants::MODEL_OBJECT => 'verifyObject'];
+        try {
+            $validator = $this->app->component('biz_validator');
+            $ret = $validator->$method[$type]($object, $rules);
+            if (!$ret) {
+                throw new EntityValidateErrorException('数据验证失败!');
+            }
+            return true;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 合并请求参数数据与自定义参数数据
+     *
+     * @param array $data 需要验证的数据
+     * @param array $mappingField 映射字段
+     * @return array
+     * @throws \Exception
+     */
+    protected function mergeParams(array $data = [], array $mappingField = [])
+    {
+        $data = array_merge($this->app->component('request')->getParams(), $data);
+        if ($mappingField) {
+            $combineData = [];
+            foreach ($data as $key => $value) {
+                isset($mappingField[$key]) ? $combineData[$mappingField[$key]] = $value : $combineData[$key] = $value;
+            }
+            return $combineData;
+        }
+        return $data;
     }
 
     /**
@@ -151,40 +191,4 @@ class Model
         return null;
     }
 
-    /**
-     * is utilized for reading data from inaccessible members.
-     *
-     * @param $name string
-     * @return mixed
-     * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
-     */
-    public function __get($name)
-    {
-        return isset($this->$name) ? $this->$name : null;
-    }
-
-    /**
-     * run when writing data to inaccessible members.
-     *
-     * @param $name string
-     * @param $value mixed
-     * @return $this
-     * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
-     */
-    public function __set($name, $value)
-    {
-        $this->$name = $value;
-    }
-
-    /**
-     * is triggered by calling isset() or empty() on inaccessible members.
-     *
-     * @param $name string
-     * @return bool
-     * @link http://php.net/manual/en/language.oop5.overloading.php#language.oop5.overloading.members
-     */
-    public function __isset($name)
-    {
-        return isset($this->$name);
-    }
 }
