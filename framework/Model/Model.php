@@ -101,7 +101,6 @@ class Model
     /**
      * 验证数据或者对象
      *
-     * @param mixed $object 要验证的数据或者对象
      * @param array $rules 验证规则
      * @param int $type 验证类型
      * @return bool
@@ -117,7 +116,7 @@ class Model
             if (!$ret) {
                 throw new EntityValidateErrorException('数据验证失败!');
             }
-            return true;
+            return $this->entityObject;
         } catch (\Exception $e) {
             throw $e;
         }
