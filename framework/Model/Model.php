@@ -47,14 +47,14 @@ class Model
 
     /**
      * 模型构造函数
-     *
+     * @param array $params
      * @throws ModelInstanceErrorException
      */
-    public function __construct()
+    public function __construct(array $params = [])
     {
         try {
             $this->app = app();
-            $schema = $this->getProperty('schema') ?: '';
+            $schema = isset($params['schema']) ? $params['schema'] : $this->getProperty('schema');
             if ($schema) {
                 $this->em = $this->app->db($schema);
             }
