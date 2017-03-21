@@ -1,4 +1,7 @@
 {
+  "name": "artful/polymer",
+  "description": "Polymer是一个PHP框架,基于slim3+doctrine+",
+  "license": "proprietary",
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
@@ -22,14 +25,16 @@
     "peppeocchi/php-cron-scheduler": "~1.4",
     "runcmf/runtracy": "~0.2",
     "symfony/serializer": "3.2.4",
+    "mikey179/vfsStream": "~1.6",
+    "mockery/mockery": "~0.9",
+    "macro/captcha": "dev-master",
     "ext-pdo": "*",
     "ext-simplexml": "*",
     "ext-exif": "*"
   },
   "require-dev": {
     "satooshi/php-coveralls": "~1.0",
-    "phpunit/phpunit": "~4.0",
-    "phpunit/dbunit": "1.*",
+    "phpunit/phpunit": "~5.0",
     "facebook/webdriver": "~1.0",
     "mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": "^3.0.0",
     "mysql-workbench-schema-exporter/doctrine2-exporter": "^3.0.0"
@@ -42,6 +47,7 @@
   },
   "autoload": {
     "psr-4": {
+      "Component\\": "component\\",
       "Polymer\\": "framework\\",
       "Entity\\": "entity\\",
       "Blog\\": "app\\Blog",
