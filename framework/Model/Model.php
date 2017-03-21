@@ -46,6 +46,13 @@ class Model
     protected $em = null;
 
     /**
+     * 自定义数据
+     *
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * 模型构造函数
      * @param array $params
      * @throws ModelInstanceErrorException
@@ -69,12 +76,13 @@ class Model
      * @param array $data 自定义数据
      * @param string $table 名表
      * @param string $entityFolder 实体文件夹的路径
-     * @return bool|null
+     * @return $this
      * @throws \Exception
      */
     protected function make(array $data = [], $table = '', $entityFolder = '')
     {
         try {
+            $this->data = $data;
             $tableName = $table ?: $this->getProperty('table');
             $entityFolder = $entityFolder ?: $this->getProperty('entityFolder');
             $this->entityObject = $this->entityObject ?: $this->app->entity($tableName, $entityFolder);
@@ -84,7 +92,7 @@ class Model
                     $this->entityObject->$setMethod($v);
                 }
             }
-            return $this->entityObject;
+            return $this;
         } catch (\Exception $e) {
             throw $e;
         }
@@ -93,18 +101,19 @@ class Model
     /**
      * 验证数据或者对象
      *
-     * @param $object 要验证的数据或者对象
+     * @param mixed $object 要验证的数据或者对象
      * @param array $rules 验证规则
      * @param int $type 验证类型
      * @return bool
      * @throws \Exception
      */
-    protected function validate($object, array $rules = [], $type = Constants::MODEL_OBJECT)
+    protected function validate(array $rules = [], $type = Constants::MODEL_OBJECT)
     {
         $method = [Constants::MODEL_FIELD => 'verifyField', Constants::MODEL_OBJECT => 'verifyObject'];
         try {
             $validator = $this->app->component('biz_validator');
-            $ret = $validator->$method[$type]($object, $rules);
+            $validateData = $type === Constants::MODEL_OBJECT ? $this->entityObject : $this->mergeParams($this->data);
+            $ret = $validator->$method[$type]($validateData, $rules);
             if (!$ret) {
                 throw new EntityValidateErrorException('数据验证失败!');
             }
