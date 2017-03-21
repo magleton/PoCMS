@@ -11,11 +11,8 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Polymer\Boot\Application;
 use Polymer\Utils\Constants;
 use Symfony\Component\Validator\Exception\NoSuchMetadataException;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Symfony\Component\Validator\Validation;
 
-class Validator
+class BizValidator
 {
     /**
      * 应用APP
@@ -58,11 +55,8 @@ class Validator
     public function __construct()
     {
         try {
-            AnnotationRegistry::registerLoader('class_exists');
-            $reader = new AnnotationReader();
-            AnnotationReader::addGlobalIgnoredName('dummy');
-            $this->validator = Validation::createValidatorBuilder()->enableAnnotationMapping($reader)->getValidator();
             $this->app = app();
+            $this->validator = $this->app->component('biz_validator');
         } catch (\InvalidArgumentException $e) {
             $this->validator = null;
         }

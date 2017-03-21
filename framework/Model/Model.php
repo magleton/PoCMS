@@ -54,7 +54,7 @@ class Model
     {
         try {
             $this->app = app();
-            $this->validator = $this->app->component('validator');
+            $this->validator = $this->app->component('biz_validator');
             $schema = $this->getProperty('schema') ?: '';
             $this->em = $this->app->db($schema);
         } catch (\Exception $e) {
@@ -75,7 +75,7 @@ class Model
     protected function make($target = Constants::MODEL_FIELD, array $data = [], array $rules = [])
     {
         try {
-            $validator = $this->app->component('validator');
+            $validator = $this->app->component('biz_validator');
             $tableName = $this->getProperty('table');
             $entityFolder = $this->getProperty('entityFolder');
             if (Constants::MODEL_OBJECT) {
