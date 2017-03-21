@@ -1,13 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
+ * User: macro chen <chen_macro@163.com>
  * Date: 2016/10/26
  * Time: 21:07
  */
 
 namespace Blog\Constraints;
-
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

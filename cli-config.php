@@ -8,7 +8,7 @@ define('CONFIG_PATH', ROOT_PATH . '/' . APP_NAME . '/');
 require ROOT_PATH . '/vendor/autoload.php';
 $app = new \Polymer\Boot\Application();
 $app->startConsole();
-$em = app()->db('db1', 'Mapping');
+$em = app()->db('db1', ROOT_PATH . '/entity/Mapping');
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
     'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em),
     'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),

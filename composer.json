@@ -27,7 +27,7 @@
     "symfony/serializer": "3.2.4",
     "mikey179/vfsStream": "~1.6",
     "mockery/mockery": "~0.9",
-    "macro/captcha": "dev-master",
+    "artful/captcha": "dev-master",
     "ext-pdo": "*",
     "ext-simplexml": "*",
     "ext-exif": "*"

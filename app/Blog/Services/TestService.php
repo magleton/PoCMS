@@ -1,13 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
+ * User: macro chen <chen_macro@163.com>
  * Date: 2016/11/14
  * Time: 19:09
  */
 
 namespace Blog\Services;
-
 
 use Polymer\Service\Service;
 
@@ -30,8 +28,8 @@ class TestService extends Service
     {
         try {
             return $this->app->model('address')->save();
-        }catch (\Exception $e){
-            return ['errCode'=>90];
+        } catch (\Exception $e) {
+            return ['errCode' => 90];
         }
     }
 }

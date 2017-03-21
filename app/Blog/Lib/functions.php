@@ -1,48 +1,26 @@
 <?php
-function haha()
-{
-    echo "hahahahhasssss";
-}
 /**
  * 验证用户是否已经登录
  * @author macro chen <macro_fengye@163.com>
  */
-function checkLogin($request, $response, $next){
+function checkLogin($request, $response, $next)
+{
     $session = app()->component('session');
     $path = $request->getUri()->getPath();
-    preg_match("#login$#" , $path , $matches);
-    if(empty($session->get('username')) && !count($matches)){
+    preg_match("#login$#", $path, $matches);
+    if (empty($session->get('username')) && !count($matches)) {
         return $response->withRedirect('/home/login');
     }
     $response = $next($request, $response);
     return $response;
 }
 
-
-
 /**
  * 检测用户是否有权访问
  * @author macro chen <macro_fengye@163.com>
  */
-function checkPermission($request, $response, $next){
-    $response = $next($request, $response);
-    return $response;
-}
-
-
-
-/**
- * 检测用户是否有权访问
- * @author macro chen <macro_fengye@163.com>
- */
-function ssss($request, $response, $next){
-    logger(__FUNCTION__ , [__FUNCTION__] , APP_PATH.'/log/ppl.log');
-    $response = $next($request, $response);
-    return $response;
-}
-
-function kk($request, $response, $next){
-    logger(__FUNCTION__ , [__FUNCTION__] , APP_PATH.'/log/ppl.log');
+function checkPermission($request, $response, $next)
+{
     $response = $next($request, $response);
     return $response;
 }

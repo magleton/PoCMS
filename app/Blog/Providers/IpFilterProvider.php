@@ -29,5 +29,4 @@ class IpFilterProvider implements ServiceProviderInterface
             return new IpFilterMiddleware($container['application']->config('ip_list'), Constants::ALLOW);
         };
     }
-
 }
