@@ -47,7 +47,6 @@
   },
   "autoload": {
     "psr-4": {
-      "Component\\": "component\\",
       "Polymer\\": "framework\\",
       "Entity\\": "entity\\",
       "Blog\\": "app\\Blog",
