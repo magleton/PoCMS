@@ -157,7 +157,7 @@ class Model
     {
         $methods = [Constants::MODEL_FIELD => 'verifyField', Constants::MODEL_OBJECT => 'verifyObject'];
         try {
-            $validator = $this->app->component('biz_validator');
+            $validator = $this->app->component('biz_validat$propertyNameor');
             $validateData = $type === Constants::MODEL_OBJECT ? $this->entityObject : $this->mergeParams($this->data);
             $method = $methods[$type];
             $ret = $validator->$method($validateData, $rules);
