@@ -9,6 +9,7 @@ namespace Polymer\Model;
 
 use Doctrine\DBAL\Sharding\PoolingShardManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 use Polymer\Boot\Application;
 use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Exceptions\ModelInstanceErrorException;
@@ -53,7 +54,29 @@ class Model
     protected $data = [];
 
     /**
+     * 实体文件的路径
+     *
+     * @var null
+     */
+    protected $entityFolder = null;
+
+    /**
+     * 实体命名空间
+     *
+     * @var null
+     */
+    protected $entityNamespace = null;
+
+    /**
+     * Repository的命名空间
+     *
+     * @var null
+     */
+    protected $repositoryNamespace = null;
+
+    /**
      * 模型构造函数
+     *
      * @param array $params
      * @throws ModelInstanceErrorException
      */
@@ -62,9 +85,9 @@ class Model
         try {
             $this->app = app();
             $schema = isset($params['schema']) ? $params['schema'] : $this->getProperty('schema');
-            if ($schema) {
-                $this->em = $this->app->db($schema);
-            }
+            $entityFolder = $this->getProperty('entityFolder');
+            $this->em = $this->app->db($schema, $entityFolder);
+            method_exists($this, 'initialize') ? $this->initialize() : '';
         } catch (\Exception $e) {
             throw new ModelInstanceErrorException('模型实例化错误' . $e->getMessage());
         }
@@ -74,28 +97,52 @@ class Model
      * 生成数据库表的实体对象
      *
      * @param array $data 自定义数据
-     * @param string $table 名表
-     * @param string $entityFolder 实体文件夹的路径
-     * @return $this
+     * @param array $criteria 获取对象的条件(用于更新数据)
+     * @param bool $returnEObj 是否返回实体对象
+     * @return Object|$this
      * @throws \Exception
      */
-    protected function make(array $data = [], $table = '', $entityFolder = '')
+    protected function make(array $data = [], array $criteria = [], $returnEObj = false)
     {
         try {
             $this->data = $data;
-            $tableName = $table ?: $this->getProperty('table');
-            $entityFolder = $entityFolder ?: $this->getProperty('entityFolder');
-            $this->entityObject = $this->entityObject ?: $this->app->entity($tableName, $entityFolder);
+            $this->entityObject = $this->obtainEObj($criteria);
             foreach ($this->mergeParams($data) as $k => $v) {
                 $setMethod = 'set' . ucfirst(str_replace(' ', '', lcfirst(ucwords(str_replace('_', ' ', $k)))));
                 if (method_exists($this->entityObject, $setMethod)) {
                     $this->entityObject->$setMethod($v);
                 }
             }
-            return $this;
+            return $returnEObj ? $this->entityObject : $this;
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 获取实体对象
+     *
+     * @throws EntityNotFoundException
+     * @param array $criteria
+     * @return Object
+     */
+    private function obtainEObj(array $criteria = [])
+    {
+        $entityName = $this->getProperty('table');
+        $entityFolder = $this->getProperty('entityFolder');
+        $dbName = $this->getProperty('schema');
+        $entityNamespace = $this->getProperty('entityNamespace');
+        $repositoryNamespace = $this->getProperty('repositoryNamespace');
+        if ($criteria) {
+            $repository = $this->app->repository($entityName, $dbName, $entityFolder, $entityNamespace, $repositoryNamespace);
+            $entityObject = $repository->findOneBy($criteria);
+        } else {
+            $entityObject = $this->app->entity($entityName, $entityNamespace);
+        }
+        if (!$entityObject) {
+            throw new EntityNotFoundException('没有可用实体对象!');
+        }
+        return $entityObject;
     }
 
     /**
@@ -108,11 +155,12 @@ class Model
      */
     protected function validate(array $rules = [], $type = Constants::MODEL_OBJECT)
     {
-        $method = [Constants::MODEL_FIELD => 'verifyField', Constants::MODEL_OBJECT => 'verifyObject'];
+        $methods = [Constants::MODEL_FIELD => 'verifyField', Constants::MODEL_OBJECT => 'verifyObject'];
         try {
             $validator = $this->app->component('biz_validator');
             $validateData = $type === Constants::MODEL_OBJECT ? $this->entityObject : $this->mergeParams($this->data);
-            $ret = $validator->$method[$type]($validateData, $rules);
+            $method = $methods[$type];
+            $ret = $validator->$method($validateData, $rules);
             if (!$ret) {
                 throw new EntityValidateErrorException('数据验证失败!');
             }
