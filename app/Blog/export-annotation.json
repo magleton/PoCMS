@@ -1,7 +1,7 @@
 {
   "export": "doctrine2-annotation",
   "zip": false,
-  "dir": "./entity/Mapping/",
+  "dir": "./app/Blog/Entity/Mapping/",
   "params": {
     "logToConsole": false,
     "logFile": "myqsql_test.log",
@@ -17,8 +17,8 @@
     "exportOnlyTableCategorized": "",
     "enhanceManyToManyDetection": false,
     "skipManyToManyTables": false,
-    "bundleNamespace": "Entity",
-    "entityNamespace": "Models",
+    "bundleNamespace": "Blog",
+    "entityNamespace": "Entity\\Mapping",
     "repositoryNamespace": "Entity\\Repositories",
     "useAutomaticRepository": true,
     "skipColumnWithRelation": false,
