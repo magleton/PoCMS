@@ -24,8 +24,3 @@ function checkPermission($request, $response, $next)
     $response = $next($request, $response);
     return $response;
 }
-
-function weChatConfig()
-{
-    return app()->config('wechat')[0];
-}

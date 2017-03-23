@@ -1,6 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: macro
  * Date: 16-10-26
  * Time: 上午11:46
