@@ -5,7 +5,7 @@
  * Time: 6:40
  */
 
-namespace Blog\Exception;
+namespace WeChat\Exception;
 
 class TestException extends \Exception
 {

@@ -5,7 +5,7 @@
  * Time: 8:59
  */
 
-namespace Blog\Event;
+namespace WeChat\Event;
 
 final class Event
 {

@@ -24,3 +24,7 @@ function checkPermission($request, $response, $next)
     $response = $next($request, $response);
     return $response;
 }
+
+function weChatConfig1(){
+    echo 'abababba';
+}

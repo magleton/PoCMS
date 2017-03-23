@@ -5,7 +5,7 @@
  * Time: 19:09
  */
 
-namespace Blog\Services;
+namespace WeChat\Services;
 
 use Polymer\Exceptions\EntityValidateErrorException;
 use Polymer\Service\Service;

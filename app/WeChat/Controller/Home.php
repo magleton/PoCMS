@@ -1,5 +1,5 @@
 <?php
-namespace Blog\Controller;
+namespace WeChat\Controller;
 
 use Polymer\Controller\Controller;
 use Slim\Http\Request;
@@ -9,8 +9,7 @@ class Home extends Controller
 {
     public function index(Request $request, Response $response, $args)
     {
-echo mkdir(sys_get_temp_dir().'/abc');
-        $obj = $this->app->component('abc' , [] , 'Captcha\\Providers');
+        print_r(weChatConfig());
         return $response->write('Hello ,Polymerssss!');
     }
 }
