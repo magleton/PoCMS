@@ -13,13 +13,6 @@ use Polymer\Utils\Constants;
 
 class TestService extends Service
 {
-    /**
-     * 验证组件
-     *
-     * @var RecursiveValidator
-     */
-    protected $validator = null;
-
     protected $rules = [
         'name' => [
             'Length' => [
@@ -43,9 +36,11 @@ class TestService extends Service
     public function update()
     {
         try {
-            return $this->app->model('company')->update();
+            return $this->app->model('company', ['schema' => 'db1'])->update();
         } catch (\Exception $e) {
+            echo $e->getMessage();
             $errors = $this->app->component('error_collection')->all();
+            print_r($errors);
             return ['errCode' => 90];
         }
     }

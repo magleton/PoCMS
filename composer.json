@@ -6,7 +6,8 @@
   "prefer-stable": true,
   "require": {
     "artful/polymer": "dev-master",
-    "artful/captcha": "dev-master"
+    "artful/captcha": "dev-master",
+    "artful/wechat": "dev-master",
   },
   "require-dev": {
     "satooshi/php-coveralls": "~1.0",
