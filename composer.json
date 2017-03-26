@@ -25,7 +25,7 @@
   "autoload": {
     "psr-4": {
       "Entity\\": "entity\\",
-      "WeChat\\": "app\\WeChat\\",
+      "WeiXin\\": "app\\WeiXin\\",
       "CMS\\": "app\\CMS\\",
       "Task\\": "task\\"
     }
