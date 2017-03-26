@@ -5,7 +5,7 @@
  * Time: 21:05
  */
 
-namespace WeChat\Constraints;
+namespace WeiXin\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 

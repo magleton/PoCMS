@@ -5,7 +5,7 @@
  * Time: 8:59
  */
 
-namespace WeChat\Event;
+namespace WeiXin\Event;
 
 final class Event
 {

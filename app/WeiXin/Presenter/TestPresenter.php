@@ -5,7 +5,7 @@
  * Time: 上午9:03
  */
 
-namespace WeChat\Presenter;
+namespace WeiXin\Presenter;
 
 use Polymer\Presenter\Presenter;
 

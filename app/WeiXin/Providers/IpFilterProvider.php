@@ -5,7 +5,7 @@
  * Time: 上午11:46
  */
 
-namespace WeChat\Providers;
+namespace WeiXin\Providers;
 
 use Polymer\Middleware\IpFilterMiddleware;
 use Polymer\Utils\Constants;
