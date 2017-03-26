@@ -27,7 +27,7 @@ if (!function_exists('initAccessToken')) {
      */
     function initAccessToken(\Slim\Http\Request $request, \Slim\Http\Response $response, Closure $next)
     {
-        app()->component('access_token',[] , 'WeChat\\Providers');
+        app()->component('access_token');
         $response = $next($request, $response);
         return $response;
     }

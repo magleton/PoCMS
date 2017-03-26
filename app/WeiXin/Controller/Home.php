@@ -11,7 +11,7 @@ class Home extends Controller
 {
     public function index(Request $request, Response $response, $args)
     {
-        $server = $this->app->component('server', [], 'WeChat\\Providers');
+        $server = $this->app->component('server');
         $server->setMessageHandler(function (Collection $message) {
             logger(__FUNCTION__, [$message->toArray()], APP_PATH . '/log/debug.log');
             /*$handler = new Handler($message);
@@ -31,9 +31,9 @@ class Home extends Controller
     public function send(Request $request, Response $response, $args)
     {
         try {
-            $staff = $this->app->component('staff', [], 'WeChat\\Providers');
+            $staff = $this->app->component('staff');
             $message = new Text(['content' => 'Hello world!']);
-            $result = $staff->message($message)->to('ok7_ewguDybW2p9bmTHoWS2ZY_Bc')->send();
+            $result = $staff->message($message)->to('ok7_ewvHECzfFfI3ndtw4cCU6dF4')->send();
         } catch (\Exception $e) {
             //处理用户48小时没有与公众号互动
         }
