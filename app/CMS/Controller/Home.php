@@ -9,6 +9,7 @@ class Home extends Controller
 {
     public function index(Request $request, Response $response, $args)
     {
+        $this->app->config('app');
         return $this->withJson(['data' => 'data']);
     }
 
