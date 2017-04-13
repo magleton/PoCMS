@@ -1,5 +1,5 @@
 <?php
-namespace CMS\controller;
+namespace CMS\Controller;
 
 use Polymer\Controller\Controller;
 use Slim\Http\Request;

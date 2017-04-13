@@ -10,6 +10,7 @@
     "artful/wechat": "dev-master"
   },
   "require-dev": {
+    "runcmf/runtracy": "~0.2",
     "satooshi/php-coveralls": "~1.0",
     "phpunit/phpunit": "~5.7",
     "facebook/webdriver": "~1.0",
@@ -30,8 +31,6 @@
       "Task\\": "task\\"
     }
   },
-  "optimize-autoloader": true,
-  "apcu-autoloader": true,
   "repositories": {
     "packagist": {
       "type": "composer",
