@@ -7,7 +7,9 @@
   "require": {
     "artful/polymer": "dev-master",
     "artful/captcha": "dev-master",
-    "artful/wechat": "dev-master"
+    "artful/wechat": "dev-master",
+    "nikolaposa/rate-limit": "~1.0",
+    "chrisboulton/php-resque": "dev-master"
   },
   "require-dev": {
     "runcmf/runtracy": "~0.2",

@@ -46,6 +46,7 @@ $db = [
                     )
                 ),
                 "useSimpleAnnotationReader" => false,
+                'emCacheKey' => 'abc',
             ),
 
             "db2" => array(
