@@ -35,10 +35,11 @@ $cache = [
             'server1' => [
                 'resource_id' => 1,
                 'server' => [
-                    'host' => '127.0.0.1',
+                    'host' => '10.0.25.1',
                     'port' => 6379,
                     'timeout' => 10,
                     'database' => 0,
+                    'password'=>'123456'
                 ],
                 'namespace' => APP_NAME . '-redis01',
             ],
@@ -49,6 +50,7 @@ $cache = [
                     'port' => 6379,
                     'timeout' => 10,
                     'database' => 0,
+                    'password'=>'123456'
                 ],
                 'namespace' => APP_NAME . '-redis02',
             ]
