@@ -1,31 +1,14 @@
 <?php
-function haha()
-{
-    echo "ooooooooo";
-}
-
-/**
- * 检测用户是否已经登录
- * @author macro chen <macro_fengye@163.com>
- * @param $request
- * @param $response
- * @param $next
- * @return mixed
- */
-function checkLogin($request, $response, $next)
-{
-    return $next($request, $response);
-}
-
-/**
- * 检测用户是否有权限访问
- * @author macro chen <macro_fengye@163.com>
- * @param $request
- * @param $response
- * @param $next
- * @return mixed
- */
-function checkPermission($request, $response, $next)
-{
-    return $next($request, $response);
+if (!function_exists('routeGeneration')) {
+    /**
+     * 是否重新生成路由文件
+     *
+     * @return bool
+     */
+    function routeGeneration()
+    {
+        $version = file_get_contents(APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'router.lock');
+        $currentVersion = app()->config('current_version');
+        return ((float)$version !== (float)$currentVersion);
+    }
 }

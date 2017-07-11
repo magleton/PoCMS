@@ -1,8 +1,13 @@
 <?php
 return [
     'app' => [
+        'router_path' => [
+            'router' => APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'router.php',
+            'lock' => APP_PATH . DIRECTORY_SEPARATOR . 'Cache' . DIRECTORY_SEPARATOR . 'router.lock'
+        ],
+        'router_cache_file' => APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'routerCacheFile.router',
         'generate_router' => false,
-        'providersPath' => [
+        'providers_path' => [
             'CMS\Providers',
         ],
         'initial_epoch' => 1476614506000,
