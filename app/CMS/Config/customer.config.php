@@ -1,5 +1,10 @@
 <?php
 return [
+    'slim' => [
+        'settings' => [
+            'routerCacheFile' => APP_PATH . 'Cache/routerCacheFile.router',
+        ]
+    ],
     'app' => [
         'router_path' => [
             'router' => APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'router.php',
