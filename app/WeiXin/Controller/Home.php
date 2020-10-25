@@ -1,24 +1,18 @@
 <?php
+
 namespace WeiXin\Controller;
 
+use Exception;
 use Polymer\Controller\Controller;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use WeChat\WeChat\Message\Text;
-use WeChat\WeChat\Support\Collection;
 
 class Home extends Controller
 {
-    public function index(Request $request, Response $response, $args)
+    public function index(Request $request, Response $response, $args): void
     {
-        $server = $this->app->component('server');
-        $server->setMessageHandler(function (Collection $message) {
-            logger(__FUNCTION__, [$message->toArray()], APP_PATH . '/log/debug.log');
-            /*$handler = new Handler($message);
-            return $handler->handle();*/
-            return "您好！欢迎关注我!";
-        });
-        return $server->serve();
+        echo 'hell';
     }
 
     /**
@@ -34,7 +28,7 @@ class Home extends Controller
             $staff = $this->app->component('staff');
             $message = new Text(['content' => 'Hello world!']);
             $result = $staff->message($message)->to('ok7_ewvHECzfFfI3ndtw4cCU6dF4')->send();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             //处理用户48小时没有与公众号互动
         }
     }
