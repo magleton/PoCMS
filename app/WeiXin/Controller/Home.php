@@ -14,8 +14,8 @@ class Home extends Controller
     {
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
-        $model = $this->app->model('users', [], 'WeiXin\\Models');
-        $model->update($request->getParams());
+        $model = $this->app->model('user', [], 'WeiXin\\Models');
+        $model->getList();
     }
 
     /**

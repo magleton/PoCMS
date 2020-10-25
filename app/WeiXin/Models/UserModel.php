@@ -6,13 +6,13 @@ use Exception;
 use Polymer\Model\Model;
 use WeiXin\Validators\PhoneValidator;
 
-class UsersModel extends Model
+class UserModel extends Model
 {
     /**
      * 数据库表名
      * @var string
      */
-    protected string $table = 'users';
+    protected string $table = 'user';
 
     /**
      * 验证规则
@@ -130,5 +130,11 @@ class UsersModel extends Model
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public function getList():array{
+        $entityRepository = $this->app->repository('user');
+        $entityRepository->getList();
+        return [];
     }
 }
