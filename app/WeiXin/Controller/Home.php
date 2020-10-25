@@ -6,13 +6,16 @@ use Exception;
 use Polymer\Controller\Controller;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use WeChat\WeChat\Message\Text;
+use Test\UsersBureaus;
 
 class Home extends Controller
 {
     public function index(Request $request, Response $response, $args): void
     {
-        echo 'hell';
+        //$model = $this->app->model('test', [], 'WeiXin\\Models');
+        // $model->save($request->getParams());
+        $model = $this->app->model('users', [], 'WeiXin\\Models');
+        $model->update($request->getParams());
     }
 
     /**

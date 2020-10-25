@@ -9,10 +9,10 @@ namespace WeiXin\Event;
 
 final class Event
 {
-    const FIRST_EVENT = 'lazy_pimple.first_event';
+    public const FIRST_EVENT = 'lazy_pimple.first_event';
 
     final private function __construct()
     {
-
+        // 防止外部new该类的对象
     }
 }

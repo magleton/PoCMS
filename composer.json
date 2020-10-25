@@ -16,7 +16,9 @@
     "runcmf/runtracy": "~0.2",
     "satooshi/php-coveralls": "~1.0",
     "phpunit/phpunit": "~5.7",
-    "facebook/webdriver": "~1.0"
+    "facebook/webdriver": "~1.0",
+    "mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": ">=3.0",
+    "mysql-workbench-schema-exporter/doctrine2-exporter": ">=3.0"
   },
   "bin": [
     "composer/bin/dbunit"

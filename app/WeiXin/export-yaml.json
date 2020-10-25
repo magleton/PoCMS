@@ -1,7 +1,7 @@
 {
   "export": "doctrine2-yaml",
   "zip": false,
-  "dir": "./app/Blog/data/Yaml/",
+  "dir": "./app/WeiXin/data/Yaml/",
   "params": {
     "logToConsole": false,
     "logFile": "",
@@ -17,9 +17,9 @@
     "exportOnlyTableCategorized": "",
     "enhanceManyToManyDetection": true,
     "skipManyToManyTables": true,
-    "bundleNamespace": "Blog",
+    "bundleNamespace": "WeiXin",
     "entityNamespace": "Entity",
-    "repositoryNamespace": "Blog",
+    "repositoryNamespace": "WeiXin",
     "useAutomaticRepository": true,
     "skipColumnWithRelation": false,
     "relatedVarNameFormat": "%name%%related%",

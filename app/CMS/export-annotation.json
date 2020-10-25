@@ -1,7 +1,7 @@
 {
   "export": "doctrine2-annotation",
   "zip": false,
-  "dir": "./app/Blog/data/Entity/",
+  "dir": "./app/CMS/Entity/",
   "params": {
     "logToConsole": false,
     "logFile": "",
@@ -17,9 +17,9 @@
     "exportOnlyTableCategorized": "",
     "enhanceManyToManyDetection": true,
     "skipManyToManyTables": true,
-    "bundleNamespace": "Blog",
+    "bundleNamespace": "CMS",
     "entityNamespace": "Entity",
-    "repositoryNamespace": "Blog",
+    "repositoryNamespace": "CMS",
     "useAutomaticRepository": true,
     "skipColumnWithRelation": false,
     "relatedVarNameFormat": "%name%%related%",

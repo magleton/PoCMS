@@ -7,13 +7,12 @@
 
 namespace WeiXin\Services;
 
-use Polymer\Exceptions\EntityValidateErrorException;
+use Exception;
 use Polymer\Service\Service;
-use Polymer\Utils\Constants;
 
 class TestService extends Service
 {
-    protected $rules = [
+    protected array $rules = [
         'name' => [
             'Length' => [
                 'min' => 1,
@@ -28,7 +27,7 @@ class TestService extends Service
     {
         try {
             return $this->app->model('company')->save();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return ['errCode' => 90];
         }
     }
@@ -37,7 +36,7 @@ class TestService extends Service
     {
         try {
             return $this->app->model('company', ['schema' => 'db1'])->update();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             echo $e->getMessage();
             $errors = $this->app->component('error_collection')->all();
             print_r($errors);
