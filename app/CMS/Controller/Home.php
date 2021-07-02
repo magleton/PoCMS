@@ -9,9 +9,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Home extends Controller
 {
+    /**
+     * @throws \Noodlehaus\Exception\EmptyDirectoryException
+     */
     public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $this->app->config('britton.username');
+        $this->application->config('britton.username');
         return $this->withJson($this->application->config('britton.username'), $response);
     }
 
@@ -32,7 +35,7 @@ class Home extends Controller
      */
     public function producer(Request $request, Response $response, $args)
     {
-        $producer = $this->app->component('mq_producer');
+        $producer = $this->application->component('mq_producer');
         $ret = $producer->produce(new DefaultMessage('EchoTime', [
             'time' => time(),
         ]), 'EchoTime');

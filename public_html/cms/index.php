@@ -13,4 +13,7 @@ const APP_PATH = ROOT_PATH . DS . 'app' . DS . APP_NAME . DS;
 require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 $app = new Application();
-$app->start();
+try {
+    $app->start();
+} catch (Exception $e) {
+}

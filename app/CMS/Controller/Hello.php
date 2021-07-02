@@ -1,4 +1,5 @@
 <?php
+
 namespace CMS\Controller;
 
 use Polymer\Controller\Controller;

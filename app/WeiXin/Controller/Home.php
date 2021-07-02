@@ -14,7 +14,7 @@ class Home extends Controller
     {
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
-        $model = $this->app->model('user', [], 'WeiXin\\Models');
+        $model = $this->application->model('user', [], 'WeiXin\\Models');
         $model->getList();
     }
 
@@ -28,7 +28,7 @@ class Home extends Controller
     public function send(Request $request, Response $response, $args)
     {
         try {
-            $staff = $this->app->component('staff');
+            $staff = $this->application->component('staff');
             $message = new Text(['content' => 'Hello world!']);
             $result = $staff->message($message)->to('ok7_ewvHECzfFfI3ndtw4cCU6dF4')->send();
         } catch (Exception $e) {
