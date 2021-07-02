@@ -1,11 +1,16 @@
 <?php
+
+use Polymer\Boot\Application;
+
+ini_set("display_errors", 'on');
+error_reporting(E_ALL);
 date_default_timezone_set('Asia/Shanghai');
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT_PATH', dirname(dirname(__DIR__)));
-define('APP_NAME', 'CMS');
-define('TEMPLATE_PATH', ROOT_PATH . DS . 'app' . DS . APP_NAME . DS . 'Templates' . DS);
-define('APP_PATH', ROOT_PATH . DS . 'app' . DS . APP_NAME . DS);
+const DS = DIRECTORY_SEPARATOR;
+define('ROOT_PATH', dirname(__DIR__, 2));
+const APP_NAME = 'CMS';
+const TEMPLATE_PATH = ROOT_PATH . DS . 'app' . DS . APP_NAME . DS . 'Templates' . DS;
+const APP_PATH = ROOT_PATH . DS . 'app' . DS . APP_NAME . DS;
 require ROOT_PATH . '/vendor/autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
-$app = new \Polymer\Boot\Application();
+$app = new Application();
 $app->start();
