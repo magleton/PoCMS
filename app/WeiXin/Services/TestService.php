@@ -26,7 +26,7 @@ class TestService extends Service
     public function add()
     {
         try {
-            return $this->app->model('company')->save();
+            return $this->application->model('company')->save();
         } catch (Exception $e) {
             return ['errCode' => 90];
         }
@@ -35,10 +35,10 @@ class TestService extends Service
     public function update()
     {
         try {
-            return $this->app->model('company', ['schema' => 'db1'])->update();
+            return $this->application->model('company', ['schema' => 'db1'])->update();
         } catch (Exception $e) {
             echo $e->getMessage();
-            $errors = $this->app->component('error_collection')->all();
+            $errors = $this->application->component('error_collection')->all();
             print_r($errors);
             return ['errCode' => 90];
         }

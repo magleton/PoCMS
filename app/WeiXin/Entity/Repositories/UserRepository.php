@@ -2,7 +2,6 @@
 
 namespace WeiXin\Entity\Repositories;
 
-use Dto\JsonDecoder;
 use Polymer\Repository\Repository;
 use Polymer\Utils\FuncUtils;
 use WeiXin\Entity\PersonDTO;
@@ -38,12 +37,12 @@ class UserRepository extends Repository
             ->getArrayResult();*/
         //$maxResults = $this->createNativeNamedQuery("test")->getArrayResult();
         foreach ($obj->getUserProfiles() as $v) {
-            $scalar = FuncUtils::entityToArray($v,['userProfiles','user']);
+            $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
             print_r($scalar);
-          //  print_r($personDTO);
+            //  print_r($personDTO);
         }
         //$obj = $this->findBy(['user_id'=>2]);
-        //print_r($obj);
-        return [];
+        print_r($obj);
+        return [$obj];
     }
 }

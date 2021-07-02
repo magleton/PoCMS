@@ -9,3 +9,4 @@ $app->map(['GET', 'POST'], '/home/send', APP_NAME . '\\Controller\\Home:send')->
 $app->post('/console', 'RunTracy\Controllers\RunTracyConsole:index');
 $app->map(['GET', 'POST'], '/oauth/oAuthWebsite', APP_NAME . '\\Controller\\OAuth:oAuthWebsite')->setName('wechat.OAuth.oAuthWebsite');
 $app->map(['GET', 'POST'], '/oauth/dealOAuthWebsite', APP_NAME . '\\Controller\\OAuth:dealOAuthWebsite')->setName('wechat.OAuth.dealOAuthWebsite');
+

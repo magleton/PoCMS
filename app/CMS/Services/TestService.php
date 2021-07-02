@@ -13,6 +13,6 @@ class TestService extends Service
 {
     public function testService()
     {
-        return $this->app->repository('company')->findOneBy(['id' => 1]);
+        return $this->application->repository('company')->findOneBy(['id' => 1]);
     }
 }

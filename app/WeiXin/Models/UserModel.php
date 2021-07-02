@@ -92,7 +92,7 @@ class UserModel extends Model
      * @return mixed
      * @throws Exception
      */
-    public function save(array $data = [])
+    public function save(array $data = []): mixed
     {
         try {
             //$this->app->addEvent([Events::prePersist => ['class_name' => TestListener::class]]);
@@ -101,7 +101,7 @@ class UserModel extends Model
             $this->em->flush();
             return $obj->getId();
         } catch (Exception $e) {
-            print_r($this->app->component('error_collection')->all());
+            print_r($this->application->component('error_collection')->all());
             throw $e;
         }
     }
@@ -114,7 +114,7 @@ class UserModel extends Model
      * @return mixed
      * @throws Exception
      */
-    public function update(array $data = [])
+    public function update(array $data = []): mixed
     {
         try {
             /*$this->app->addEvent([
@@ -132,9 +132,9 @@ class UserModel extends Model
         }
     }
 
-    public function getList():array{
-        $entityRepository = $this->app->repository('user');
-        $entityRepository->getList();
-        return [];
+    public function getList(): array
+    {
+        $entityRepository = $this->application->repository('user');
+        return $entityRepository->getList();
     }
 }

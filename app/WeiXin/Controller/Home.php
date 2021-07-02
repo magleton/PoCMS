@@ -4,18 +4,18 @@ namespace WeiXin\Controller;
 
 use Exception;
 use Polymer\Controller\Controller;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Test\UsersBureaus;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Home extends Controller
 {
-    public function index(Request $request, Response $response, $args): void
+    public function index(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
         $model = $this->application->model('user', [], 'WeiXin\\Models');
-        $model->getList();
+        $list = $model->getList();
+        return $this->withJson(["aaa" => 'hello'], $response);
     }
 
     /**

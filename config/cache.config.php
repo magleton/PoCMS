@@ -1,6 +1,6 @@
 <?php
 //缓存的配置
-$cache = [
+return [
     'cache' => [
         'memcache' => [
             'server1' => [
@@ -83,5 +83,3 @@ $cache = [
         ],
     ],
 ];
-
-return $cache;

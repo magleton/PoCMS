@@ -96,7 +96,7 @@ class TestModel extends Model
             $this->em->flush();
             return $obj->getId();
         } catch (Exception $e) {
-            print_r($this->app->component('error_collection')->all());
+            print_r($this->application->component('error_collection')->all());
             throw $e;
         }
     }
@@ -112,7 +112,7 @@ class TestModel extends Model
     public function update(array $data = [])
     {
         try {
-            $this->app->addEvent([
+            $this->application->addEvent([
                 Events::preUpdate => [
                     'class_name' => TestListener::class,
                     'data' => ['address' => 'aaaaa']
