@@ -42,7 +42,7 @@ class UserRepository extends Repository
             //  print_r($personDTO);
         }
         //$obj = $this->findBy(['user_id'=>2]);
-        print_r($obj);
+        print_r($obj->getUserName());
         return [$obj];
     }
 }

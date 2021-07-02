@@ -9,6 +9,7 @@ namespace WeiXin\Services;
 
 use Exception;
 use Polymer\Service\Service;
+use DI\Annotation\Inject;
 
 class TestService extends Service
 {
@@ -23,10 +24,16 @@ class TestService extends Service
         ]
     ];
 
+    /**
+     * @Inject({"db.host", "db.name"})
+     *
+     * @return int[]
+     */
     public function add()
     {
         try {
-            return $this->application->model('company')->save();
+            return "我是注入的对象哈";
+            //return $this->application->model('company')->save();
         } catch (Exception $e) {
             return ['errCode' => 90];
         }

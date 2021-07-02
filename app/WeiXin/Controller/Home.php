@@ -2,20 +2,39 @@
 
 namespace WeiXin\Controller;
 
+use DI\Annotation\Inject;
 use Exception;
 use Polymer\Controller\Controller;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WeiXin\Services\HelloService;
 
 class Home extends Controller
 {
+    /**
+     * @Inject(name="session_handler")
+     */
+    private array $str = ["adad"];
+
+    /**
+     * @var HelloService
+     */
+    private HelloService $helloService;
+
+    public function __construct(ContainerInterface $ci, HelloService $helloService)
+    {
+        $this->helloService = $helloService;
+    }
+
     public function index(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
+//        /$sss = $this->application->service('hello', null, $this->application->service('test'));
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
-        $model = $this->application->model('user', [], 'WeiXin\\Models');
+        $model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
         $list = $model->getList();
-        return $this->withJson(["aaa" => 'hello'], $response);
+        return $this->withJson(["aaa" => 'hello', 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
 
     /**
@@ -28,7 +47,7 @@ class Home extends Controller
     public function send(Request $request, Response $response, $args)
     {
         try {
-            $staff = $this->application->component('staff');
+            $staff = $this->getApplication()->component('staff');
             $message = new Text(['content' => 'Hello world!']);
             $result = $staff->message($message)->to('ok7_ewvHECzfFfI3ndtw4cCU6dF4')->send();
         } catch (Exception $e) {
