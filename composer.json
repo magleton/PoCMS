@@ -9,14 +9,13 @@
     "artful/captcha": "dev-master",
     "overtrue/wechat": "^5.1",
     "chrisboulton/php-resque": "dev-master",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-http": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "runcmf/runtracy": "~0.2",
     "satooshi/php-coveralls": "~1.0",
-    "phpunit/phpunit": "~5.7",
-    "facebook/webdriver": "~1.0",
+    "phpunit/phpunit": ">=8",
     "mysql-workbench-schema-exporter/mysql-workbench-schema-exporter": ">=3.0",
     "mysql-workbench-schema-exporter/doctrine2-exporter": ">=3.0"
   },

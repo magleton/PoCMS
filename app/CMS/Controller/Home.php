@@ -4,17 +4,18 @@ namespace CMS\Controller;
 
 use Bernard\Message\DefaultMessage;
 use Polymer\Controller\Controller;
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Home extends Controller
 {
-    public function index(Request $request, Response $response, $args)
+    public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        return $this->withJson(['data' => 'data']);
+        $this->app->config('britton.username');
+        return $this->withJson($this->application->config('britton.username'), $response);
     }
 
-    public function hello(Request $request, Response $response, $args)
+    public function hello(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         debugger();
         $this->render('/home/hello.twig', array(

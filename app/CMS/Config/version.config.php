@@ -1,4 +1,4 @@
 <?php
 return [
-    'current_version' => 0.25
+    'current_version' => 0.27
 ];
