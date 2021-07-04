@@ -20,7 +20,7 @@ class HelloService extends Service
         $this->testService = $testService;
     }
 
-    public function hello(): string
+    public function hello()
     {
         return "我是HelloService返回的字符串 - >>>> " . $this->testService->add();
     }

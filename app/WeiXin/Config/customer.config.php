@@ -1,5 +1,7 @@
 <?php
 //自定义配置
+use WeiXin\Aspect\MonitorAspect;
+
 return [
     'app' => [
         'router_path' => [
@@ -21,6 +23,17 @@ return [
                 'port' => 6379,
                 'timeout' => 0.0,
             ]
+        ],
+        'aop' => [
+            'init' => [
+                'debug' => true,
+                'appDir' => APP_PATH . 'Services',
+                'cacheDir' => APP_PATH . 'log/aop/',
+                'excludePaths' => [
+                    ROOT_PATH . '/vendor/',
+                ]
+            ],
+            'aspect' => [MonitorAspect::class]
         ]
     ],
     'middleware' => [

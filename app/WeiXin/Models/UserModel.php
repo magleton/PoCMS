@@ -92,7 +92,7 @@ class UserModel extends Model
      * @return mixed
      * @throws Exception
      */
-    public function save(array $data = []): mixed
+    public function save(array $data = [])
     {
         try {
             //$this->app->addEvent([Events::prePersist => ['class_name' => TestListener::class]]);
@@ -114,7 +114,7 @@ class UserModel extends Model
      * @return mixed
      * @throws Exception
      */
-    public function update(array $data = []): mixed
+    public function update(array $data = [])
     {
         try {
             /*$this->app->addEvent([

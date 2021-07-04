@@ -27,7 +27,7 @@ class Home extends Controller
         $this->helloService = $helloService;
     }
 
-    public function index(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    public function index(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
 //        /$sss = $this->application->service('hello', null, $this->application->service('test'));
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
