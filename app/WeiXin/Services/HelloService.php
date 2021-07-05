@@ -20,8 +20,8 @@ class HelloService extends Service
         $this->testService = $testService;
     }
 
-    public function hello()
+    public function hello(): string
     {
-        return "我是HelloService返回的字符串 - >>>> " . $this->testService->add();
+        return "我是HelloService返回的字符串 - >>>> " . $this->testService->add() . $this->getDiContainer()->get("username");
     }
 }
