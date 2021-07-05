@@ -7,12 +7,11 @@
 
 namespace WeiXin\Providers;
 
+use DI\Container;
 use Polymer\Middleware\IpFilterMiddleware;
 use Polymer\Utils\Constants;
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 
-class IpFilterProvider implements ServiceProviderInterface
+class IpFilterProvider
 {
     /**
      * Registers services on the given container.
@@ -20,12 +19,12 @@ class IpFilterProvider implements ServiceProviderInterface
      * This method should only be used to configure services and parameters.
      * It should not get services.
      *
-     * @param Container $pimpleContainer A container instance
+     * @param Container $diContainer A container instance
      */
-    public function register(Container $pimpleContainer)
+    public function register(Container $diContainer): void
     {
-        $pimpleContainer['ip_filter'] = function ($container) {
-            return new IpFilterMiddleware($container['application']->config('ip_list'), Constants::ALLOW);
-        };
+        $diContainer->set(__CLASS__, static function () use ($diContainer) {
+            return new IpFilterMiddleware($diContainer->get('application')->config('ip_list'), Constants::ALLOW);
+        });
     }
 }
