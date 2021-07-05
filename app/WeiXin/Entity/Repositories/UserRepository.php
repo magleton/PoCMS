@@ -38,7 +38,6 @@ class UserRepository extends Repository
         //$maxResults = $this->createNativeNamedQuery("test")->getArrayResult();
         foreach ($obj->getUserProfiles() as $v) {
             $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
-            print_r($scalar);
             //  print_r($personDTO);
         }
         //$obj = $this->findBy(['user_id'=>2]);

@@ -15,11 +15,13 @@ class HelloService extends Service
      * @param TestService $testService
      */
     private TestService $testService;
+    
     /**
      * @Inject
      * @var UserModel
      */
     private UserModel $userModel;
+
 
     public function __construct(TestService $testService)
     {

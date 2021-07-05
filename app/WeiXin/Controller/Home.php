@@ -8,6 +8,7 @@ use Polymer\Controller\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WeiXin\Models\UserModel;
 use WeiXin\Services\HelloService;
 
 class Home extends Controller
@@ -22,6 +23,12 @@ class Home extends Controller
      */
     private HelloService $helloService;
 
+    /**
+     * @Inject
+     * @var UserModel
+     */
+    private UserModel $userModel;
+
     public function __construct(ContainerInterface $ci, HelloService $helloService)
     {
         $this->helloService = $helloService;
@@ -33,7 +40,7 @@ class Home extends Controller
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
         //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
-        //$list = $model->getList();
+        $list = $this->userModel->getList();
         return $this->withJson(["aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
 
