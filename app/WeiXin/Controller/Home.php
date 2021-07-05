@@ -32,8 +32,8 @@ class Home extends Controller
 //        /$sss = $this->application->service('hello', null, $this->application->service('test'));
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
-        $model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
-        $list = $model->getList();
+        //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
+        //$list = $model->getList();
         return $this->withJson(["aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
 

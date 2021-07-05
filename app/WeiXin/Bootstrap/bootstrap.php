@@ -15,7 +15,6 @@ $loader = require dirname(ROOT_PATH, 1) . DS . 'vendor' . DS . 'autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 
 $app = new Application();
-$app->setClassLoader($loader);
 
 $app->register(AopProvider::class);
 $app->register(IpFilterProvider::class);
