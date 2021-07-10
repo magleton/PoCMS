@@ -5,6 +5,7 @@ namespace WeiXin\Controller;
 use DI\Annotation\Inject;
 use Exception;
 use Polymer\Controller\Controller;
+use Polymer\Providers\LoggerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,7 +41,8 @@ class Home extends Controller
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
         //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
-        print_r($this->application->getClassLoader());
+       // print_r($this->application->get('request'));
+        $this->application->get(LoggerProvider::class)->info("aaaaaa枫叶思源");
         $list = $this->userModel->getList();
         return $this->withJson(["aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
