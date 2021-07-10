@@ -40,6 +40,7 @@ class Home extends Controller
         //$model = $this->app->model('test', [], 'WeiXin\\Models');
         // $model->save($request->getParams());
         //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
+        print_r($this->application->getClassLoader());
         $list = $this->userModel->getList();
         return $this->withJson(["aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
