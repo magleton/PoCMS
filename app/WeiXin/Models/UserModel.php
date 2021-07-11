@@ -2,9 +2,11 @@
 
 namespace WeiXin\Models;
 
+use Doctrine\ORM\Events;
 use Exception;
 use Polymer\Model\Model;
 use Polymer\Support\Collection;
+use Polymer\Tests\Listener\TestListener;
 use WeiXin\Validators\PhoneValidator;
 
 class UserModel extends Model
@@ -27,7 +29,7 @@ class UserModel extends Model
                 'max' => 50,
                 'minMessage' => 'Your first name must be at least {{ limit }} characters long',
                 'maxMessage' => 'Your first name cannot be longer than {{ limit }} characters',
-                'groups' => ['registration','add'],
+                'groups' => ['registration', 'add'],
             ],
             'NotBlank' => ['groups' => ['add'], 'message' => '该字段不能为空']
         ],
@@ -96,11 +98,11 @@ class UserModel extends Model
     public function save(array $data = [])
     {
         try {
-            //$this->app->addEvent([Events::prePersist => ['class_name' => TestListener::class]]);
+            $this->application->addEvent([Events::prePersist => ['class_name' => TestListener::class]]);
             $obj = $this->make($data)->validate($this->rules, ['add']);
             $this->em->persist($obj);
             $this->em->flush();
-            return $obj->getId();
+            return $obj->getUserId();
         } catch (Exception $e) {
             print_r($this->application->get(Collection::class)->all());
             throw $e;
