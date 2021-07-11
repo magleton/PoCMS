@@ -3,6 +3,7 @@
 namespace WeiXin\Entity\Mapping;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +33,7 @@ class User
 
 	/**
 	 * @ORM\Column(type="string", length=45, nullable=true)
+     * @Assert\NotBlank(groups={"add"})
 	 */
 	protected $open_id;
 

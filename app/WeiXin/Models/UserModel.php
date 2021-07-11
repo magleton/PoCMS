@@ -4,6 +4,7 @@ namespace WeiXin\Models;
 
 use Exception;
 use Polymer\Model\Model;
+use Polymer\Support\Collection;
 use WeiXin\Validators\PhoneValidator;
 
 class UserModel extends Model
@@ -22,11 +23,11 @@ class UserModel extends Model
     protected array $rules = [
         'username' => [
             'Length' => [
-                'min' => 1,
+                'min' => 2,
                 'max' => 50,
                 'minMessage' => 'Your first name must be at least {{ limit }} characters long',
                 'maxMessage' => 'Your first name cannot be longer than {{ limit }} characters',
-                'groups' => ['registration'],
+                'groups' => ['registration','add'],
             ],
             'NotBlank' => ['groups' => ['add'], 'message' => '该字段不能为空']
         ],
@@ -101,7 +102,7 @@ class UserModel extends Model
             $this->em->flush();
             return $obj->getId();
         } catch (Exception $e) {
-            print_r($this->application->component('error_collection')->all());
+            print_r($this->application->get(Collection::class)->all());
             throw $e;
         }
     }

@@ -15,7 +15,7 @@ class HelloService extends Service
      * @param TestService $testService
      */
     private TestService $testService;
-    
+
     /**
      * @Inject
      * @var UserModel
@@ -31,5 +31,11 @@ class HelloService extends Service
     public function hello(): string
     {
         return "我是HelloService返回的字符串 - >>>> " . $this->testService->add() . $this->getDiContainer()->get("username");
+    }
+
+    public function save(array $data)
+    {
+        $save = $this->userModel->save($data);
+        print_r($save);
     }
 }

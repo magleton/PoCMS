@@ -7,4 +7,5 @@ $app = require dirname(__DIR__, 2) . DS . 'app' . DS . 'WeiXin' . DS . 'Bootstra
 try {
     $app->run();
 } catch (Exception $e) {
+    print_r($e);
 }
