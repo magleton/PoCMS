@@ -138,6 +138,7 @@ class UserModel extends Model
     public function getList(): array
     {
         $entityRepository = $this->application->repository('user');
-        return $entityRepository->getList();
+        $list = $entityRepository->getList();
+        return $list;
     }
 }

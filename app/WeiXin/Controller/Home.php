@@ -41,7 +41,7 @@ class Home extends Controller
         // print_r($this->application->get('request'));
         $this->application->get(LoggerProvider::class)->info("aaaaaa枫叶思源");
         $list = $this->helloService->getList();
-        return $this->withJson(["aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
+        return $this->withJson(['list'=>$list,"aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
 
     /**

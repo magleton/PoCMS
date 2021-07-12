@@ -5,7 +5,7 @@ namespace WeiXin\Entity\Mapping;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Company
+ * Test
  *
  * @ORM\Table(name="test")
  * @ORM\Entity(repositoryClass="WeiXin\Entity\Repositories\TestRepository")
@@ -13,53 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Test
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", precision=0, scale=0, nullable=false, unique=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=45, precision=0, scale=0, nullable=true, unique=false)
      */
-    private string $name;
+    private $name;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Test
-     */
-    public function setName($name): Test
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 }
-

@@ -1,24 +1,29 @@
 <?php
 //数据库配置
+use Doctrine\ORM\Mapping\DefaultNamingStrategy;
+use Doctrine\DBAL\Sharding\PoolingShardConnection;
+use Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser;
+
 return [
     'db' => array(
         // 开发模式
         'development' => array(
             "db1" => array(
-                'wrapperClass' => 'Doctrine\DBAL\Sharding\PoolingShardConnection',
-                'shardChoser' => 'Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser',
+                'wrapperClass' => PoolingShardConnection::class,
+                'namingStrategy' => DefaultNamingStrategy::class,
+                'shardChoser' => MultiTenantShardChoser::class,
                 'driver' => 'pdo_mysql',
                 'host' => '192.168.56.101',
                 'port' => 3306,
                 'user' => 'britton',
                 'password' => 'britton',
-                'dbname' => 'test',
+                'dbname' => 'mydb',
                 "charset" => "UTF8",
                 'global' => array(
                     'driver' => 'pdo_mysql',
                     'host' => '192.168.56.101',
                     'port' => 3306,
-                    'dbname' => 'test',
+                    'dbname' => 'mydb',
                     'user' => 'britton',
                     'password' => 'britton',
                     'charset' => 'UTF8'

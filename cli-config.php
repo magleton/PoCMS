@@ -1,6 +1,5 @@
 <?php
 
-use Doctrine\DBAL\Tools\Console\ConnectionProvider\SingleConnectionProvider;
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
 use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
 use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
@@ -17,18 +16,17 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 try {
     date_default_timezone_set('Asia/Shanghai');
     defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
-    const ROOT_PATH = __DIR__;
-    const APP_NAME = 'task';
-    const APP_PATH = ROOT_PATH . '/' . APP_NAME . '/';
+    define('DS', DIRECTORY_SEPARATOR);
+    define('ROOT_PATH', __DIR__);
+    define('APP_NAME', 'task');
+    define('APP_PATH', ROOT_PATH . '/' . APP_NAME . '/');
     require ROOT_PATH . '/vendor/autoload.php';
     $app = new \Polymer\Boot\Application();
     $app->runConsole();
-    $em = app()->db('db1', ROOT_PATH . '/entity/Mapping');
-    $helperSet = new HelperSet(array(
-        'em' => new EntityManagerHelper($em),
-        'db' => new SingleConnectionProvider($em->getConnection()),
-        'dialog' => new QuestionHelper(),
-    ));
+    $em = app()->db('db1', ROOT_PATH . DS . 'app' . DS .'WeiXin'.DS.'Entity'.DS.'Mapping');
+    $helperSet = new HelperSet([
+        new EntityManagerHelper($em )
+    ]);
     $cli = new Application('Doctrine Command Line Interface', Version::VERSION);
     $cli->setCatchExceptions(true);
     $cli->setHelperSet($helperSet);

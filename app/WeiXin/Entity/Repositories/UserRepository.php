@@ -27,7 +27,7 @@ class UserRepository extends Repository
         $nativeQuery = $this->_em->createNativeQuery($sql, $rsm);*/
         //$nativeQuery->setParameter(1 , 1);
         //$arrayResult = $nativeQuery->getResult();
-        $obj = $this->find(1);
+       // $obj = $this->find(1);
         /*$queryBuilder = $this->createQueryBuilder("u");
         $maxResults = $queryBuilder
             ->select("u.username,p.content")
@@ -36,12 +36,13 @@ class UserRepository extends Repository
             ->getQuery()
             ->getArrayResult();*/
         //$maxResults = $this->createNativeNamedQuery("test")->getArrayResult();
-        foreach ($obj->getUserProfiles() as $v) {
+       /* foreach ($obj->getUserProfiles() as $v) {
             $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
             //  print_r($personDTO);
-        }
+        }*/
         //$obj = $this->findBy(['user_id'=>2]);
-        print_r($obj->getUserName());
-        return [$obj];
+       // print_r($obj->getUserName());
+        $list = $this->findAll();
+        return $list;
     }
 }
