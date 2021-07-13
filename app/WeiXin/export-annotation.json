@@ -3,14 +3,14 @@
   "zip": false,
   "dir": "./app/WeiXin/Entity/Mapping/",
   "params": {
-    "logToConsole": false,
+    "logToConsole": true,
     "logFile": "myqsql_test.log",
     "filename": "%entity%.%extension%",
     "indentation": 4,
     "useTabs": true,
     "eolDelimeter": "unix",
     "backupExistingFile": false,
-    "addGeneratorInfoAsComment": false,
+    "addGeneratorInfoAsComment": true,
     "skipPluralNameChecking": false,
     "useLoggedStorage": false,
     "sortTablesAndViews": true,
@@ -32,6 +32,8 @@
     "quoteIdentifierStrategy": "auto",
     "propertyTypehint": true,
     "generateEntityPopulate": true,
-    "generateEntityGetArrayCopy": true
+    "generateEntityGetArrayCopy": true,
+    "extendableEntityHasDiscriminator": false,
+    "useBehavioralExtensions": true
   }
 }

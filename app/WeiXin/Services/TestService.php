@@ -7,10 +7,17 @@
 
 namespace WeiXin\Services;
 
+use DI\Annotation\Inject;
+use DI\Annotation\Injectable;
 use Exception;
 use Polymer\Service\Service;
-use DI\Annotation\Inject;
+use Polymer\Support\Collection;
 
+/**
+ * @Injectable(lazy=false)
+ * Class TestService
+ * @package WeiXin\Services
+ */
 class TestService extends Service
 {
     protected array $rules = [
@@ -45,7 +52,7 @@ class TestService extends Service
             return $this->application->model('company', ['schema' => 'db1'])->update();
         } catch (Exception $e) {
             echo $e->getMessage();
-            $errors = $this->application->component('error_collection')->all();
+            $errors = $this->application->get(Collection::class)->all();
             print_r($errors);
             return ['errCode' => 90];
         }
