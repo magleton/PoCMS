@@ -7,7 +7,7 @@
   "require": {
     "artful/polymer": "dev-master",
     "artful/captcha": "dev-master",
-    "overtrue/wechat": "^5.1",
+    "overtrue/wechat": ">=5.1",
     "chrisboulton/php-resque": "dev-master",
     "ext-json": "*",
     "ext-http": "*"
