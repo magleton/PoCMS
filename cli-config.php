@@ -16,12 +16,12 @@ try {
     defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
     defined('DS') || define('DS', DIRECTORY_SEPARATOR);
     defined('ROOT_PATH') || define('ROOT_PATH', __DIR__);
-    defined('APP_NAME') || define('APP_NAME', 'task');
+    defined('APP_NAME') || define('APP_NAME', 'WeiXin');
     defined('APP_PATH') || define('APP_PATH', ROOT_PATH . '/' . APP_NAME . '/');
     require __DIR__ . '/vendor/autoload.php';
     $app = new \Polymer\Boot\Application();
     $app->runConsole();
-    $em = app()->db('db1', ROOT_PATH . DS . 'app' . DS . 'WeiXin' . DS . 'Entity' . DS . 'Mapping');
+    $em = app()->db('db1', ROOT_PATH . DS . 'app' . DS . APP_NAME . DS . 'Entity' . DS . 'Mapping');
     $helperSet = new HelperSet([
         new EntityManagerHelper($em)
     ]);

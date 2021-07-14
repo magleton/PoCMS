@@ -6,7 +6,7 @@ use DI\Annotation\Inject;
 use EasyWeChat\Kernel\Messages\Text;
 use Exception;
 use Polymer\Controller\Controller;
-use Polymer\Providers\BizValidatorProvider;
+use Polymer\Providers\GXValidatorProvider;
 use Polymer\Providers\LoggerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -2,7 +2,7 @@
 
 use Polymer\Boot\Application;
 use Polymer\Providers\AopProvider;
-use Polymer\Providers\BizValidatorProvider;
+use Polymer\Providers\GXValidatorProvider;
 use WeiXin\Providers\IpFilterProvider;
 
 ini_set("display_errors", 'on');
@@ -19,5 +19,5 @@ $app = new Application();
 
 $app->register(AopProvider::class);
 $app->register(IpFilterProvider::class);
-$app->register(BizValidatorProvider::class);
+$app->register(GXValidatorProvider::class);
 return $app;
