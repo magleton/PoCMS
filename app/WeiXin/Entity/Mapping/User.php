@@ -47,7 +47,7 @@ class User
      *
      * @ORM\Column(name="created_at", type="integer", nullable=true, unique=false)
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @var int|null
@@ -77,5 +77,13 @@ class User
     public function setUsername(?string $username): void
     {
         $this->username = $username;
+    }
+
+    /**
+     * @param int|null $createdAt
+     */
+    public function setCreatedAt(?int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }
