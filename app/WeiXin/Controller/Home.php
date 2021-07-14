@@ -9,7 +9,6 @@ use Exception;
 use Monolog\Logger;
 use Polymer\Boot\Application;
 use Polymer\Controller\Controller;
-use Polymer\Providers\LoggerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -44,7 +43,7 @@ class Home extends Controller
         // $model->save($request->getParams());
         //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
         // print_r($this->application->get('request'));
-       Application::getInstance()->get(Logger::class)->info("aaaaaa枫叶思源");
+        Application::getInstance()->get(Logger::class)->info("aaaaaa枫叶思源");
         $list = $this->helloService->getList();
         return $this->withJson(['list' => $list, "aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
