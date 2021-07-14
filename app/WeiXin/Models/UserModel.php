@@ -31,7 +31,7 @@ class UserModel extends Model
                 'maxMessage' => 'Your first name cannot be longer than {{ limit }} characters',
                 'groups' => ['registration', 'add'],
             ],
-            'NotBlank' => ['groups' => ['add'], 'message' => '该字段不能为空']
+            //'NotBlank' => ['groups' => ['add'], 'message' => '该字段不能为空']
         ],
         /*'address' => [
             'Callback' => [
@@ -102,7 +102,7 @@ class UserModel extends Model
             $obj = $this->make($data)->validate($this->rules, ['add']);
             $this->em->persist($obj);
             $this->em->flush();
-            return $obj->getUserId();
+            return $obj->getId();
         } catch (Exception $e) {
             print_r($this->application->get(Collection::class)->all());
             throw $e;

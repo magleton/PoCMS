@@ -73,7 +73,7 @@ class Home extends Controller
      */
     public function addUser(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $this->helloService->save(['phone' => '111111111111', 'username' => 'aaaaa', 'open_id' => '12233']);
+        $this->helloService->save(['phone' => '111111111111', 'username' => 'aaaaaaaaaa', 'open_id' => '12233']);
         return $this->withJson(['userame' => 'britton'], $response);
     }
 }
