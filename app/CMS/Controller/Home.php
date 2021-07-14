@@ -14,8 +14,8 @@ class Home extends Controller
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $this->application->config('britton.username');
-        return $this->withJson($this->application->config('britton.username'), $response);
+        $this->application->getConfig('britton.username');
+        return $this->withJson($this->application->getConfig('britton.username'), $response);
     }
 
     public function hello(ServerRequestInterface $request, ResponseInterface $response, array $args)

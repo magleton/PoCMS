@@ -16,7 +16,7 @@ class Test extends \Task\Boot\BootTask
         $shardManager = new \Doctrine\DBAL\Sharding\PoolingShardManager($em->getConnection());
         $shardManager->selectGlobal();
         $shardManager->selectShard($this->shard_id);
-        $query = $em->createQuery("SELECT admin FROM Admin\\Entity\\Admin admin ORDER BY admin.id ASC")->setFirstResult(0)->setMaxResults(100);
+        $query = $em->createQuery("SELECT admin FROM Backend\\Entity\\Backend admin ORDER BY admin.id ASC")->setFirstResult(0)->setMaxResults(100);
         $query->setResultCacheLifetime(3600);
         $query->setResultCacheId('admin_index_query_result' . $this->shard_id);
         $data = new \Doctrine\ORM\Tools\Pagination\Paginator($query, true);

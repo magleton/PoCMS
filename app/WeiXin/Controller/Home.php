@@ -3,17 +3,23 @@
 namespace WeiXin\Controller;
 
 use DI\Annotation\Inject;
+use DI\Annotation\Injectable;
 use EasyWeChat\Kernel\Messages\Text;
 use Exception;
+use Monolog\Logger;
+use Polymer\Boot\Application;
 use Polymer\Controller\Controller;
-use Polymer\Providers\GXValidatorProvider;
 use Polymer\Providers\LoggerProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WeiXin\Entity\Mapping\User;
 use WeiXin\Services\HelloService;
 
+/**
+ * @Injectable(lazy=false)
+ * Class Home
+ * @package WeiXin\Controller
+ */
 class Home extends Controller
 {
     /**
@@ -25,7 +31,6 @@ class Home extends Controller
      * @var HelloService
      */
     private HelloService $helloService;
-
 
     public function __construct(ContainerInterface $ci, HelloService $helloService)
     {
@@ -39,9 +44,9 @@ class Home extends Controller
         // $model->save($request->getParams());
         //$model = $this->getApplication()->model('user', [], 'WeiXin\\Models');
         // print_r($this->application->get('request'));
-        $this->application->get(LoggerProvider::class)->info("aaaaaa枫叶思源");
+       Application::getInstance()->get(Logger::class)->info("aaaaaa枫叶思源");
         $list = $this->helloService->getList();
-        return $this->withJson(['list'=>$list,"aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
+        return $this->withJson(['list' => $list, "aaa" => 'hello' . $this->diContainer->get('username'), 'str' => $this->str, 'kkk' => $this->helloService->hello()], $response);
     }
 
     /**
@@ -69,7 +74,7 @@ class Home extends Controller
      */
     public function addUser(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-       $this->helloService->save(['phone'=>'111111111111','username'=>'aaaaa','open_id'=>'12233']);
-        return  $this->withJson(['userame'=>'britton'], $response);
+        $this->helloService->save(['phone' => '111111111111', 'username' => 'aaaaa', 'open_id' => '12233']);
+        return $this->withJson(['userame' => 'britton'], $response);
     }
 }

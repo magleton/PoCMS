@@ -8,7 +8,7 @@ use Polymer\Service\Service;
 use WeiXin\Models\UserModel;
 
 /**
- * @Injectable()
+ * @Injectable(lazy=false)
  * Class HelloService
  * @package WeiXin\Services
  */
@@ -22,6 +22,7 @@ class HelloService extends Service
      * @param TestService
      */
     private TestService $testService;
+    
     /**
      * @Inject
      * @var UserModel

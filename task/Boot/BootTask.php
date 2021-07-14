@@ -33,9 +33,9 @@ class BootTask
      */
     protected function consoleDebug($log_level = Constants::LOG, $tips, $data, $style = '')
     {
-        if (extension_loaded('curl') && $this->app->config('debug')['is_open_socket_log_debug']) {
+        if (extension_loaded('curl') && $this->app->getConfig('debug')['is_open_socket_log_debug']) {
             $slog = new \Slog();
-            $slog->config($this->app->config('debug')['socket_log'], 'config');
+            $slog->config($this->app->getConfig('debug')['socket_log'], 'config');
             $log = [
                 'tips' => $tips,
                 'log' => $data

@@ -1,6 +1,7 @@
 <?php
 
 use Noodlehaus\Exception\EmptyDirectoryException;
+use Polymer\Boot\Application;
 
 if (!function_exists('checkLogin')) {
     /**
@@ -40,7 +41,7 @@ if (!function_exists('routeGeneration')) {
     function routeGeneration(): bool
     {
         $version = file_get_contents(APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'router.lock');
-        $currentVersion = app()->config('current_version');
+        $currentVersion = Application::getInstance()->getConfig('current_version');
         return ((float)$version !== (float)$currentVersion);
     }
 }

@@ -13,7 +13,7 @@ if (!function_exists('weChatConfig')) {
      */
     function weChatConfig()
     {
-        return app()->config('wechat')[0];
+        return app()->getConfig('wechat')[0];
     }
 }
 

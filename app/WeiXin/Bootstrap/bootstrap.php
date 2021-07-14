@@ -1,9 +1,6 @@
 <?php
 
 use Polymer\Boot\Application;
-use Polymer\Providers\AopProvider;
-use Polymer\Providers\GXValidatorProvider;
-use WeiXin\Providers\IpFilterProvider;
 
 ini_set("display_errors", 'on');
 error_reporting(E_ALL);
@@ -16,8 +13,7 @@ $loader = require dirname(ROOT_PATH, 1) . DS . 'vendor' . DS . 'autoload.php';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 
 $app = new Application();
-
-$app->register(AopProvider::class);
-$app->register(IpFilterProvider::class);
-$app->register(GXValidatorProvider::class);
+/*$app->register(\Polymer\Providers\AopProvider::class);
+$app->register(\Polymer\Providers\GXValidatorProvider::class);
+$app->register(IpFilterProvider::class);*/
 return $app;

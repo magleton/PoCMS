@@ -12,7 +12,7 @@ if (!function_exists('routeGeneration')) {
     function routeGeneration(): bool
     {
         $version = file_get_contents(APP_PATH . 'Cache' . DIRECTORY_SEPARATOR . 'router.lock');
-        $currentVersion = app()->config('current_version');
+        $currentVersion = app()->getConfig('current_version');
         return ((float)$version !== (float)$currentVersion);
     }
 }
