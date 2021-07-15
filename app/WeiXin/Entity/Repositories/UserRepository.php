@@ -4,7 +4,9 @@ namespace WeiXin\Entity\Repositories;
 
 use Polymer\Repository\Repository;
 use Polymer\Utils\FuncUtils;
+use WeiXin\Dto\UserDto;
 use WeiXin\Entity\PersonDTO;
+use const Cerbero\Dto\PARTIAL;
 
 /**
  * UsersRepository
@@ -14,7 +16,10 @@ use WeiXin\Entity\PersonDTO;
  */
 class UserRepository extends Repository
 {
-    public function getList(): array
+    /**
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function getList()
     {
         /*$rsm = new ResultSetMapping();
         $rsm->addEntityResult(User::class, 'user');
@@ -40,9 +45,10 @@ class UserRepository extends Repository
             $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
             //  print_r($personDTO);
         }*/
-        //$obj = $this->findBy(['user_id'=>2]);
-       // print_r($obj->getUserName());
-        $list = $this->findAll();
-        return $list;
+        $obj = $this->find(2);
+        $userDto = new UserDto(FuncUtils::entityToArray($obj),PARTIAL);
+        print_r(FuncUtils::entityToArray($obj));
+        //$list = $this->findAll();
+        return $obj;
     }
 }
