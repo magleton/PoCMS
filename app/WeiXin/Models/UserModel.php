@@ -7,6 +7,7 @@ use Exception;
 use Polymer\Model\Model;
 use Polymer\Support\Collection;
 use Polymer\Tests\Listener\TestListener;
+use Slim\Logger;
 use WeiXin\Validators\PhoneValidator;
 
 class UserModel extends Model
@@ -104,7 +105,7 @@ class UserModel extends Model
             $this->em->flush();
             return $obj->getId();
         } catch (Exception $e) {
-            print_r($this->application->get(Collection::class)->all());
+            $this->application->get(Logger::class)->error($this->application->get(Collection::class)->all());
             throw $e;
         }
     }
