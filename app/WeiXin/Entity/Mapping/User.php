@@ -86,4 +86,120 @@ class User
     {
         $this->createdAt = $createdAt;
     }
+
+    /**
+     * Get username.
+     *
+     * @return string|null
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set password.
+     *
+     * @param string|null $password
+     *
+     * @return User
+     */
+    public function setPassword($password = null)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password.
+     *
+     * @return string|null
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set openId.
+     *
+     * @param string|null $openId
+     *
+     * @return User
+     */
+    public function setOpenId($openId = null)
+    {
+        $this->open_id = $openId;
+
+        return $this;
+    }
+
+    /**
+     * Get openId.
+     *
+     * @return string|null
+     */
+    public function getOpenId()
+    {
+        return $this->open_id;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return int|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt.
+     *
+     * @param int|null $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt = null)
+    {
+        $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt.
+     *
+     * @return int|null
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set userProfile.
+     *
+     * @param \WeiXin\Entity\Mapping\UserProfile|null $userProfile
+     *
+     * @return User
+     */
+    public function setUserProfile(\WeiXin\Entity\Mapping\UserProfile $userProfile = null)
+    {
+        $this->user_profile = $userProfile;
+
+        return $this;
+    }
+
+    /**
+     * Get userProfile.
+     *
+     * @return \WeiXin\Entity\Mapping\UserProfile|null
+     */
+    public function getUserProfile()
+    {
+        return $this->user_profile;
+    }
 }

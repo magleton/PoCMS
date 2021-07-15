@@ -2,7 +2,8 @@
 use Polymer\Boot\Application;
 use Slim\App;
 $app = Application::getInstance()->getDiContainer()->get(App::class);
-$app->add(Application::getInstance()->getDiContainer()->get("corsMiddleware"));
+$app->add(Application::getInstance()->getDiContainer()->get('corsMiddleware'));
+
 $app->get('/admin', APP_NAME . '\\Controller\\Backend\\AdminController:test')->setName('admin.user.test');
 
 $app->GET('/', APP_NAME . '\\Controller\\Home:index')->setName('wechat.home.root.index');
