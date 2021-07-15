@@ -4,8 +4,10 @@ namespace WeiXin\Entity\Repositories;
 
 use Polymer\Repository\Repository;
 use Polymer\Utils\FuncUtils;
+use Symfony\Component\Serializer\Serializer;
 use WeiXin\Dto\UserDto;
 use WeiXin\Entity\PersonDTO;
+use const Cerbero\Dto\CAMEL_CASE_ARRAY;
 use const Cerbero\Dto\PARTIAL;
 
 /**
@@ -46,8 +48,9 @@ class UserRepository extends Repository
             //  print_r($personDTO);
         }*/
         $obj = $this->find(2);
-        $userDto = new UserDto(FuncUtils::entityToArray($obj),PARTIAL);
-        print_r(FuncUtils::entityToArray($obj));
+        $normalize = FuncUtils::entityToArray($obj);
+        $userDto = new UserDto($normalize,PARTIAL|CAMEL_CASE_ARRAY);
+        print_r($normalize);
         //$list = $this->findAll();
         return $obj;
     }
