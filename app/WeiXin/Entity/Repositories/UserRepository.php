@@ -4,11 +4,9 @@ namespace WeiXin\Entity\Repositories;
 
 use Polymer\Repository\Repository;
 use Polymer\Utils\FuncUtils;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\UserDto;
 use WeiXin\Entity\PersonDTO;
-use const Cerbero\Dto\CAMEL_CASE_ARRAY;
-use const Cerbero\Dto\PARTIAL;
 
 /**
  * UsersRepository
@@ -19,7 +17,7 @@ use const Cerbero\Dto\PARTIAL;
 class UserRepository extends Repository
 {
     /**
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
     public function getList()
     {
@@ -34,7 +32,7 @@ class UserRepository extends Repository
         $nativeQuery = $this->_em->createNativeQuery($sql, $rsm);*/
         //$nativeQuery->setParameter(1 , 1);
         //$arrayResult = $nativeQuery->getResult();
-       // $obj = $this->find(1);
+        // $obj = $this->find(1);
         /*$queryBuilder = $this->createQueryBuilder("u");
         $maxResults = $queryBuilder
             ->select("u.username,p.content")
@@ -43,14 +41,15 @@ class UserRepository extends Repository
             ->getQuery()
             ->getArrayResult();*/
         //$maxResults = $this->createNativeNamedQuery("test")->getArrayResult();
-       /* foreach ($obj->getUserProfiles() as $v) {
-            $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
-            //  print_r($personDTO);
-        }*/
+        /* foreach ($obj->getUserProfiles() as $v) {
+             $scalar = FuncUtils::entityToArray($v, ['userProfiles', 'user']);
+             //  print_r($personDTO);
+         }*/
         $obj = $this->find(2);
         $normalize = FuncUtils::entityToArray($obj);
-        $userDto = new UserDto($normalize,PARTIAL|CAMEL_CASE_ARRAY);
-        print_r($normalize);
+        //$userDto = new UserDto($normalize,IGNORE_UNKNOWN_PROPERTIES);
+        $userDto = UserDto::make($normalize);
+        print_r($userDto);
         //$list = $this->findAll();
         return $obj;
     }
