@@ -4,6 +4,7 @@ namespace WeiXin\Controller\Backend;
 
 use JsonException;
 use Polymer\Controller\Controller;
+use Polymer\Utils\FuncUtils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,9 +25,9 @@ class UploadController extends Controller
         $uploadedFiles = $request->getUploadedFiles();
         foreach ($uploadedFiles as $key => $value) {
             $extension = pathinfo($value->getClientFilename())['extension'];
-            //$filename = md5() . '.' . $extension;
-            $value->moveTo($uploadsDir . DS . $value->getClientFilename());
-            $fileNames[] = $value->getClientFilename();
+            $filename = FuncUtils::generateSalt(16) . '.' . $extension;
+            $value->moveTo($uploadsDir . DS . $filename);
+            $fileNames[] = $filename;
         }
         return $this->withJson($fileNames, $response);
     }
