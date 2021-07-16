@@ -2,14 +2,21 @@
 
 namespace WeiXin\Models;
 
+use DI\Annotation\Injectable;
 use Doctrine\ORM\Events;
 use Exception;
 use Polymer\Model\Model;
 use Polymer\Support\Collection;
 use Polymer\Tests\Listener\TestListener;
 use Slim\Logger;
+use WeiXin\Entity\Mapping\User;
 use WeiXin\Validators\PhoneValidator;
 
+/**
+ * @Injectable
+ * Class UserModel
+ * @package WeiXin\Models
+ */
 class UserModel extends Model
 {
     /**
@@ -134,6 +141,22 @@ class UserModel extends Model
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * 通过用户用户名密码查找用户
+     *
+     * @param string $username 用户名
+     * @param string $password 密码
+     * @return array
+     */
+    public function getUserByUsernameAndPassword(string $username, string $password): User
+    {
+        $criteria = [
+            'username' => $username,
+            'password' => $password
+        ];
+        return $this->em->getRepository(User::class)->findOneBy($criteria);
     }
 
     public function getList(): array

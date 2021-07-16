@@ -9,14 +9,12 @@ use WeiXin\Services\HelloService;
 use WeiXin\Services\Impl\AdminServiceImpl;
 use WeiXin\Services\Impl\AgencyServiceImpl;
 use WeiXin\Services\Impl\AppointmentServiceImpl;
-use WeiXin\Services\Impl\BannerServiceImpl;
 use WeiXin\Services\Impl\CategoryServiceImpl;
 use WeiXin\Services\Impl\LogServiceImpl;
 use WeiXin\Services\Impl\NewsServiceImpl;
 use WeiXin\Services\Impl\ResourceManagerServiceImpl;
 use WeiXin\Services\Impl\ScenicAreaServiceImpl;
 use WeiXin\Services\Impl\ScenicSpotPlanServiceImpl;
-use WeiXin\Services\Impl\UserServiceImpl;
 use WeiXin\Services\LogService;
 use WeiXin\Services\NewsService;
 use WeiXin\Services\ResourceManagerService;
@@ -29,8 +27,8 @@ return [
     'testService' => DI\create(TestService::class),
     'helloService' => DI\create(HelloService::class),
     AdminService::class => DI\create(AdminServiceImpl::class),
-    UserService::class => DI\create(UserServiceImpl::class),
-    BannerService::class => DI\create(BannerServiceImpl::class),
+    'userService' => DI\create(UserService::class),
+    'bannerService' => DI\create(BannerService::class),
     AppointmentService::class => DI\create(AppointmentServiceImpl::class),
     CategoryService::class => DI\create(CategoryServiceImpl::class),
     NewsService::class => DI\create(NewsServiceImpl::class),

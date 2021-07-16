@@ -24,9 +24,9 @@ class BannerController extends Controller
      * @param $args
      * @return ResponseInterface
      */
-    public function bannerList(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $this->bannerService->addBanner();
+        $this->bannerService->add();
         return [];
     }
 }

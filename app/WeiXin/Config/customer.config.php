@@ -41,5 +41,6 @@ return [
         //'ip_filter' => \WeChat\Providers\IpFilterProvider::class,
     ],
     'ip_list' => ['127.0.0.1'],
-    'username' => 'This is A test String~~~~~'
+    'username' => 'This is A test String~~~~~',
+    'tokenSecretKey' => 'AAAABBBB'
 ];
