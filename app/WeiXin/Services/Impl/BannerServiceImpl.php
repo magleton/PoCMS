@@ -12,5 +12,12 @@ use WeiXin\Services\BannerService;
  */
 class BannerServiceImpl implements BannerService
 {
-
+    /**
+     * @return int
+     */
+    public function addBanner(): int
+    {
+        echo '这个是banner 列表！！！';
+        return 0;
+    }
 }

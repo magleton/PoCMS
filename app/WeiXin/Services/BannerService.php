@@ -9,5 +9,9 @@ namespace WeiXin\Services;
  */
 interface BannerService
 {
-
+    /**
+     * 新增banner
+     * @return int
+     */
+    public function addBanner(): int;
 }

@@ -2,12 +2,20 @@
 
 namespace WeiXin\Controller\Backend;
 
+use DI\Annotation\Inject;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WeiXin\Services\BannerService;
 
 class BannerController extends Controller
 {
+    /**
+     * @Inject
+     * @var BannerService
+     */
+    private BannerService $bannerService;
+
     /**
      * Banner列表
      *
@@ -18,6 +26,7 @@ class BannerController extends Controller
      */
     public function bannerList(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
+        $this->bannerService->addBanner();
         return [];
     }
 }
