@@ -23,14 +23,14 @@ class UserController extends Controller
      */
     public function login(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $contentType = $request->getHeaderLine('Content-Type');
+        /*$contentType = $request->getHeaderLine('Content-Type');
 
-        if (strstr($contentType, 'application/json')) {
+        if (strpos($contentType, 'application/json') !== false) {
             $contents = json_decode(file_get_contents('php://input'), true, 512, JSON_THROW_ON_ERROR);
             if (json_last_error() === JSON_ERROR_NONE) {
                 $request = $request->withParsedBody($contents);
             }
-        }
+        }*/
         $userLoginDto = new UserLoginDto($request->getParsedBody());
         $token = $this->userService->login($userLoginDto);
         $response->getBody()->write($token);
