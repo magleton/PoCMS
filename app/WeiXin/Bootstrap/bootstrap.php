@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 date_default_timezone_set('Asia/Shanghai');
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'development');
 defined('ROOT_PATH') || define('ROOT_PATH', dirname(__DIR__, 2));
+defined('WEB_ROOT') || define('WEB_ROOT', dirname(ROOT_PATH) . DS . 'public_html');
 defined('APP_NAME') || define('APP_NAME', 'WeiXin');
 defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', ROOT_PATH . DS . APP_NAME . DS . 'Templates' . DS);
 defined('APP_PATH') || define('APP_PATH', ROOT_PATH . DS . APP_NAME . DS);
