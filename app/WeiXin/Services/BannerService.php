@@ -58,4 +58,14 @@ class BannerService extends Service
         $this->bannerModel->list($bannerDto);
         return [];
     }
+
+    /**
+     * banner详细信息
+     * @param $id
+     * @return array
+     */
+    public function view($id): array
+    {
+        return $this->bannerModel->view($id);
+    }
 }

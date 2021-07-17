@@ -65,4 +65,18 @@ class BannerController extends Controller
         $this->bannerService->list($bannerDto);
         return $response;
     }
+
+    /**
+     * Banner详情
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param $args
+     * @return ResponseInterface
+     */
+    public function view(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    {
+        $id = $args['id'];
+        $data = $this->bannerService->view($id);
+        return $this->withJson($data, $response);
+    }
 }

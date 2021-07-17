@@ -7,6 +7,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Polymer\Boot\Application;
 use Polymer\Model\Model;
+use Polymer\Utils\FuncUtils;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
@@ -67,5 +68,11 @@ class BannerModel extends Model
     {
         $entityRepository = $this->em->getRepository(Banner::class);
         return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);
+    }
+
+    public function view($id): array
+    {
+        $banner = $this->em->getRepository(Banner::class)->find($id);
+        return FuncUtils::entityToArray($banner);
     }
 }
