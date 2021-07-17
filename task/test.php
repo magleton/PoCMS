@@ -30,7 +30,7 @@ class Test extends \Task\Boot\BootTask
         // writeLog('test_message' , ['name'=>'jack'] , APP_PATH.'/log.log');
         //$redis = \Polymer\Utils\CoreUtils::getContainer('redis' , ['server_name'=>'server1']);
         //$redis->set("key2" , "value2value2value2value2");
-        $db1 = $this->app->db('db1');
+        $db1 = $this->app->getEntityManager('db1');
         //$result = $db1->getConnection()->query('select * from address limit 1')->fetch();
         print_r($db1);
         //$e = $this->getContainer('session');

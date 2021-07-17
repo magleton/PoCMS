@@ -1,14 +1,14 @@
 <?php
 //数据库配置
-use Doctrine\ORM\Mapping\DefaultNamingStrategy;
 use Doctrine\DBAL\Sharding\PoolingShardConnection;
 use Doctrine\DBAL\Sharding\ShardChoser\MultiTenantShardChoser;
+use Doctrine\ORM\Mapping\DefaultNamingStrategy;
 
 return [
-    'db' => array(
+    'db' => [
         // 开发模式
-        'development' => array(
-            "db1" => array(
+        'development' => [
+            "db1" => [
                 'wrapperClass' => PoolingShardConnection::class,
                 'namingStrategy' => DefaultNamingStrategy::class,
                 'shardChoser' => MultiTenantShardChoser::class,
@@ -19,7 +19,7 @@ return [
                 'password' => 'britton',
                 'dbname' => 'mydb',
                 "charset" => "UTF8",
-                'global' => array(
+                'global' => [
                     'driver' => 'pdo_mysql',
                     'host' => '192.168.56.101',
                     'port' => 3306,
@@ -27,9 +27,9 @@ return [
                     'user' => 'britton',
                     'password' => 'britton',
                     'charset' => 'UTF8'
-                ),
-                'shards' => array(
-                    array(
+                ],
+                'shards' => [
+                    [
                         'id' => 1,
                         'driver' => 'pdo_mysql',
                         'host' => '10.0.25.2',
@@ -38,8 +38,8 @@ return [
                         'dbname' => 'xiaofei',
                         'charset' => 'UTF8',
                         'port' => 3308
-                    ),
-                    array(
+                    ],
+                    [
                         'id' => 2,
                         'driver' => 'pdo_mysql',
                         'host' => '10.0.25.2',
@@ -48,13 +48,13 @@ return [
                         'dbname' => 'test',
                         'charset' => 'UTF8',
                         'port' => 3308
-                    )
-                ),
+                    ]
+                ],
                 "useSimpleAnnotationReader" => false,
                 'emCacheKey' => 'abc',
-            ),
+            ],
 
-            "db2" => array(
+            "db2" => [
                 'driver' => 'pdo_mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
@@ -62,13 +62,13 @@ return [
                 'password' => 'root',
                 'dbname' => 'xiaofei',
                 "charset" => "UTF8",
-                'sharding' => array(
+                'sharding' => [
                     'federationName' => 'my_database',
                     'distributionKey' => 'customer_id',
-                ),
+                ],
                 "useSimpleAnnotationReader" => false
-            ),
-            "db3" => array(
+            ],
+            "db3" => [
                 'driver' => 'pdo_mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
@@ -76,15 +76,15 @@ return [
                 'password' => 'root',
                 'dbname' => 'xiaofei',
                 "charset" => "UTF8",
-                'sharding' => array(
+                'sharding' => [
                     'federationName' => 'my_database',
                     'distributionKey' => 'customer_id',
-                ),
+                ],
                 "useSimpleAnnotationReader" => true
-            )),
+            ]],
         // 生产模式
-        'production' => array(
-            "db1" => array(
+        'production' => [
+            "db1" => [
                 'driver' => 'pdo_mysql',
                 'host' => '127.0.0.1',
                 'port' => '3306',
@@ -92,13 +92,13 @@ return [
                 'password' => 'root',
                 'dbname' => 'xiaofei',
                 "charset" => "UTF8",
-                'sharding' => array(
+                'sharding' => [
                     'federationName' => 'my_database',
                     'distributionKey' => 'customer_id',
-                ),
+                ],
                 "useSimpleAnnotationReader" => false
-            ),
-            "db2" => array(
+            ],
+            "db2" => [
                 'driver' => 'pdo_mysql',
                 'host' => 'localhost',
                 'port' => '3306',
@@ -106,12 +106,12 @@ return [
                 'password' => 'password',
                 'dbname' => 'production_dbname',
                 "charset" => "UTF8",
-                'sharding' => array(
+                'sharding' => [
                     'federationName' => 'my_database',
                     'distributionKey' => 'customer_id',
-                ),
+                ],
                 "useSimpleAnnotationReader" => true
-            )
-        ),
-    ),
+            ]
+        ],
+    ],
 ];
