@@ -14,19 +14,19 @@ use WeiXin\Dto\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
-class BannerModel extends Model
+class CategoryModel extends Model
 {
     /**
      * 数据库配置
      * @var string
      */
     protected string $schema = 'db1';
-    
+
     /**
      * 数据库表名
      * @var string
      */
-    protected string $table = 'banner';
+    protected string $table = 'category';
 
     /**
      * 添加banner
