@@ -48,23 +48,20 @@ class BannerModel extends Model
     public function update(BannerDto $bannerDto)
     {
         $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
-        $banner = $this->make($bannerDto->toArray(), ['id' => $bannerDto->id]);
+        $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
         $this->em->persist($banner);
         $this->em->flush();
         return $banner->getId();
     }
 
-
     /**
      * 列表Banner
      * @param BannerDto $bannerDto
      * @return mixed
-     * @throws OptimisticLockException
      */
-    public function list(BannerDto $bannerDto)
+    public function list(BannerDto $bannerDto): array
     {
-        $entityRepository = $this->application->repository('banner');
-        $arr = $entityRepository->findBy(['filename'=>'aaaaa']);
-        return [];
+        $entityRepository = $this->em->getRepository(Banner::class);
+        return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);
     }
 }
