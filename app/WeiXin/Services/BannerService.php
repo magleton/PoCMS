@@ -46,4 +46,16 @@ class BannerService extends Service
         $this->bannerModel->update($bannerDto);
         return 19;
     }
+
+    /**
+     * banner列表
+     * @param BannerDto $bannerDto
+     * @return int
+     * @throws ORMException
+     */
+    public function list(BannerDto $bannerDto): array
+    {
+        $this->bannerModel->list($bannerDto);
+        return [];
+    }
 }

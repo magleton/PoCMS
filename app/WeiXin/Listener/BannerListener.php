@@ -25,7 +25,7 @@ class BannerListener
      *
      * @param LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $args->getObject()->setCreatedAt(time());
     }
@@ -35,7 +35,7 @@ class BannerListener
      *
      * @param LifecycleEventArgs $args
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         $args->getObject()->setUpdatedAt(time());
     }

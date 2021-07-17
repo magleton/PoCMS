@@ -9,6 +9,8 @@ use Polymer\Dto\BaseDTO;
  * @property string $filename
  * @property string $url
  * @property string $mark
+ * @property int $pageSize
+ * @property int $page
  * Class BannerDto
  * @package WeiXin\Dto
  */

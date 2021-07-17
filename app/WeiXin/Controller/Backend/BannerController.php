@@ -49,4 +49,20 @@ class BannerController extends Controller
         $this->bannerService->update($bannerDto);
         return $response;
     }
+
+    /**
+     * Banner列表
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param $args
+     * @return ResponseInterface
+     * @throws ORMException
+     */
+    public function list(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    {
+        $bannerDto = BannerDto::make($request->getParsedBody());
+        $this->bannerService->list($bannerDto);
+        return $response;
+    }
 }

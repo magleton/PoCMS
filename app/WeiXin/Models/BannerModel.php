@@ -7,6 +7,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
 use WeiXin\Dto\BannerDto;
+use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
 class BannerModel extends Model
@@ -51,5 +52,19 @@ class BannerModel extends Model
         $this->em->persist($banner);
         $this->em->flush();
         return $banner->getId();
+    }
+
+
+    /**
+     * 列表Banner
+     * @param BannerDto $bannerDto
+     * @return mixed
+     * @throws OptimisticLockException
+     */
+    public function list(BannerDto $bannerDto)
+    {
+        $entityRepository = $this->application->repository('banner');
+        $arr = $entityRepository->findBy(['filename'=>'aaaaa']);
+        return [];
     }
 }
