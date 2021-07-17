@@ -8,6 +8,7 @@ use Polymer\Dto\BaseDTO;
  * @property int $id
  * @property string $title
  * @property string $content
+ * @property string $ext
  * Class NewsDto
  * @package WeiXin\Dto
  */
