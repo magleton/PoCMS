@@ -2,9 +2,12 @@
 
 namespace WeiXin\Models;
 
+use Doctrine\ORM\Events;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
 use WeiXin\Dto\BannerDto;
+use WeiXin\Listener\BannerListener;
 
 class BannerModel extends Model
 {
@@ -27,9 +30,26 @@ class BannerModel extends Model
      */
     public function save(BannerDto $bannerDto): int
     {
-        $obj = $this->make(['filename' => 'aaaa', 'url' => 'http://www.baidu.com'] );
-        $this->em->persist($obj);
+        $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
+        $banner = $this->make($bannerDto->toArray());
+        $this->em->persist($banner);
         $this->em->flush();
-        return 0;
+        return $banner->getId();
+    }
+
+    /**
+     * 更新Banner
+     * @param BannerDto $bannerDto
+     * @return mixed
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function update(BannerDto $bannerDto)
+    {
+        $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
+        $banner = $this->make($bannerDto->toArray(), ['id' => $bannerDto->id]);
+        $this->em->persist($banner);
+        $this->em->flush();
+        return $banner->getId();
     }
 }

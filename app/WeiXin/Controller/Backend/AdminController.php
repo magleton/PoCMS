@@ -1,8 +1,6 @@
 <?php
 
-
 namespace WeiXin\Controller\Backend;
-
 
 use DI\Annotation\Inject;
 use Polymer\Controller\Controller;

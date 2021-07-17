@@ -5,7 +5,7 @@ namespace WeiXin\Models;
 use Doctrine\ORM\Events;
 use Exception;
 use Polymer\Model\Model;
-use Polymer\Tests\Listener\TestListener;
+use Polymer\Tests\Listener\BaseListener;
 
 class TestModel extends Model
 {
@@ -114,7 +114,7 @@ class TestModel extends Model
         try {
             $this->application->addEvent([
                 Events::preUpdate => [
-                    'class_name' => TestListener::class,
+                    'class_name' => BaseListener::class,
                     'data' => ['address' => 'aaaaa']
                 ]
             ]);

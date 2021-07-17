@@ -7,7 +7,7 @@ use Doctrine\ORM\Events;
 use Exception;
 use Polymer\Model\Model;
 use Polymer\Support\Collection;
-use Polymer\Tests\Listener\TestListener;
+use Polymer\Tests\Listener\BaseListener;
 use Slim\Logger;
 use WeiXin\Entity\Mapping\User;
 use WeiXin\Validators\PhoneValidator;
@@ -106,7 +106,7 @@ class UserModel extends Model
     public function save(array $data = [])
     {
         try {
-            $this->application->addEvent([Events::prePersist => ['class_name' => TestListener::class]]);
+            $this->application->addEvent([Events::prePersist => ['class_name' => BaseListener::class]]);
             $obj = $this->make($data)->validate($this->rules, ['add']);
             $this->em->persist($obj);
             $this->em->flush();

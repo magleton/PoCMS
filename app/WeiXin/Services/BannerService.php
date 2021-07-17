@@ -4,6 +4,7 @@ namespace WeiXin\Services;
 
 use DI\Annotation\Inject;
 use DI\Annotation\Injectable;
+use Doctrine\ORM\ORMException;
 use Polymer\Service\Service;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Models\BannerModel;
@@ -24,12 +25,25 @@ class BannerService extends Service
 
     /**
      * 新增banner
+     * @param BannerDto $bannerDto
      * @return int
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      */
-    public function add(): int
+    public function save(BannerDto $bannerDto): int
     {
-        $this->bannerModel->save(new BannerDto(['filename'=>'aaaaa','url'=>'http']));
+        $this->bannerModel->save($bannerDto);
+        return 19;
+    }
+
+    /**
+     * 修改banner
+     * @param BannerDto $bannerDto
+     * @return int
+     * @throws ORMException
+     */
+    public function update(BannerDto $bannerDto): int
+    {
+        $this->bannerModel->update($bannerDto);
         return 19;
     }
 }
