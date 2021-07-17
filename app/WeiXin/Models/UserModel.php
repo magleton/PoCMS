@@ -107,7 +107,7 @@ class UserModel extends Model
     {
         try {
             $this->application->addEvent([Events::prePersist => ['class_name' => BaseListener::class]]);
-            $obj = $this->make($data)->validate($this->rules, ['add']);
+            $obj = $this->make(User::class, $data)->validate($this->rules, ['add']);
             $this->em->persist($obj);
             $this->em->flush();
             return $obj->getId();
@@ -134,7 +134,7 @@ class UserModel extends Model
                     'data' => ['address' => 'aaaaa']
                 ]
             ]);*/
-            $obj = $this->make($data, ['user_id' => 1], false)->validate($this->rules, ['update']);
+            $obj = $this->make(User::class, $data, ['user_id' => 1], false)->validate($this->rules, ['update']);
             $this->em->persist($obj);
             $this->em->flush();
             return $obj->getId();

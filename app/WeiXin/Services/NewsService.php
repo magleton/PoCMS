@@ -3,8 +3,10 @@
 namespace WeiXin\Services;
 
 use DI\Annotation\Inject;
+use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\NewsDto;
 use WeiXin\Models\NewsModel;
 
 /**
@@ -22,37 +24,38 @@ class NewsService
 
     /**
      * 新增banner
-     * @param BannerDto $bannerDto
+     * @param NewsDto $newsDto
      * @return int
      * @throws ORMException
      */
-    public function save(BannerDto $bannerDto): int
+    public function save(NewsDto $newsDto): int
     {
-        $this->newsModel->save($bannerDto);
+        $this->newsModel->save($newsDto);
         return 19;
     }
 
     /**
      * 修改banner
-     * @param BannerDto $bannerDto
+     * @param NewsDto $newsDto
      * @return int
      * @throws ORMException
+     * @throws EntityNotFoundException
+     * @throws OptimisticLockException
      */
-    public function update(BannerDto $bannerDto): int
+    public function update(NewsDto $newsDto): int
     {
-        $this->newsModel->update($bannerDto);
+        $this->newsModel->update($newsDto);
         return 19;
     }
 
     /**
      * banner列表
-     * @param BannerDto $bannerDto
-     * @return int
-     * @throws ORMException
+     * @param NewsDto $newsDto
+     * @return array
      */
-    public function list(BannerDto $bannerDto): array
+    public function list(NewsDto $newsDto): array
     {
-        $this->newsModel->list($bannerDto);
+        $this->newsModel->list($newsDto);
         return [];
     }
 

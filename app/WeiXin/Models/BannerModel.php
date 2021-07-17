@@ -21,7 +21,7 @@ class BannerModel extends Model
      * @var string
      */
     protected string $schema = 'db1';
-    
+
     /**
      * 数据库表名
      * @var string
@@ -37,7 +37,7 @@ class BannerModel extends Model
     public function save(BannerDto $bannerDto): int
     {
         $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
-        $banner = $this->make($bannerDto->toArray());
+        $banner = $this->make(Banner::class, $bannerDto->toArray());
         $this->em->persist($banner);
         $this->em->flush();
         return $banner->getId();

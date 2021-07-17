@@ -40,10 +40,10 @@ class NewsModel extends Model
     public function save(NewsDto $newsDto): int
     {
         $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
-        $banner = $this->make($bannerDto->toArray());
-        $this->em->persist($banner);
+        $news = $this->make(News::class, $newsDto->toArray());
+        $this->em->persist($news);
         $this->em->flush();
-        return $banner->getId();
+        return $news->getId();
     }
 
     /**

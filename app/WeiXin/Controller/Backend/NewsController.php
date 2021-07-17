@@ -8,6 +8,7 @@ use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\NewsDto;
 use WeiXin\Services\NewsService;
 
 class NewsController extends Controller
@@ -29,8 +30,8 @@ class NewsController extends Controller
      */
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
-        $this->newsService->save($bannerDto);
+        $newsDto = NewsDto::make($request->getParsedBody());
+        $this->newsService->save($newsDto);
         return $response;
     }
 
