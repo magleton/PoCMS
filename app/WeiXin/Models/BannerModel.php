@@ -5,6 +5,7 @@ namespace WeiXin\Models;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Polymer\Boot\Application;
 use Polymer\Model\Model;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
@@ -47,6 +48,9 @@ class BannerModel extends Model
      */
     public function update(BannerDto $bannerDto)
     {
+        Application::getInstance()->getEntityManager('db1');
+        Application::getInstance()->getEntityManager('db1');
+        Application::getInstance()->getEntityManager('db1');
         $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
         $this->em->persist($banner);

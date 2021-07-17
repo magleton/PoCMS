@@ -13,4 +13,8 @@ defined('TEMPLATE_PATH') || define('TEMPLATE_PATH', ROOT_PATH . DS . APP_NAME . 
 defined('APP_PATH') || define('APP_PATH', ROOT_PATH . DS . APP_NAME . DS);
 $loader = require dirname(ROOT_PATH, 1) . DS . 'vendor' . DS . 'autoload.php';
 
-return new Application();
+try {
+    return new Application($loader);
+} catch (Exception $e) {
+    throw $e;
+}

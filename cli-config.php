@@ -19,8 +19,8 @@ defined('ROOT_PATH') || define('ROOT_PATH', __DIR__);
 defined('APP_NAME') || define('APP_NAME', 'WeiXin');
 defined('APP_PATH') || define('APP_PATH', ROOT_PATH . DS . 'app' . DS . APP_NAME . DS);
 $loader = require __DIR__ . '/vendor/autoload.php';
-$app = new \Polymer\Boot\Application();
 try {
+    $app = new \Polymer\Boot\Application($loader);
     $app->runConsole();
     $em = \Polymer\Boot\Application::getInstance()->getEntityManager('db1', APP_PATH . 'Entity' . DS . 'Mapping');
     $helperSet = new HelperSet([
