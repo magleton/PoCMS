@@ -73,10 +73,10 @@ class BannerController extends Controller
      * @param $args
      * @return ResponseInterface
      */
-    public function view(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    public function detail(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
         $id = $args['id'];
-        $data = $this->bannerService->view($id);
+        $data = $this->bannerService->detail($id);
         return $this->withJson($data, $response);
     }
 }

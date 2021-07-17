@@ -4,36 +4,40 @@ namespace WeiXin\Models;
 
 use DI\DependencyException;
 use DI\NotFoundException;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
+use Polymer\Tests\Listener\BaseListener;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\BannerDto;
-use WeiXin\Entity\Mapping\Banner;
+use WeiXin\Dto\NewsDto;
+use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\BannerListener;
 
-class BannerModel extends Model
+class NewsModel extends Model
 {
     /**
      * 数据库配置
      * @var string
      */
     protected string $schema = 'db1';
+
     /**
      * 数据库表名
      * @var string
      */
-    protected string $table = 'banner';
+    protected string $table = 'news';
 
     /**
      * 添加banner
-     * @param BannerDto $bannerDto
+     * @param NewsDto $newsDto
      * @return int
      * @throws ORMException
      */
-    public function save(BannerDto $bannerDto): int
+    public function save(NewsDto $newsDto): int
     {
         $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
         $banner = $this->make($bannerDto->toArray());
@@ -44,15 +48,16 @@ class BannerModel extends Model
 
     /**
      * 更新Banner
-     * @param BannerDto $bannerDto
+     * @param NewsDto $newsDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws EntityNotFoundException
      */
-    public function update(BannerDto $bannerDto)
+    public function update(NewsDto $newsDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
-        $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
+        $this->application->addEvent([Events::preUpdate => ['class_name' => BaseListener::class]]);
+        $banner = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);
         $this->em->persist($banner);
         $this->em->flush();
         return $banner->getId();
@@ -65,12 +70,12 @@ class BannerModel extends Model
      */
     public function list(BannerDto $bannerDto): array
     {
-        $entityRepository = $this->em->getRepository(Banner::class);
+        $entityRepository = $this->em->getRepository(News::class);
         return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);
     }
 
     /**
-     * 详细信息
+     * 获取详情
      * @param $id
      * @return array
      * @throws DependencyException
@@ -79,7 +84,7 @@ class BannerModel extends Model
      */
     public function detail($id): array
     {
-        $banner = $this->em->getRepository(Banner::class)->find($id);
+        $banner = $this->em->getRepository(News::class)->find($id);
         return FuncUtils::entityToArray($banner);
     }
 }

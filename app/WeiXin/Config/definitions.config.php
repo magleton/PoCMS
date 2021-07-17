@@ -31,7 +31,7 @@ return [
     'bannerService' => DI\create(BannerService::class),
     AppointmentService::class => DI\create(AppointmentServiceImpl::class),
     CategoryService::class => DI\create(CategoryServiceImpl::class),
-    NewsService::class => DI\create(NewsServiceImpl::class),
+    'newsService' => DI\create(NewsService::class),
     ScenicAreaService::class => DI\create(ScenicAreaServiceImpl::class),
     AgencyService::class => DI\create(AgencyServiceImpl::class),
     ResourceManagerService::class => DI\create(ResourceManagerServiceImpl::class),

@@ -64,8 +64,8 @@ class BannerService extends Service
      * @param $id
      * @return array
      */
-    public function view($id): array
+    public function detail($id): array
     {
-        return $this->bannerModel->view($id);
+        return $this->bannerModel->detail($id);
     }
 }
