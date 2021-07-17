@@ -27,6 +27,6 @@ class BannerController extends Controller
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
         $this->bannerService->add();
-        return [];
+        return $response;
     }
 }

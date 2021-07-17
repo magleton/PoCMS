@@ -57,7 +57,7 @@ class TestModel extends Model
      *
      * @var string
      */
-    protected string $entityFolder = ROOT_PATH . '/Entity/Models';
+    protected string $entityFolder = ROOT_PATH . '/Entity/Mapping';
 
     /**
      * Repository的命名空间

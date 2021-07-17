@@ -17,7 +17,7 @@ use WeiXin\Models\BannerModel;
 class BannerService extends Service
 {
     /**
-     * @Inject()
+     * @Inject
      * @var BannerModel
      */
     private BannerModel $bannerModel;
