@@ -6,6 +6,8 @@ use DI\Annotation\Inject;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Models\CategoryModel;
@@ -54,13 +56,39 @@ class CategoryService
      */
     public function list(SearchDto $searchDto): array
     {
-        return $this->categoryModel->list($searchDto);
+        $list = $this->categoryModel->list($searchDto);
+        return $this->getTree($list);
+    }
+
+    /**
+     * 递归实现无限极分类
+     * @param array $list
+     * @return array $tree
+     */
+    private function getTree(array $list): array
+    {
+        $items = array();
+        foreach ($list as $value) {
+            $items[$value['id']] = $value;
+        }
+        $tree = [];
+        foreach ($items as $key => $item) {
+            if (isset($items[$item['parentId']])) {
+                $items[$key]['level'] = count(explode(',', $items[$key]['path']));
+                $items[$item['parentId']]['children'][] = &$items[$key];
+            } else {
+                $items[$key]['level'] = count(explode(',', $items[$key]['path']));
+                $tree[] = &$items[$key];
+            }
+        }
+        return $tree;
     }
 
     /**
      * banner详细信息
      * @param $id
      * @return array
+     * @throws Exception|ExceptionInterface
      */
     public function detail($id): array
     {
