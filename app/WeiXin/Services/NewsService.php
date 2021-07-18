@@ -4,11 +4,10 @@ namespace WeiXin\Services;
 
 use DI\Annotation\Inject;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\Internal\Hydration\ArrayHydrator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Polymer\Utils\FuncUtils;
 use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Models\NewsModel;
 
 /**
@@ -32,8 +31,7 @@ class NewsService
      */
     public function save(NewsDto $newsDto): int
     {
-        $this->newsModel->save($newsDto);
-        return 19;
+        return $this->newsModel->save($newsDto);
     }
 
     /**
@@ -46,19 +44,17 @@ class NewsService
      */
     public function update(NewsDto $newsDto): int
     {
-        $this->newsModel->update($newsDto);
-        return 19;
+        return $this->newsModel->update($newsDto);
     }
 
     /**
      * banner列表
-     * @param NewsDto $newsDto
+     * @param SearchDto $searchDto
      * @return array
      */
-    public function list(NewsDto $newsDto): array
+    public function list(SearchDto $searchDto): array
     {
-        $this->newsModel->list($newsDto);
-        return [];
+        return $this->newsModel->list($searchDto);
     }
 
     /**

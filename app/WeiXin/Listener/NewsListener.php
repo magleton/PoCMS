@@ -4,22 +4,14 @@ namespace WeiXin\Listener;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use JsonException;
+use Polymer\Tests\Listener\BaseListener;
 
-class NewsListener
+class NewsListener extends BaseListener
 {
     /**
      * @var array
      */
     private array $params;
-
-    /**
-     * TestListener constructor.
-     * @param array $params
-     */
-    public function __construct(array $params)
-    {
-        $this->params = $params;
-    }
 
     /**
      * 保存之前处理数据

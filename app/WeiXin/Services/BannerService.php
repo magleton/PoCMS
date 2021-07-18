@@ -6,7 +6,7 @@ use DI\Annotation\Inject;
 use DI\Annotation\Injectable;
 use Doctrine\ORM\ORMException;
 use Polymer\Service\Service;
-use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Models\BannerModel;
 
 /**
@@ -25,11 +25,11 @@ class BannerService extends Service
 
     /**
      * 新增banner
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return int
      * @throws ORMException
      */
-    public function save(BannerDto $bannerDto): int
+    public function save(SearchDto $bannerDto): int
     {
         $this->bannerModel->save($bannerDto);
         return 19;
@@ -37,11 +37,11 @@ class BannerService extends Service
 
     /**
      * 修改banner
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return int
      * @throws ORMException
      */
-    public function update(BannerDto $bannerDto): int
+    public function update(SearchDto $bannerDto): int
     {
         $this->bannerModel->update($bannerDto);
         return 19;
@@ -49,11 +49,11 @@ class BannerService extends Service
 
     /**
      * banner列表
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return int
      * @throws ORMException
      */
-    public function list(BannerDto $bannerDto): array
+    public function list(SearchDto $bannerDto): array
     {
         $this->bannerModel->list($bannerDto);
         return [];

@@ -7,8 +7,8 @@ use Doctrine\ORM\ORMException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WeiXin\Dto\BannerDto;
 use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Services\NewsService;
 
 class NewsController extends Controller
@@ -31,8 +31,8 @@ class NewsController extends Controller
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
         $newsDto = NewsDto::make($request->getParsedBody());
-        $this->newsService->save($newsDto);
-        return $response;
+        $id = $this->newsService->save($newsDto);
+        return $this->withJson(['id' => $id], $response);
     }
 
     /**
@@ -46,9 +46,9 @@ class NewsController extends Controller
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
-        $this->newsService->update($bannerDto);
-        return $response;
+        $newsDto = NewsDto::make($request->getParsedBody());
+        $id = $this->newsService->update($newsDto);
+        return $this->withJson(['id' => $id], $response);
     }
 
     /**
@@ -58,13 +58,12 @@ class NewsController extends Controller
      * @param ResponseInterface $response
      * @param $args
      * @return ResponseInterface
-     * @throws ORMException
      */
     public function list(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
-        $this->newsService->list($bannerDto);
-        return $response;
+        $searchDto = SearchDto::make($request->getParsedBody());
+        $list = $this->newsService->list($searchDto);
+        return $this->withJson($list, $response);
     }
 
     /**

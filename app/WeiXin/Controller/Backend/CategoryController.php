@@ -7,7 +7,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Services\CategoryService;
 
 class CategoryController extends Controller
@@ -29,7 +29,7 @@ class CategoryController extends Controller
      */
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
+        $bannerDto = SearchDto::make($request->getParsedBody());
         $this->categoryService->save($bannerDto);
         return $response;
     }
@@ -45,7 +45,7 @@ class CategoryController extends Controller
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
+        $bannerDto = SearchDto::make($request->getParsedBody());
         $this->categoryService->update($bannerDto);
         return $response;
     }
@@ -61,7 +61,7 @@ class CategoryController extends Controller
      */
     public function list(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = BannerDto::make($request->getParsedBody());
+        $bannerDto = SearchDto::make($request->getParsedBody());
         $this->categoryService->list($bannerDto);
         return $response;
     }

@@ -10,7 +10,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Entity\Mapping\Category;
 use WeiXin\Listener\BannerListener;
@@ -31,11 +31,11 @@ class CategoryModel extends Model
 
     /**
      * 添加banner
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return int
      * @throws ORMException
      */
-    public function save(BannerDto $bannerDto): int
+    public function save(SearchDto $bannerDto): int
     {
         $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
         $banner = $this->make(CategoryModel::class, $bannerDto->toArray());
@@ -46,12 +46,12 @@ class CategoryModel extends Model
 
     /**
      * 更新Banner
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function update(BannerDto $bannerDto)
+    public function update(SearchDto $bannerDto)
     {
         $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
@@ -62,10 +62,10 @@ class CategoryModel extends Model
 
     /**
      * 列表Banner
-     * @param BannerDto $bannerDto
+     * @param SearchDto $bannerDto
      * @return mixed
      */
-    public function list(BannerDto $bannerDto): array
+    public function list(SearchDto $bannerDto): array
     {
         $entityRepository = $this->em->getRepository(Banner::class);
         return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);

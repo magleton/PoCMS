@@ -8,12 +8,12 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Polymer\Model\Model;
-use Polymer\Tests\Listener\BaseListener;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\BannerDto;
 use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\SearchDto;
 use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\NewsListener;
 
@@ -60,25 +60,32 @@ class NewsModel extends Model
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
+     * @throws Exception
      */
     public function update(NewsDto $newsDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => BaseListener::class]]);
-        $banner = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);
-        $this->em->persist($banner);
+        $this->application->addEvent([Events::preUpdate => ['class_name' => NewsListener::class]]);
+        $news = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);
+        $this->em->persist($news);
         $this->em->flush();
-        return $banner->getId();
+        return $news->getId();
     }
 
     /**
-     * 列表Banner
-     * @param BannerDto $bannerDto
+     * 新闻列表
+     * @param SearchDto $searchDto
      * @return mixed
+     * @throws Exception|ExceptionInterface
      */
-    public function list(BannerDto $bannerDto): array
+    public function list(SearchDto $searchDto): array
     {
+        $pageSize = $searchDto->pageSize;
+        $page = $searchDto->page;
+        $offset = ($page - 1) * $searchDto->pageSize;
         $entityRepository = $this->em->getRepository(News::class);
-        return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);
+        $count = $entityRepository->count($searchDto->searchCondition);
+        $list = $entityRepository->findBy($searchDto->searchCondition, ['id' => 'desc'], $pageSize, $offset);
+        return $this->page($list, $count, $searchDto);
     }
 
     /**
