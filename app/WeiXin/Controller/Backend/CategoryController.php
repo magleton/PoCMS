@@ -7,6 +7,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Services\CategoryService;
 
@@ -29,9 +30,9 @@ class CategoryController extends Controller
      */
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = SearchDto::make($request->getParsedBody());
-        $this->categoryService->save($bannerDto);
-        return $response;
+        $categoryDto = CategoryDto::make($request->getParsedBody());
+        $id = $this->categoryService->save($categoryDto);
+        return $this->withJson(['id' => $id], $response);
     }
 
     /**
@@ -45,9 +46,9 @@ class CategoryController extends Controller
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = SearchDto::make($request->getParsedBody());
-        $this->categoryService->update($bannerDto);
-        return $response;
+        $categoryDto = CategoryDto::make($request->getParsedBody());
+        $id = $this->categoryService->update($categoryDto);
+        return $this->withJson(['id' => $id], $response);
     }
 
     /**
@@ -57,13 +58,12 @@ class CategoryController extends Controller
      * @param ResponseInterface $response
      * @param $args
      * @return ResponseInterface
-     * @throws ORMException
      */
     public function list(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $bannerDto = SearchDto::make($request->getParsedBody());
-        $this->categoryService->list($bannerDto);
-        return $response;
+        $searchDto = SearchDto::make($request->getParsedBody());
+        $list = $this->categoryService->list($searchDto);
+        return $this->withJson($list, $response);
     }
 
     /**

@@ -6,7 +6,7 @@ use DI\Annotation\Inject;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Models\NewsModel;
 
@@ -25,24 +25,24 @@ class NewsService
 
     /**
      * 新增banner
-     * @param NewsDto $newsDto
+     * @param CategoryDto $newsDto
      * @return int
      * @throws ORMException
      */
-    public function save(NewsDto $newsDto): int
+    public function save(CategoryDto $newsDto): int
     {
         return $this->newsModel->save($newsDto);
     }
 
     /**
      * 修改banner
-     * @param NewsDto $newsDto
+     * @param CategoryDto $newsDto
      * @return int
      * @throws ORMException
      * @throws EntityNotFoundException
      * @throws OptimisticLockException
      */
-    public function update(NewsDto $newsDto): int
+    public function update(CategoryDto $newsDto): int
     {
         return $this->newsModel->update($newsDto);
     }
@@ -64,7 +64,6 @@ class NewsService
      */
     public function detail($id): array
     {
-        $news = $this->newsModel->detail($id);
-        return $news;
+        return $this->newsModel->detail($id);
     }
 }

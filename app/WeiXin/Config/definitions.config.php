@@ -9,7 +9,6 @@ use WeiXin\Services\HelloService;
 use WeiXin\Services\Impl\AdminServiceImpl;
 use WeiXin\Services\Impl\AgencyServiceImpl;
 use WeiXin\Services\Impl\AppointmentServiceImpl;
-use WeiXin\Services\Impl\CategoryServiceImpl;
 use WeiXin\Services\Impl\LogServiceImpl;
 use WeiXin\Services\Impl\NewsServiceImpl;
 use WeiXin\Services\Impl\ResourceManagerServiceImpl;
@@ -30,7 +29,7 @@ return [
     'userService' => DI\create(UserService::class),
     'bannerService' => DI\create(BannerService::class),
     AppointmentService::class => DI\create(AppointmentServiceImpl::class),
-    CategoryService::class => DI\create(CategoryServiceImpl::class),
+    'categoryService' => DI\create(CategoryService::class),
     'newsService' => DI\create(NewsService::class),
     ScenicAreaService::class => DI\create(ScenicAreaServiceImpl::class),
     AgencyService::class => DI\create(AgencyServiceImpl::class),

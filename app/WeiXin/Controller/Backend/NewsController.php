@@ -7,7 +7,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Services\NewsService;
 
@@ -30,7 +30,7 @@ class NewsController extends Controller
      */
     public function save(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $newsDto = NewsDto::make($request->getParsedBody());
+        $newsDto = CategoryDto::make($request->getParsedBody());
         $id = $this->newsService->save($newsDto);
         return $this->withJson(['id' => $id], $response);
     }
@@ -46,7 +46,7 @@ class NewsController extends Controller
      */
     public function update(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $newsDto = NewsDto::make($request->getParsedBody());
+        $newsDto = CategoryDto::make($request->getParsedBody());
         $id = $this->newsService->update($newsDto);
         return $this->withJson(['id' => $id], $response);
     }

@@ -12,7 +12,7 @@ use Exception;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\NewsDto;
+use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\NewsListener;
@@ -39,11 +39,11 @@ class NewsModel extends Model
 
     /**
      * 添加banner
-     * @param NewsDto $newsDto
+     * @param CategoryDto $newsDto
      * @return int
      * @throws ORMException
      */
-    public function save(NewsDto $newsDto): int
+    public function save(CategoryDto $newsDto): int
     {
         $this->application->addEvent([Events::prePersist => ['class_name' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray());
@@ -55,14 +55,14 @@ class NewsModel extends Model
 
     /**
      * 更新Banner
-     * @param NewsDto $newsDto
+     * @param CategoryDto $newsDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
      * @throws Exception
      */
-    public function update(NewsDto $newsDto)
+    public function update(CategoryDto $newsDto)
     {
         $this->application->addEvent([Events::preUpdate => ['class_name' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);

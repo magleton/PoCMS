@@ -4,16 +4,18 @@ namespace WeiXin\Models;
 
 use DI\DependencyException;
 use DI\NotFoundException;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Exception;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
-use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Entity\Mapping\Category;
-use WeiXin\Listener\BannerListener;
+use WeiXin\Listener\CategoryListener;
 
 class CategoryModel extends Model
 {
@@ -31,44 +33,57 @@ class CategoryModel extends Model
 
     /**
      * 添加banner
-     * @param SearchDto $bannerDto
+     * @param CategoryDto $categoryDto
      * @return int
      * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws EntityNotFoundException
+     * @throws Exception
      */
-    public function save(SearchDto $bannerDto): int
+    public function save(CategoryDto $categoryDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
-        $banner = $this->make(CategoryModel::class, $bannerDto->toArray());
-        $this->em->persist($banner);
+        $this->application->addEvent([Events::prePersist => ['class_name' => CategoryListener::class]]);
+        $category = $this->make(Category::class, $categoryDto->toArray());
+        $this->em->persist($category);
         $this->em->flush();
-        return $banner->getId();
+        return $category->getId();
     }
 
     /**
      * 更新Banner
-     * @param SearchDto $bannerDto
+     * @param CategoryDto $categoryDto
      * @return mixed
+     * @throws EntityNotFoundException
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws Exception
      */
-    public function update(SearchDto $bannerDto)
+    public function update(CategoryDto $categoryDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
-        $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
-        $this->em->persist($banner);
+        $this->application->addEvent([Events::preUpdate => ['class_name' => CategoryListener::class]]);
+        $category = $this->make(Category::class, $categoryDto->toArray(), ['id' => $categoryDto->id]);
+        $this->em->persist($category);
         $this->em->flush();
-        return $banner->getId();
+        return $category->getId();
     }
 
     /**
-     * 列表Banner
-     * @param SearchDto $bannerDto
+     * Banner列表
+     * @param SearchDto $searchDto
      * @return mixed
+     * @throws DependencyException
+     * @throws ExceptionInterface
+     * @throws NotFoundException
      */
-    public function list(SearchDto $bannerDto): array
+    public function list(SearchDto $searchDto): array
     {
-        $entityRepository = $this->em->getRepository(Banner::class);
-        return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);
+        $entityRepository = $this->em->getRepository(Category::class);
+        $list = $entityRepository->findBy($searchDto->searchCondition, ['id' => 'desc']);
+        $retData = [];
+        foreach ($list as $value) {
+            $retData[] = FuncUtils::entityToArray($value);
+        }
+        return $retData;
     }
 
     /**
@@ -81,8 +96,8 @@ class CategoryModel extends Model
      */
     public function detail($id): array
     {
-        $banner = $this->em->getRepository(Banner::class)->find($id);
-        return FuncUtils::entityToArray($banner);
+        $category = $this->em->getRepository(Category::class)->find($id);
+        return FuncUtils::entityToArray($category);
     }
 
     /**

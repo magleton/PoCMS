@@ -6,11 +6,11 @@ use Polymer\Dto\BaseDTO;
 
 /**
  * @property int $id
- * @property string $filename
- * @property string $url
- * @property string $mark
- * @property int $pageSize
- * @property int $page
+ * @property string $name
+ * @property int $parentId
+ * @property string $path
+ * @property array $ext
+ * @property int $type
  * Class BannerDto
  * @package WeiXin\Dto
  */
