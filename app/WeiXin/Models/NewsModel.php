@@ -86,13 +86,12 @@ class NewsModel extends Model
      * @param $id
      * @return array
      * @throws DependencyException
-     * @throws NotFoundException
      * @throws ExceptionInterface
+     * @throws NotFoundException
      */
     public function detail($id): array
     {
-        $this->application->addEvent([Events::postLoad => ['class_name' => NewsListener::class]]);
-        $banner = $this->em->getRepository(News::class)->find($id);
-        return FuncUtils::entityToArray($banner);
+        $obj = $this->em->getRepository(News::class)->findOneBy(['id' => $id]);
+        return FuncUtils::entityToArray($obj);
     }
 }

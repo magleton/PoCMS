@@ -80,5 +80,4 @@ class NewsController extends Controller
         $data = $this->newsService->detail($id);
         return $this->withJson($data, $response);
     }
-
 }

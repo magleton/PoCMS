@@ -4,8 +4,10 @@ namespace WeiXin\Services;
 
 use DI\Annotation\Inject;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Internal\Hydration\ArrayHydrator;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Polymer\Utils\FuncUtils;
 use WeiXin\Dto\NewsDto;
 use WeiXin\Models\NewsModel;
 
@@ -66,6 +68,7 @@ class NewsService
      */
     public function detail($id): array
     {
-        return $this->newsModel->detail($id);
+        $news = $this->newsModel->detail($id);
+        return $news;
     }
 }

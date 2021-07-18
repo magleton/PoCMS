@@ -10,9 +10,9 @@
 
 namespace WeiXin\Entity\Mapping;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WeiXin\Entity\Mapping\Category
@@ -24,323 +24,235 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
-	/**
-	 * 主键
-	 *
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * 主键
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-	/**
-	 * 名字
-	 *
-	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
-	 */
-	protected $name;
+    /**
+     * 名字
+     *
+     * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
+     */
+    protected $name;
 
-	/**
-	 * 父级ID
-	 *
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $parent_id;
+    /**
+     * 父级ID
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $parent_id;
 
-	/**
-	 * 路径
-	 *
-	 * @ORM\Column(name="`path`", type="string", length=255, nullable=true)
-	 */
-	protected $path;
+    /**
+     * 路径
+     *
+     * @ORM\Column(name="`path`", type="string", length=255, nullable=true)
+     */
+    protected $path;
 
-	/**
-	 * 扩展字段
-	 *
-	 * @ORM\Column(type="array", nullable=true)
-	 */
-	protected $ext;
+    /**
+     * 扩展字段
+     *
+     * @ORM\Column(type="json", nullable=true)
+     */
+    protected $ext = '{}';
 
-	/**
-	 * 创建时间
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $created_at;
+    /**
+     * 创建时间
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $created_at;
 
-	/**
-	 * 更新时间
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $updated_at;
+    /**
+     * 更新时间
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $updated_at;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="WeiXin\Entity\Mapping\News", mappedBy="category")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=false)
-	 */
-	protected $news;
+    public function __construct()
+    {
+        $this->news = new ArrayCollection();
+        $this->scenic_spot_plans = new ArrayCollection();
+    }
 
-	/**
-	 * @ORM\OneToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotPlan", mappedBy="category")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=false)
-	 */
-	protected $scenic_spot_plans;
+    /**
+     * Get the value of id.
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	public function __construct()
-	{
-		$this->news = new ArrayCollection();
-		$this->scenic_spot_plans = new ArrayCollection();
-	}
+    /**
+     * Set the value of id.
+     *
+     * @param int $id
+     *
+     * @return Category
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
-	/**
-	 * Set the value of id.
-	 *
-	 * @param int $id
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Get the value of id.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * Set the value of name.
+     *
+     * @param string $name
+     *
+     * @return Category
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-	/**
-	 * Set the value of name.
-	 *
-	 * @param string $name
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of parent_id.
+     *
+     * @return int
+     */
+    public function getParentId()
+    {
+        return $this->parent_id;
+    }
 
-	/**
-	 * Get the value of name.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * Set the value of parent_id.
+     *
+     * @param int $parent_id
+     *
+     * @return Category
+     */
+    public function setParentId($parent_id)
+    {
+        $this->parent_id = $parent_id;
 
-	/**
-	 * Set the value of parent_id.
-	 *
-	 * @param int $parent_id
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setParentId($parent_id)
-	{
-		$this->parent_id = $parent_id;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of path.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 
-	/**
-	 * Get the value of parent_id.
-	 *
-	 * @return int
-	 */
-	public function getParentId()
-	{
-		return $this->parent_id;
-	}
+    /**
+     * Set the value of path.
+     *
+     * @param string $path
+     *
+     * @return Category
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
-	/**
-	 * Set the value of path.
-	 *
-	 * @param string $path
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setPath($path)
-	{
-		$this->path = $path;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of ext.
+     *
+     * @return array
+     */
+    public function getExt()
+    {
+        return $this->ext;
+    }
 
-	/**
-	 * Get the value of path.
-	 *
-	 * @return string
-	 */
-	public function getPath()
-	{
-		return $this->path;
-	}
+    /**
+     * Set the value of ext.
+     *
+     * @param array $ext
+     *
+     * @return Category
+     */
+    public function setExt($ext)
+    {
+        $this->ext = $ext;
 
-	/**
-	 * Set the value of ext.
-	 *
-	 * @param array $ext
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setExt($ext)
-	{
-		$this->ext = $ext;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of created_at.
+     *
+     * @return int
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
 
-	/**
-	 * Get the value of ext.
-	 *
-	 * @return array
-	 */
-	public function getExt()
-	{
-		return $this->ext;
-	}
+    /**
+     * Set the value of created_at.
+     *
+     * @param int $created_at
+     *
+     * @return Category
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
 
-	/**
-	 * Set the value of created_at.
-	 *
-	 * @param int $created_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setCreatedAt($created_at)
-	{
-		$this->created_at = $created_at;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get the value of updated_at.
+     *
+     * @return int
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
 
-	/**
-	 * Get the value of created_at.
-	 *
-	 * @return int
-	 */
-	public function getCreatedAt()
-	{
-		return $this->created_at;
-	}
+    /**
+     * Set the value of updated_at.
+     *
+     * @param int $updated_at
+     *
+     * @return Category
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
 
-	/**
-	 * Set the value of updated_at.
-	 *
-	 * @param int $updated_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function setUpdatedAt($updated_at)
-	{
-		$this->updated_at = $updated_at;
+        return $this;
+    }
 
-		return $this;
-	}
-
-	/**
-	 * Get the value of updated_at.
-	 *
-	 * @return int
-	 */
-	public function getUpdatedAt()
-	{
-		return $this->updated_at;
-	}
-
-	/**
-	 * Add News entity to collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\News $news
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function addNews($news)
-	{
-		$this->news[] = $news;
-
-		return $this;
-	}
-
-	/**
-	 * Remove News entity from collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\News $news
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function removeNews($news)
-	{
-		$this->news->removeElement($news);
-
-		return $this;
-	}
-
-	/**
-	 * Get News entity collection (one to many).
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getNews()
-	{
-		return $this->news;
-	}
-
-	/**
-	 * Add ScenicSpotPlan entity to collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicSpotPlan $scenic_spot_plan
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function addScenicSpotPlan($scenic_spot_plan)
-	{
-		$this->scenic_spot_plans[] = $scenic_spot_plan;
-
-		return $this;
-	}
-
-	/**
-	 * Remove ScenicSpotPlan entity from collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicSpotPlan $scenic_spot_plan
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function removeScenicSpotPlan($scenic_spot_plan)
-	{
-		$this->scenic_spot_plans->removeElement($scenic_spot_plan);
-
-		return $this;
-	}
-
-	/**
-	 * Get ScenicSpotPlan entity collection (one to many).
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getScenicSpotPlans()
-	{
-		return $this->scenic_spot_plans;
-	}
-
-	public function __sleep()
-	{
-		return array('id', 'name', 'parent_id', 'path', 'ext', 'created_at', 'updated_at');
-	}
+    public function __sleep()
+    {
+        return array('id', 'name', 'parent_id', 'path', 'ext', 'created_at', 'updated_at');
+    }
 }
