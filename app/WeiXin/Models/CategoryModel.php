@@ -12,6 +12,7 @@ use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
+use WeiXin\Entity\Mapping\Category;
 use WeiXin\Listener\BannerListener;
 
 class CategoryModel extends Model
@@ -82,5 +83,15 @@ class CategoryModel extends Model
     {
         $banner = $this->em->getRepository(Banner::class)->find($id);
         return FuncUtils::entityToArray($banner);
+    }
+
+    /**
+     * 通过分类ID获取分类对象
+     * @param int $id
+     * @return Category
+     */
+    public function getCategoryById(int $id): Category
+    {
+        return $this->em->getRepository(Category::class)->find($id);
     }
 }

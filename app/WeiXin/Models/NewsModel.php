@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Dto\NewsDto;
 use WeiXin\Entity\Mapping\News;
-use WeiXin\Listener\BannerListener;
+use WeiXin\Listener\NewsListener;
 
 class NewsModel extends Model
 {
@@ -32,6 +32,12 @@ class NewsModel extends Model
     protected string $table = 'news';
 
     /**
+     * @Inject
+     * @var CategoryModel
+     */
+    protected CategoryModel $categoryModel;
+
+    /**
      * 添加banner
      * @param NewsDto $newsDto
      * @return int
@@ -39,8 +45,9 @@ class NewsModel extends Model
      */
     public function save(NewsDto $newsDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
+        $this->application->addEvent([Events::prePersist => ['class_name' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray());
+        $news->setCategory($this->categoryModel->getCategoryById($newsDto->categoryId));
         $this->em->persist($news);
         $this->em->flush();
         return $news->getId();
@@ -84,6 +91,7 @@ class NewsModel extends Model
      */
     public function detail($id): array
     {
+        $this->application->addEvent([Events::postLoad => ['class_name' => NewsListener::class]]);
         $banner = $this->em->getRepository(News::class)->find($id);
         return FuncUtils::entityToArray($banner);
     }

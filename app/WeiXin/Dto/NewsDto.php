@@ -9,8 +9,10 @@ use Polymer\Dto\BaseDTO;
 /**
  * @property int $id
  * @property string $title
+ * @property int $categoryId
  * @property string $content
- * @property ArrayConverter $ext
+ * @property array $ext
+ * @property string $testTitle
  * Class NewsDto
  * @package WeiXin\Dto
  */
