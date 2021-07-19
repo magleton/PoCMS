@@ -2,11 +2,12 @@
 use Polymer\Boot\Application;
 use Slim\App;
 $app = Application::getInstance()->get(App::class);
-$app->add(Application::getInstance()->get('corsMiddleware'));
 
 $app->add(Application::getInstance()->get("Polymer\Middleware\GXParseRequestJSONMiddleware"));
 $app->POST('/admin/login', APP_NAME . '\\Controller\\Backend\\AdminController:login')->setName('admin.login');
 $app->GET('/admin/info', APP_NAME . '\\Controller\\Backend\\AdminController:getAdminInfo')->setName('admin.info');
+$app->GET('/admin/test', APP_NAME . '\\Controller\\Backend\\AdminController:test')->setName('admin.test2');
+
 
 $app->POST('/agency/save', APP_NAME . '\\Controller\\Backend\\AgencyController:save')->setName('admin.agency.save');
 $app->POST('/agency/update', APP_NAME . '\\Controller\\Backend\\AgencyController:update')->setName('admin.agency.update');

@@ -52,4 +52,8 @@ class AdminController extends Controller
         $adminInfo['name'] = 'Super Admin';
         return $this->withJson($adminInfo, $response);
     }
+
+    public function test(ServerRequestInterface $request, ResponseInterface $response, $args):ResponseInterface{
+        return $this->withJson('Hell' , $response);
+    }
 }
