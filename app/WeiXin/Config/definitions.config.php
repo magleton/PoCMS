@@ -15,6 +15,7 @@ use WeiXin\Services\Impl\ScenicAreaServiceImpl;
 use WeiXin\Services\Impl\ScenicSpotPlanServiceImpl;
 use WeiXin\Services\LogService;
 use WeiXin\Services\NewsService;
+use WeiXin\Services\OrdersService;
 use WeiXin\Services\ResourceManagerService;
 use WeiXin\Services\ScenicAreaService;
 use WeiXin\Services\ScenicSpotPlanService;
@@ -28,6 +29,7 @@ return [
     'userService' => DI\create(UserService::class),
     'bannerService' => DI\create(BannerService::class),
     AppointmentService::class => DI\create(AppointmentServiceImpl::class),
+    'orderService' => DI\create(OrdersService::class),
     'categoryService' => DI\create(CategoryService::class),
     'newsService' => DI\create(NewsService::class),
     ScenicAreaService::class => DI\create(ScenicAreaServiceImpl::class),

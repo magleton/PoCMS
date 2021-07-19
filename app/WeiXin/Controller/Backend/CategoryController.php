@@ -7,6 +7,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Services\CategoryService;
@@ -72,6 +73,7 @@ class CategoryController extends Controller
      * @param ResponseInterface $response
      * @param $args
      * @return ResponseInterface
+     * @throws ExceptionInterface
      */
     public function detail(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
@@ -79,5 +81,4 @@ class CategoryController extends Controller
         $data = $this->categoryService->detail($id);
         return $this->withJson($data, $response);
     }
-
 }
