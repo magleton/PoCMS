@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="WeiXin\Entity\Repositories\AgencyRepository")
  * @ORM\Table(name="agency")
+ * @ORM\Embedded
  */
 class Agency
 {
@@ -28,8 +29,9 @@ class Agency
 	 *
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	protected int $id;
 
 	/**
 	 * 公司名字
@@ -43,21 +45,28 @@ class Agency
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $bank_account;
+	protected string $bankAccount;
 
 	/**
 	 * 开户行
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $bank_deposit;
+	protected string $bankDeposit;
 
 	/**
 	 * 余额
 	 *
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $balance;
+	protected int $balance;
+
+    /**
+     * 扩展数据
+     *
+     * @ORM\Column(name="`ext`", type="json", nullable=true)
+     */
+    private array $ext;
 
 	/**
 	 * 创建时间
@@ -65,7 +74,7 @@ class Agency
 	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $created_at;
+	protected int $createdAt;
 
 	/**
 	 * 更新时间
@@ -73,7 +82,7 @@ class Agency
 	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $updated_at;
+	protected int $updatedAt;
 
 	public function __construct()
 	{
@@ -247,8 +256,24 @@ class Agency
 		return $this->updated_at;
 	}
 
+    /**
+     * @return array
+     */
+    public function getExt(): array
+    {
+        return $this->ext;
+    }
+
+    /**
+     * @param array $ext
+     */
+    public function setExt(array $ext): void
+    {
+        $this->ext = $ext;
+    }
+
 	public function __sleep()
 	{
-		return array('id', 'company_name', 'bank_account', 'bank_deposit', 'balance', 'created_at', 'updated_at');
+		return array('id', 'company_name', 'bank_account', 'bank_deposit', 'balance','ext', 'created_at', 'updated_at');
 	}
 }

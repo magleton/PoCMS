@@ -30,28 +30,35 @@ class Banner
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	protected int $id;
 
 	/**
 	 * 文件名字
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $filename;
+	protected string $filename;
 
 	/**
 	 * http  Url
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $url;
+	protected string $url;
 
 	/**
 	 * 备注
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $mark;
+	protected string $mark;
+
+    /**
+     * 扩展数据
+     *
+     * @ORM\Column(name="`ext`", type="json", nullable=true)
+     */
+    private array $ext;
 
 	/**
 	 * 创建时间
@@ -59,7 +66,7 @@ class Banner
 	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $created_at;
+	protected int $createdAt;
 
 	/**
 	 * 更新时间
@@ -67,7 +74,7 @@ class Banner
 	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $updated_at;
+	protected int $updatedAt;
 
 	public function __construct()
 	{

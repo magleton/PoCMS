@@ -28,54 +28,61 @@ class Admin
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * 用户名
      *
      * @ORM\Column(type="string", length=45, nullable=true)
      */
-    protected $username;
+    protected string $username;
 
     /**
      * 密码
      *
      * @ORM\Column(name="`password`", type="string", length=45, nullable=true)
      */
-    protected $password;
+    protected string $password;
 
     /**
      * 电话号码
      *
      * @ORM\Column(type="string", length=45, nullable=true)
      */
-    protected $phone;
+    protected string $phone;
 
     /**
      * 电子邮箱
      *
      * @ORM\Column(type="string", length=45, nullable=true)
      */
-    protected $email;
+    protected string $email;
 
     /**
      * 昵称
      *
      * @ORM\Column(type="string", length=45, nullable=true)
      */
-    protected $nickname;
+    protected string $nickname;
+
+    /**
+     * 扩展字段
+     *
+     * @ORM\Column(name="`ext`" , type="json", nullable=true)
+     */
+    protected array $ext;
 
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $created_at;
+    protected int $createdAt;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $updated_at;
+    protected int $updatedAt;
 
     /**
      * Get the value of id.

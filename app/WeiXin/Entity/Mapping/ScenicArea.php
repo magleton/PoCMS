@@ -31,83 +31,83 @@ class ScenicArea
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	protected int $id;
 
 	/**
 	 * 名字
 	 *
 	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
 	 */
-	protected $name;
+	protected string $name;
 
 	/**
 	 * 价格
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=45, nullable=true)
 	 */
-	protected $price;
+	protected string $price;
 
 	/**
-	 * @ORM\Column(type="array", nullable=true)
+	 * @ORM\Column(name="`ext`" , type="json", nullable=true)
 	 */
-	protected $ext;
+	protected array $ext;
 
 	/**
 	 * 省
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=45, nullable=true)
 	 */
-	protected $province;
+	protected int $province;
 
 	/**
 	 * 市
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=45, nullable=true)
 	 */
-	protected $city;
+	protected int $city;
 
 	/**
 	 * 区
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=45, nullable=true)
 	 */
-	protected $area;
+	protected int $area;
 
 	/**
 	 * 电话
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $tel;
+	protected string $tel;
 
 	/**
 	 * 地址
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="string", length=200, nullable=true)
 	 */
-	protected $address;
+	protected string $address;
 
 	/**
 	 * 简介
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $synopsis;
+	protected string $synopsis;
 
 	/**
 	 * 详情
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $detail;
+	protected string $detail;
 
 	/**
 	 * 创建时间
 	 *
 	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=45, nullable=true)
 	 */
-	protected $created_at;
+	protected int $createdAt;
 
 	/**
 	 * 更新时间
@@ -115,13 +115,13 @@ class ScenicArea
 	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $updated_at;
+	protected string $updatedAt;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotAreaRelation", mappedBy="scenic_area")
 	 * @ORM\JoinColumn(name="id", referencedColumnName="scenic_area_id", nullable=false)
 	 */
-	protected $scenic_spot_area_relations;
+	protected ArrayCollection $scenicSpotAreaRelations;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotPlan", inversedBy="scenic_areas")
@@ -130,7 +130,7 @@ class ScenicArea
 	 *     inverseJoinColumns={@ORM\JoinColumn(name="scenic_spot_plan_id", referencedColumnName="id", nullable=false)}
 	 * )
 	 */
-	protected $scenic_spot_plans;
+	protected ArrayCollection $scenicSpotPlans;
 
 	public function __construct()
 	{

@@ -28,28 +28,28 @@ class Appointment
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	protected int $id;
 
 	/**
 	 * 名称
 	 *
 	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
 	 */
-	protected $name;
+	protected string $name;
 
 	/**
 	 * 电话
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $phone;
+	protected string $phone;
 
 	/**
 	 * 身份证号
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $id_card;
+	protected string $idCard;
 
 	/**
 	 * 状态:
@@ -61,14 +61,14 @@ class Appointment
 	 *
 	 * @ORM\Column(name="`status`", type="string", length=45, nullable=true)
 	 */
-	protected $status;
+	protected string $status;
 
 	/**
 	 * 扩展字段
 	 *
-	 * @ORM\Column(type="array", nullable=true)
+	 * @ORM\Column(name="`ext`" , type="json", nullable=true)
 	 */
-	protected $ext;
+	protected array $ext;
 
 	/**
 	 * 创建时间
@@ -76,7 +76,7 @@ class Appointment
 	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $created_at;
+	protected int $createdAt;
 
 	/**
 	 * 更新时间
@@ -84,28 +84,28 @@ class Appointment
 	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $updated_at;
+	protected int $updatedAt;
 
 	/**
 	 * 景区ID
 	 *
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $scenic_area_id;
+	protected int $scenicAreaId;
 
 	/**
 	 * 景区套餐ID
 	 *
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $scenic_spot_plan_id;
+	protected int $scenicSpotPlanId;
 
 	/**
 	 * 代理商ID
 	 *
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $agency_id;
+	protected int $agencyId;
 
 	public function __construct()
 	{
@@ -118,8 +118,8 @@ class Appointment
 	 *
 	 * @return \WeiXin\Entity\Mapping\Appointment
 	 */
-	public function setId($id)
-	{
+	public function setId(int $id): Appointment
+    {
 		$this->id = $id;
 
 		return $this;
