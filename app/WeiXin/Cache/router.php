@@ -1,7 +1,11 @@
 <?php
 use Polymer\Boot\Application;
 use Slim\App;
+use Tuupola\Middleware\CorsMiddleware;
+use Polymer\Middleware\GXParseRequestJSONMiddleware;
 $app = Application::getInstance()->get(App::class);
+$app->add(Application::getInstance()->get(CorsMiddleware::class));
+$app->add(Application::getInstance()->get(GXParseRequestJSONMiddleware::class));
 
 $app->add(Application::getInstance()->get("Polymer\Middleware\GXParseRequestJSONMiddleware"));
 $app->POST('/admin/login', APP_NAME . '\\Controller\\Backend\\AdminController:login')->setName('admin.login');

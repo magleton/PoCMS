@@ -53,7 +53,8 @@ class AdminController extends Controller
         return $this->withJson($adminInfo, $response);
     }
 
-    public function test(ServerRequestInterface $request, ResponseInterface $response, $args):ResponseInterface{
-        return $this->withJson('Hell' , $response);
+    public function test(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    {
+        return $this->withJson('Hello World!!', $response);
     }
 }
