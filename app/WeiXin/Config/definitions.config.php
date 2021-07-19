@@ -6,7 +6,6 @@ use WeiXin\Services\AppointmentService;
 use WeiXin\Services\BannerService;
 use WeiXin\Services\CategoryService;
 use WeiXin\Services\HelloService;
-use WeiXin\Services\Impl\AdminServiceImpl;
 use WeiXin\Services\Impl\AgencyServiceImpl;
 use WeiXin\Services\Impl\AppointmentServiceImpl;
 use WeiXin\Services\Impl\LogServiceImpl;
@@ -25,7 +24,7 @@ use WeiXin\Services\UserService;
 return [
     'testService' => DI\create(TestService::class),
     'helloService' => DI\create(HelloService::class),
-    AdminService::class => DI\create(AdminServiceImpl::class),
+    'adminService' => DI\create(AdminService::class),
     'userService' => DI\create(UserService::class),
     'bannerService' => DI\create(BannerService::class),
     AppointmentService::class => DI\create(AppointmentServiceImpl::class),

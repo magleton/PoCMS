@@ -107,7 +107,7 @@ class UserModel extends Model
     {
         try {
             $this->application->addEvent([Events::prePersist => ['class_name' => BaseListener::class]]);
-            $obj = $this->make(User::class, $data)->validate($this->rules, ['add']);
+            $obj = $this->make(Admin::class, $data)->validate($this->rules, ['add']);
             $this->em->persist($obj);
             $this->em->flush();
             return $obj->getId();
@@ -150,13 +150,13 @@ class UserModel extends Model
      * @param string $password 密码
      * @return array
      */
-    public function getUserByUsernameAndPassword(string $username, string $password): User
+    public function getUserByUsernameAndPassword(string $username, string $password): Admin
     {
         $criteria = [
             'username' => $username,
             'password' => $password
         ];
-        return $this->em->getRepository(User::class)->findOneBy($criteria);
+        return $this->em->getRepository(Admin::class)->findOneBy($criteria);
     }
 
     public function getList(): array

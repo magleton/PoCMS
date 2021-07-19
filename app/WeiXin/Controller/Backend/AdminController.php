@@ -3,9 +3,11 @@
 namespace WeiXin\Controller\Backend;
 
 use DI\Annotation\Inject;
+use JsonException;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WeiXin\Dto\AdminDto;
 use WeiXin\Services\AdminService;
 
 class AdminController extends Controller
@@ -22,11 +24,27 @@ class AdminController extends Controller
      * @param ResponseInterface $response
      * @param $args
      * @return ResponseInterface
+     * @throws JsonException
      */
     public function login(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $test = $this->adminService->test();
-        $response->getBody()->write($test);
-        return $response;
+        $adminDto = AdminDto::make($request->getParsedBody());
+        $token = $this->adminService->login($adminDto);
+        return $this->withJson(['token' => $token], $response);
+    }
+
+    /**
+     * 通过token获取管理员信息
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param $args
+     * @return ResponseInterface
+     * @throws JsonException
+     */
+    public function getAdminInfo(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
+    {
+        $adminDto = AdminDto::make($request->getParsedBody());
+        $adminInfo = $this->adminService->getAdminInfo($adminDto);
+        return $this->withJson($adminInfo, $response);
     }
 }

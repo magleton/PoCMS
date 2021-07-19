@@ -51,7 +51,7 @@ class UserProfile
 	protected $updated_at;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="WeiXin\Entity\Mapping\User", inversedBy="user_profile")
+	 * @ORM\OneToOne(targetEntity="Admin.php", inversedBy="user_profile")
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
 	 */
 	protected $users;
@@ -183,7 +183,7 @@ class UserProfile
 	/**
 	 * Set User entity (one to one).
 	 *
-	 * @param \WeiXin\Entity\Mapping\User $users
+	 * @param \WeiXin\Entity\Mapping\Admin $users
 	 *
 	 * @return \WeiXin\Entity\Mapping\UserProfile
 	 */
