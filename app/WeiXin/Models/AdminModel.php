@@ -121,6 +121,9 @@ class AdminModel extends Model
     public function getAdminInfo(string $token): array
     {
         $tokenStr = authCode($token, $this->tokenSecretKey);
+        if ($tokenStr === '') {
+            $tokenStr = '{}';
+        }
         return json_decode($tokenStr, true, 512, JSON_THROW_ON_ERROR);
     }
 }

@@ -43,8 +43,13 @@ class AdminController extends Controller
      */
     public function getAdminInfo(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $adminDto = AdminDto::make($request->getParsedBody());
+        $token = $request->getQueryParams()['token'];
+        $adminDto = AdminDto::make(['token' => $token]);
         $adminInfo = $this->adminService->getAdminInfo($adminDto);
+        $adminInfo['roles'] = ['admin', 'manager'];
+        $adminInfo['avatar'] = '头像地址';
+        $adminInfo['introduction'] = '介绍';
+        $adminInfo['name'] = 'Super Admin';
         return $this->withJson($adminInfo, $response);
     }
 }

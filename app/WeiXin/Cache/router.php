@@ -1,10 +1,13 @@
 <?php
 use Polymer\Boot\Application;
 use Slim\App;
-$app = Application::getInstance()->getDiContainer()->get(App::class);
-$app->add(Application::getInstance()->getDiContainer()->get('corsMiddleware'));
+$app = Application::getInstance()->get(App::class);
+$app->add(Application::getInstance()->get('corsMiddleware'));
 
-$app->add($container->get("application")->get("Polymer\Middleware\GXParseRequestJSONMiddleware"));
+$app->add(Application::getInstance()->get("Polymer\Middleware\GXParseRequestJSONMiddleware"));
+$app->POST('/admin/login', APP_NAME . '\\Controller\\Backend\\AdminController:login')->setName('admin.login');
+$app->GET('/admin/info', APP_NAME . '\\Controller\\Backend\\AdminController:getAdminInfo')->setName('admin.info');
+
 $app->POST('/agency/save', APP_NAME . '\\Controller\\Backend\\AgencyController:save')->setName('admin.agency.save');
 $app->POST('/agency/update', APP_NAME . '\\Controller\\Backend\\AgencyController:update')->setName('admin.agency.update');
 $app->POST('/agency/list', APP_NAME . '\\Controller\\Backend\\AgencyController:list')->setName('admin.agency.list');
@@ -57,6 +60,4 @@ $app->POST('/sign-up/list', APP_NAME . '\\Controller\\Backend\\SignUpController:
 $app->POST('/sign-up/detail/{id}', APP_NAME . '\\Controller\\Backend\\SignUpController:detail')->setName('admin.sign.up.detail');
 
 $app->POST('/admin/upload', APP_NAME . '\\Controller\\Backend\\UploadController:uploadFile')->setName('admin.upload.file');
-$app->get('/admin', APP_NAME . '\\Controller\\Backend\\AdminController:test')->setName('admin.user.test');
-
 $app->post('/user/login', APP_NAME . '\\Controller\\Frontend\\UserController:login')->setName('user.login');
