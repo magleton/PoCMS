@@ -30,278 +30,188 @@ class News
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected int $id;
 
     /**
      * 分类
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="`category_id`", "type="integer")
      */
-    protected $category_id;
+    protected int $categoryId;
 
     /**
      * 名字
      *
      * @ORM\Column(name="`title`", type="string", length=45, nullable=true)
      */
-    protected $title;
+    protected string $title;
 
     /**
      * 关键字
      *
-     * @ORM\Column(type="string", length=45, nullable=true)
+     * @ORM\Column(name="`keywords`" , "type="string", length=45, nullable=true)
      */
-    protected $keywords;
+    protected string $keywords;
 
     /**
      * 内容
      *
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $content;
+    protected string $content;
 
     /**
      * 创建时间
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="`created_at`" , "type="integer", nullable=true)
      */
-    protected $created_at;
+    protected int $createdAt;
 
     /**
      * 更新时间
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(name="`updated_at`" , "type="integer", nullable=true)
      */
-    protected $updated_at;
+    protected int $updatedAt;
 
     /**
      * 扩展数据
      * @ORM\Column(type="json", nullable=true)
      */
-    protected $ext;
+    protected array $ext;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WeiXin\Entity\Mapping\Category", inversedBy="news")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
-     */
-    protected $category;
-
-    public function __construct()
-    {
-    }
-
-    /**
-     * Get the value of id.
-     *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * Set the value of id.
-     *
      * @param int $id
-     *
-     * @return News
      */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
     /**
-     * @return mixed
-     */
-    public function getExt()
-    {
-        return $this->ext;
-    }
-
-    /**
-     * @param mixed $ext
-     */
-    public function setExt($ext): void
-    {
-        $this->ext = $ext;
-    }
-
-    /**
-     * Get the value of category_id.
-     *
      * @return int
      */
-    public function getCategoryId()
+    public function getCategoryId(): int
     {
-        return $this->category_id;
+        return $this->categoryId;
     }
 
     /**
-     * Set the value of category_id.
-     *
-     * @param int $category_id
-     *
-     * @return News
+     * @param int $categoryId
      */
-    public function setCategoryId($category_id)
+    public function setCategoryId(int $categoryId): void
     {
-        $this->category_id = $category_id;
-
-        return $this;
+        $this->categoryId = $categoryId;
     }
 
     /**
-     * Get the value of name.
-     *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * Set the value of name.
-     *
      * @param string $title
-     *
-     * @return News
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
-     * Get the value of keywords.
-     *
      * @return string
      */
-    public function getKeywords()
+    public function getKeywords(): string
     {
         return $this->keywords;
     }
 
     /**
-     * Set the value of keywords.
-     *
      * @param string $keywords
-     *
-     * @return News
      */
-    public function setKeywords($keywords)
+    public function setKeywords(string $keywords): void
     {
         $this->keywords = $keywords;
-
-        return $this;
     }
 
     /**
-     * Get the value of content.
-     *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
     /**
-     * Set the value of content.
-     *
      * @param string $content
-     *
-     * @return News
      */
-    public function setContent($content)
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
     /**
-     * Get the value of created_at.
-     *
      * @return int
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): int
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     /**
-     * Set the value of created_at.
-     *
-     * @param int $created_at
-     *
-     * @return News
+     * @param int $createdAt
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt(int $createdAt): void
     {
-        $this->created_at = $created_at;
-
-        return $this;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get the value of updated_at.
-     *
      * @return int
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): int
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     /**
-     * Set the value of updated_at.
-     *
-     * @param int $updated_at
-     *
-     * @return News
+     * @param int $updatedAt
      */
-    public function setUpdatedAt($updated_at)
+    public function setUpdatedAt(int $updatedAt): void
     {
-        $this->updated_at = $updated_at;
-
-        return $this;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Get Category entity (many to one).
-     *
-     * @return Category
+     * @return array
      */
-    public function getCategory()
+    public function getExt(): array
     {
-        return $this->category;
+        return $this->ext;
     }
 
     /**
-     * Set Category entity (many to one).
-     *
-     * @param Category $category
-     *
-     * @return News
+     * @param array $ext
      */
-    public function setCategory($category)
+    public function setExt(array $ext): void
     {
-        $this->category = $category;
-
-        return $this;
+        $this->ext = $ext;
     }
 
     public function __sleep()
     {
-        return array('id', 'category_id', 'name', 'keywords', 'content', 'created_at', 'updated_at');
+        return array('id', 'categoryId', 'name', 'keywords', 'content', 'createdAt', 'updatedAt');
     }
 }

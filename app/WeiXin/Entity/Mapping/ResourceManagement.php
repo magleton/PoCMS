@@ -10,8 +10,8 @@
 
 namespace WeiXin\Entity\Mapping;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WeiXin\Entity\Mapping\ResourceManagement
@@ -23,267 +23,203 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ResourceManagement
 {
-	/**
-	 * 主键
-	 *
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * 主键
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected int $id;
 
-	/**
-	 * 目标ID
-	 *
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $target_id;
+    /**
+     * 目标ID
+     *
+     * @ORM\Column(name="`target_id`", "type="integer", nullable=true)
+     */
+    protected int $targetId;
 
-	/**
-	 * URL
-	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
-	 */
-	protected $url;
+    /**
+     * URL
+     *
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    protected string $url;
 
-	/**
-	 * 名字
-	 *
-	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
-	 */
-	protected $name;
+    /**
+     * 名字
+     *
+     * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
+     */
+    protected string $name;
 
-	/**
-	 * 大小
-	 *
-	 * @ORM\Column(name="`size`", type="integer", nullable=true)
-	 */
-	protected $size;
+    /**
+     * 大小
+     *
+     * @ORM\Column(name="`size`", type="integer", nullable=true)
+     */
+    protected int $size;
 
-	/**
-	 * 类型:
-	 * 1 景区缩略图
-	 * 2 景区轮播图
-	 * 3 ....
-	 *
-	 * @ORM\Column(name="`type`", type="smallint", nullable=true)
-	 */
-	protected $type;
+    /**
+     * 类型:
+     * 1 景区缩略图
+     * 2 景区轮播图
+     * 3 ....
+     *
+     * @ORM\Column(name="`type`", type="smallint", nullable=true)
+     */
+    protected int $type;
 
-	/**
-	 * 创建时间
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $created_at;
+    /**
+     * 创建时间
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="`created_at`" , "type="integer", nullable=true)
+     */
+    protected int $createdAt;
 
-	/**
-	 * 更新时间
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $updated_at;
+    /**
+     * 更新时间
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="`updated_at`" , "type="integer", nullable=true)
+     */
+    protected int $updatedAt;
 
-	public function __construct()
-	{
-	}
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Set the value of id.
-	 *
-	 * @param int $id
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * Get the value of id.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    public function getTargetId(): int
+    {
+        return $this->targetId;
+    }
 
-	/**
-	 * Set the value of target_id.
-	 *
-	 * @param int $target_id
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setTargetId($target_id)
-	{
-		$this->target_id = $target_id;
+    /**
+     * @param int $targetId
+     */
+    public function setTargetId(int $targetId): void
+    {
+        $this->targetId = $targetId;
+    }
 
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
 
-	/**
-	 * Get the value of target_id.
-	 *
-	 * @return int
-	 */
-	public function getTargetId()
-	{
-		return $this->target_id;
-	}
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
+    }
 
-	/**
-	 * Set the value of url.
-	 *
-	 * @param string $url
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setUrl($url)
-	{
-		$this->url = $url;
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-		return $this;
-	}
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * Get the value of url.
-	 *
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return $this->url;
-	}
+    /**
+     * @return int
+     */
+    public function getSize(): int
+    {
+        return $this->size;
+    }
 
-	/**
-	 * Set the value of name.
-	 *
-	 * @param string $name
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
+    /**
+     * @param int $size
+     */
+    public function setSize(int $size): void
+    {
+        $this->size = $size;
+    }
 
-		return $this;
-	}
+    /**
+     * @return int
+     */
+    public function getType(): int
+    {
+        return $this->type;
+    }
 
-	/**
-	 * Get the value of name.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @param int $type
+     */
+    public function setType(int $type): void
+    {
+        $this->type = $type;
+    }
 
-	/**
-	 * Set the value of size.
-	 *
-	 * @param int $size
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setSize($size)
-	{
-		$this->size = $size;
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $createdAt
+     */
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 
-	/**
-	 * Get the value of size.
-	 *
-	 * @return int
-	 */
-	public function getSize()
-	{
-		return $this->size;
-	}
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt;
+    }
 
-	/**
-	 * Set the value of type.
-	 *
-	 * @param int $type
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
+    /**
+     * @param int $updatedAt
+     */
+    public function setUpdatedAt(int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
-		return $this;
-	}
-
-	/**
-	 * Get the value of type.
-	 *
-	 * @return int
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
-
-	/**
-	 * Set the value of created_at.
-	 *
-	 * @param int $created_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setCreatedAt($created_at)
-	{
-		$this->created_at = $created_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of created_at.
-	 *
-	 * @return int
-	 */
-	public function getCreatedAt()
-	{
-		return $this->created_at;
-	}
-
-	/**
-	 * Set the value of updated_at.
-	 *
-	 * @param int $updated_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\ResourceManagement
-	 */
-	public function setUpdatedAt($updated_at)
-	{
-		$this->updated_at = $updated_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of updated_at.
-	 *
-	 * @return int
-	 */
-	public function getUpdatedAt()
-	{
-		return $this->updated_at;
-	}
-
-	public function __sleep()
-	{
-		return array('id', 'target_id', 'url', 'name', 'size', 'type', 'created_at', 'updated_at');
-	}
+    public function __sleep()
+    {
+        return array('id', 'targetId', 'url', 'name', 'size', 'type', 'createdAt', 'updatedAt');
+    }
 }

@@ -26,256 +26,210 @@ class Users
      *
      * @ORM\Column(name="username", type="string", length=45, nullable=true, options={"comment"="用户名"})
      */
-    private ?string $username;
+    private string $username;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=45, nullable=true, options={"comment"="密码"})
      */
-    private ?string $password;
+    private string $password;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="open_id", type="string", length=45, nullable=true, options={"comment"="openId"})
      */
-    private ?string $openId;
+    private string $openId;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="phone", type="string", length=45, nullable=true, options={"comment"="电话号码"})
      */
-    private ?string $phone;
+    private string $phone;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="idCard", type="string", length=45, nullable=true, options={"comment"="身份证号"})
      */
-    private ?string $idCard;
+    private string $idCard;
+
+    /**
+     * 扩展字段
+     *
+     * @ORM\Column(type="json", nullable=true)
+     */
+    protected array $ext;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="nickname", type="string", length=45, nullable=true, options={"comment"="昵称"})
      */
-    private ?string $nickname;
+    private string $nickname;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="created_at", type="integer", nullable=true)
      */
-    private ?int $createdAt;
+    private int $createdAt;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="updated_at", type="integer", nullable=true)
      */
-    private ?int $updatedAt;
+    private int $updatedAt;
 
     /**
-     * Get id.
-     *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * Set username.
-     *
-     * @param string|null $username
-     *
-     * @return Users
+     * @param int $id
      */
-    public function setUsername($username = null)
+    public function setId(int $id): void
     {
-        $this->username = $username;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * Get username.
-     *
      * @return string|null
      */
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * Set password.
-     *
-     * @param string|null $password
-     *
-     * @return Users
+     * @param string|null $username
      */
-    public function setPassword($password = null)
+    public function setUsername(?string $username): void
     {
-        $this->password = $password;
-
-        return $this;
+        $this->username = $username;
     }
 
     /**
-     * Get password.
-     *
      * @return string|null
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * Set openId.
-     *
-     * @param string|null $openId
-     *
-     * @return Users
+     * @param string|null $password
      */
-    public function setOpenId($openId = null)
+    public function setPassword(?string $password): void
     {
-        $this->openId = $openId;
-
-        return $this;
+        $this->password = $password;
     }
 
     /**
-     * Get openId.
-     *
      * @return string|null
      */
-    public function getOpenId()
+    public function getOpenId(): ?string
     {
         return $this->openId;
     }
 
     /**
-     * Set phone.
-     *
-     * @param string|null $phone
-     *
-     * @return Users
+     * @param string|null $openId
      */
-    public function setPhone($phone = null)
+    public function setOpenId(?string $openId): void
     {
-        $this->phone = $phone;
-
-        return $this;
+        $this->openId = $openId;
     }
 
     /**
-     * Get phone.
-     *
      * @return string|null
      */
-    public function getPhone()
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
     /**
-     * Set idcard.
-     *
-     * @param string|null $idcard
-     *
-     * @return Users
+     * @param string|null $phone
      */
-    public function setIdcard($idcard = null)
+    public function setPhone(?string $phone): void
     {
-        $this->idcard = $idcard;
-
-        return $this;
+        $this->phone = $phone;
     }
 
     /**
-     * Get idcard.
-     *
      * @return string|null
      */
-    public function getIdcard()
+    public function getIdCard(): ?string
     {
-        return $this->idcard;
+        return $this->idCard;
     }
 
     /**
-     * Set nickname.
-     *
-     * @param string|null $nickname
-     *
-     * @return Users
+     * @param string|null $idCard
      */
-    public function setNickname($nickname = null)
+    public function setIdCard(?string $idCard): void
     {
-        $this->nickname = $nickname;
-
-        return $this;
+        $this->idCard = $idCard;
     }
 
     /**
-     * Get nickname.
-     *
      * @return string|null
      */
-    public function getNickname()
+    public function getNickname(): ?string
     {
         return $this->nickname;
     }
 
     /**
-     * Set createdAt.
-     *
-     * @param int|null $createdAt
-     *
-     * @return Users
+     * @param string|null $nickname
      */
-    public function setCreatedAt($createdAt = null)
+    public function setNickname(?string $nickname): void
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->nickname = $nickname;
     }
 
     /**
-     * Get createdAt.
-     *
      * @return int|null
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?int
     {
         return $this->createdAt;
     }
 
     /**
-     * Set updatedAt.
-     *
-     * @param int|null $updatedAt
-     *
-     * @return Users
+     * @param int|null $createdAt
      */
-    public function setUpdatedAt($updatedAt = null)
+    public function setCreatedAt(?int $createdAt): void
     {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * Get updatedAt.
-     *
      * @return int|null
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?int
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * @param int|null $updatedAt
+     */
+    public function setUpdatedAt(?int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function __sleep()
+    {
+        return array('id', 'username', 'openId', 'nickname', 'phone', 'idCard', 'ext', 'createdAt', 'updatedAt');
     }
 }

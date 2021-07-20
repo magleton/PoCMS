@@ -10,8 +10,8 @@
 
 namespace WeiXin\Entity\Mapping;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WeiXin\Entity\Mapping\SignUp
@@ -23,233 +23,177 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SignUp
 {
-	/**
-	 * 主键
-	 *
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * 主键
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected int $id;
 
-	/**
-	 * 名称
-	 *
-	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
-	 */
-	protected $name;
+    /**
+     * 名称
+     *
+     * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
+     */
+    protected string $name;
 
-	/**
-	 * 电话
-	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
-	 */
-	protected $phone;
+    /**
+     * 电话
+     *
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    protected string $phone;
 
-	/**
-	 * 身份证号
-	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
-	 */
-	protected $idCard;
+    /**
+     * 身份证号
+     *
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    protected string $idCard;
 
-	/**
-	 * 扩展字段
-	 *
-	 * @ORM\Column(type="array", nullable=true)
-	 */
-	protected $ext;
+    /**
+     * 扩展字段
+     *
+     * @ORM\Column(type="json", nullable=true)
+     */
+    protected array $ext;
 
-	/**
-	 * 创建时间
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $created_at;
+    /**
+     * 创建时间
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="`created_at`" , "type="integer", nullable=true)
+     */
+    protected int $createdAt;
 
-	/**
-	 * 更新时间
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $updated_at;
+    /**
+     * 更新时间
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="`updated_at`","type="integer", nullable=true)
+     */
+    protected int $updatedAt;
 
-	public function __construct()
-	{
-	}
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Set the value of id.
-	 *
-	 * @param int $id
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * Get the value of id.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Set the value of name.
-	 *
-	 * @param string $name
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
 
-	/**
-	 * Get the value of name.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
 
-	/**
-	 * Set the value of phone.
-	 *
-	 * @param string $phone
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setPhone($phone)
-	{
-		$this->phone = $phone;
+    /**
+     * @return string
+     */
+    public function getIdCard(): string
+    {
+        return $this->idCard;
+    }
 
-		return $this;
-	}
+    /**
+     * @param string $idCard
+     */
+    public function setIdCard(string $idCard): void
+    {
+        $this->idCard = $idCard;
+    }
 
-	/**
-	 * Get the value of phone.
-	 *
-	 * @return string
-	 */
-	public function getPhone()
-	{
-		return $this->phone;
-	}
+    /**
+     * @return array
+     */
+    public function getExt(): array
+    {
+        return $this->ext;
+    }
 
-	/**
-	 * Set the value of idCard.
-	 *
-	 * @param string $idCard
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setIdCard($idCard)
-	{
-		$this->idCard = $idCard;
+    /**
+     * @param array $ext
+     */
+    public function setExt(array $ext): void
+    {
+        $this->ext = $ext;
+    }
 
-		return $this;
-	}
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-	/**
-	 * Get the value of idCard.
-	 *
-	 * @return string
-	 */
-	public function getIdCard()
-	{
-		return $this->idCard;
-	}
+    /**
+     * @param int $createdAt
+     */
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 
-	/**
-	 * Set the value of ext.
-	 *
-	 * @param array $ext
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setExt($ext)
-	{
-		$this->ext = $ext;
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $updatedAt
+     */
+    public function setUpdatedAt(int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
-	/**
-	 * Get the value of ext.
-	 *
-	 * @return array
-	 */
-	public function getExt()
-	{
-		return $this->ext;
-	}
-
-	/**
-	 * Set the value of created_at.
-	 *
-	 * @param int $created_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setCreatedAt($created_at)
-	{
-		$this->created_at = $created_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of created_at.
-	 *
-	 * @return int
-	 */
-	public function getCreatedAt()
-	{
-		return $this->created_at;
-	}
-
-	/**
-	 * Set the value of updated_at.
-	 *
-	 * @param int $updated_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\SignUp
-	 */
-	public function setUpdatedAt($updated_at)
-	{
-		$this->updated_at = $updated_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of updated_at.
-	 *
-	 * @return int
-	 */
-	public function getUpdatedAt()
-	{
-		return $this->updated_at;
-	}
-
-	public function __sleep()
-	{
-		return array('id', 'name', 'phone', 'idCard', 'ext', 'created_at', 'updated_at');
-	}
+    public function __sleep()
+    {
+        return array('id', 'name', 'phone', 'idCard', 'ext', 'createdAt', 'updatedAt');
+    }
 }

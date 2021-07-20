@@ -30,42 +30,42 @@ class ScenicSpotPlan
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
 	 */
-	protected $id;
+	protected int $id;
 
 	/**
 	 * 分类ID
 	 *
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(name="`category_id`", "type="integer")
 	 */
-	protected $category_id;
+	protected int $categoryId;
 
 	/**
 	 * 套餐名字
 	 *
 	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
 	 */
-	protected $name;
+	protected string $name;
 
 	/**
 	 * 套餐价格
 	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
+	 * @ORM\Column(type="integer", length=11, nullable=true)
 	 */
-	protected $price;
+	protected string $price;
 
 	/**
 	 * 套餐描述
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $synopsis;
+	protected string $synopsis;
 
 	/**
 	 * 套餐详情
 	 *
 	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
-	protected $detail;
+	protected string $detail;
 
 	/**
 	 * 状态:
@@ -74,396 +74,197 @@ class ScenicSpotPlan
 	 *
 	 * @ORM\Column(name="`status`", type="smallint", nullable=true)
 	 */
-	protected $status;
+	protected int $status;
 
 	/**
 	 * 扩展字段
 	 *
-	 * @ORM\Column(type="array", nullable=true)
+	 * @ORM\Column(type="json", nullable=true)
 	 */
-	protected $ext;
+	protected array $ext;
 
 	/**
 	 * 创建时间
 	 *
 	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="integer", nullable=true)
+	 * @ORM\Column(name="`created_at`" , "type="integer", nullable=true)
 	 */
-	protected $created_at;
+	protected int $createdAt;
 
 	/**
 	 * 更新时间
 	 *
 	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="integer", nullable=true)
+	 * @ORM\Column(name="`updated_at`" , "type="integer", nullable=true)
 	 */
-	protected $updated_at;
-
-	/**
-	 * @ORM\OneToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotAreaRelation", mappedBy="scenic_spot_plan")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="scenic_spot_plan_id", nullable=false)
-	 */
-	protected $scenic_spot_area_relations;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="WeiXin\Entity\Mapping\Category", inversedBy="scenic_spot_plans")
-	 * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
-	 */
-	protected $category;
-
-	/**
-	 * @ORM\ManyToMany(targetEntity="WeiXin\Entity\Mapping\ScenicArea", mappedBy="scenic_spot_plans")
-	 */
-	protected $scenic_areas;
+	protected int $updatedAt;
 
 	public function __construct()
 	{
-		$this->scenic_spot_area_relations = new ArrayCollection();
-		$this->scenic_areas = new ArrayCollection();
 	}
 
-	/**
-	 * Set the value of id.
-	 *
-	 * @param int $id
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * Get the value of id.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    public function getCategoryId(): int
+    {
+        return $this->categoryId;
+    }
 
-	/**
-	 * Set the value of category_id.
-	 *
-	 * @param int $category_id
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setCategoryId($category_id)
-	{
-		$this->category_id = $category_id;
+    /**
+     * @param int $categoryId
+     */
+    public function setCategoryId(int $categoryId): void
+    {
+        $this->categoryId = $categoryId;
+    }
 
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Get the value of category_id.
-	 *
-	 * @return int
-	 */
-	public function getCategoryId()
-	{
-		return $this->category_id;
-	}
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * Set the value of name.
-	 *
-	 * @param string $name
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
+    /**
+     * @return string
+     */
+    public function getPrice(): string
+    {
+        return $this->price;
+    }
 
-		return $this;
-	}
+    /**
+     * @param string $price
+     */
+    public function setPrice(string $price): void
+    {
+        $this->price = $price;
+    }
 
-	/**
-	 * Get the value of name.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @return string
+     */
+    public function getSynopsis(): string
+    {
+        return $this->synopsis;
+    }
 
-	/**
-	 * Set the value of price.
-	 *
-	 * @param string $price
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setPrice($price)
-	{
-		$this->price = $price;
+    /**
+     * @param string $synopsis
+     */
+    public function setSynopsis(string $synopsis): void
+    {
+        $this->synopsis = $synopsis;
+    }
 
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getDetail(): string
+    {
+        return $this->detail;
+    }
 
-	/**
-	 * Get the value of price.
-	 *
-	 * @return string
-	 */
-	public function getPrice()
-	{
-		return $this->price;
-	}
+    /**
+     * @param string $detail
+     */
+    public function setDetail(string $detail): void
+    {
+        $this->detail = $detail;
+    }
 
-	/**
-	 * Set the value of synopsis.
-	 *
-	 * @param string $synopsis
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setSynopsis($synopsis)
-	{
-		$this->synopsis = $synopsis;
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
 
-	/**
-	 * Get the value of synopsis.
-	 *
-	 * @return string
-	 */
-	public function getSynopsis()
-	{
-		return $this->synopsis;
-	}
+    /**
+     * @return array
+     */
+    public function getExt(): array
+    {
+        return $this->ext;
+    }
 
-	/**
-	 * Set the value of detail.
-	 *
-	 * @param string $detail
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setDetail($detail)
-	{
-		$this->detail = $detail;
+    /**
+     * @param array $ext
+     */
+    public function setExt(array $ext): void
+    {
+        $this->ext = $ext;
+    }
 
-		return $this;
-	}
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-	/**
-	 * Get the value of detail.
-	 *
-	 * @return string
-	 */
-	public function getDetail()
-	{
-		return $this->detail;
-	}
+    /**
+     * @param int $createdAt
+     */
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 
-	/**
-	 * Set the value of status.
-	 *
-	 * @param int $status
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setStatus($status)
-	{
-		$this->status = $status;
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt;
+    }
 
-		return $this;
-	}
-
-	/**
-	 * Get the value of status.
-	 *
-	 * @return int
-	 */
-	public function getStatus()
-	{
-		return $this->status;
-	}
-
-	/**
-	 * Set the value of ext.
-	 *
-	 * @param array $ext
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setExt($ext)
-	{
-		$this->ext = $ext;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of ext.
-	 *
-	 * @return array
-	 */
-	public function getExt()
-	{
-		return $this->ext;
-	}
-
-	/**
-	 * Set the value of created_at.
-	 *
-	 * @param int $created_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setCreatedAt($created_at)
-	{
-		$this->created_at = $created_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of created_at.
-	 *
-	 * @return int
-	 */
-	public function getCreatedAt()
-	{
-		return $this->created_at;
-	}
-
-	/**
-	 * Set the value of updated_at.
-	 *
-	 * @param int $updated_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setUpdatedAt($updated_at)
-	{
-		$this->updated_at = $updated_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of updated_at.
-	 *
-	 * @return int
-	 */
-	public function getUpdatedAt()
-	{
-		return $this->updated_at;
-	}
-
-	/**
-	 * Add ScenicSpotAreaRelation entity to collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicSpotAreaRelation $scenic_spot_area_relation
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function addScenicSpotAreaRelation($scenic_spot_area_relation)
-	{
-		$this->scenic_spot_area_relations[] = $scenic_spot_area_relation;
-
-		return $this;
-	}
-
-	/**
-	 * Remove ScenicSpotAreaRelation entity from collection (one to many).
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicSpotAreaRelation $scenic_spot_area_relation
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function removeScenicSpotAreaRelation($scenic_spot_area_relation)
-	{
-		$this->scenic_spot_area_relations->removeElement($scenic_spot_area_relation);
-
-		return $this;
-	}
-
-	/**
-	 * Get ScenicSpotAreaRelation entity collection (one to many).
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getScenicSpotAreaRelations()
-	{
-		return $this->scenic_spot_area_relations;
-	}
-
-	/**
-	 * Set Category entity (many to one).
-	 *
-	 * @param \WeiXin\Entity\Mapping\Category $category
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function setCategory($category)
-	{
-		$this->category = $Category;
-
-		return $this;
-	}
-
-	/**
-	 * Get Category entity (many to one).
-	 *
-	 * @return \WeiXin\Entity\Mapping\Category
-	 */
-	public function getCategory()
-	{
-		return $this->category;
-	}
-
-	/**
-	 * Add ScenicArea entity to collection.
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicArea $scenic_area
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function addScenicArea($scenic_area)
-	{
-		$this->scenic_areas[] = $scenic_area;
-
-		return $this;
-	}
-
-	/**
-	 * Remove ScenicArea entity from collection.
-	 *
-	 * @param \WeiXin\Entity\Mapping\ScenicArea $scenic_area
-	 *
-	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
-	 */
-	public function removeScenicArea($scenic_area)
-	{
-		$this->scenic_areas->removeElement($ScenicArea);
-
-		return $this;
-	}
-
-	/**
-	 * Get ScenicArea entity collection.
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getScenicAreas()
-	{
-		return $this->scenic_areas;
-	}
+    /**
+     * @param int $updatedAt
+     */
+    public function setUpdatedAt(int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
 	public function __sleep()
 	{
-		return array('id', 'category_id', 'name', 'price', 'synopsis', 'detail', 'status', 'ext', 'created_at', 'updated_at');
+		return array('id', 'categoryId', 'name', 'price', 'synopsis', 'detail', 'status', 'ext', 'createdAt', 'updatedAt');
 	}
 }

@@ -20,7 +20,7 @@ class Orders
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
      * 订单号
@@ -78,7 +78,7 @@ class Orders
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -205,6 +205,6 @@ class Orders
 
     public function __sleep()
     {
-        return array('id', 'orderNo', 'userId', 'price', 'status', 'ext', 'created_at', 'updated_at');
+        return array('id', 'orderNo', 'userId', 'price', 'status', 'ext', 'createdAt', 'updatedAt');
     }
 }

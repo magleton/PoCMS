@@ -10,8 +10,8 @@
 
 namespace WeiXin\Entity\Mapping;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WeiXin\Entity\Mapping\Log
@@ -23,202 +23,154 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Log
 {
-	/**
-	 * 主键ID
-	 *
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * 主键ID
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected int $id;
 
-	/**
-	 * 目标ID
-	 *
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $target_id;
+    /**
+     * 目标ID
+     *
+     * @ORM\Column(name="`target_id`" ,type="integer", nullable=true)
+     */
+    protected int $targetId;
 
-	/**
-	 * 目标类型
-	 *
-	 * @ORM\Column(type="string", length=45, nullable=true)
-	 */
-	protected $target_type;
+    /**
+     * 目标类型
+     *
+     * @ORM\Column(name="`target_type`" , "type="string", length=45, nullable=true)
+     */
+    protected string $targetType;
 
-	/**
-	 * 数据
-	 *
-	 * @ORM\Column(type="array", nullable=true)
-	 */
-	protected $ext;
+    /**
+     * 数据
+     *
+     * @ORM\Column(name="`ext`" , "type="json", nullable=true)
+     */
+    protected array $ext;
 
-	/**
-	 * 创建时间
-	 *
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $created_at;
+    /**
+     * 创建时间
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="`created_at`", "type="integer", nullable=true)
+     */
+    protected int $createdAt;
 
-	/**
-	 * 更新时间
-	 *
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="integer", nullable=true)
-	 */
-	protected $updated_at;
+    /**
+     * 更新时间
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="`updated_at`", "type="integer", nullable=true)
+     */
+    protected int $updatedAt;
 
-	public function __construct()
-	{
-	}
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Set the value of id.
-	 *
-	 * @param int $id
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * Get the value of id.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    public function getTargetId(): int
+    {
+        return $this->targetId;
+    }
 
-	/**
-	 * Set the value of target_id.
-	 *
-	 * @param int $target_id
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setTargetId($target_id)
-	{
-		$this->target_id = $target_id;
+    /**
+     * @param int $targetId
+     */
+    public function setTargetId(int $targetId): void
+    {
+        $this->targetId = $targetId;
+    }
 
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getTargetType(): string
+    {
+        return $this->targetType;
+    }
 
-	/**
-	 * Get the value of target_id.
-	 *
-	 * @return int
-	 */
-	public function getTargetId()
-	{
-		return $this->target_id;
-	}
+    /**
+     * @param string $targetType
+     */
+    public function setTargetType(string $targetType): void
+    {
+        $this->targetType = $targetType;
+    }
 
-	/**
-	 * Set the value of target_type.
-	 *
-	 * @param string $target_type
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setTargetType($target_type)
-	{
-		$this->target_type = $target_type;
+    /**
+     * @return array
+     */
+    public function getExt(): array
+    {
+        return $this->ext;
+    }
 
-		return $this;
-	}
+    /**
+     * @param array $ext
+     */
+    public function setExt(array $ext): void
+    {
+        $this->ext = $ext;
+    }
 
-	/**
-	 * Get the value of target_type.
-	 *
-	 * @return string
-	 */
-	public function getTargetType()
-	{
-		return $this->target_type;
-	}
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
 
-	/**
-	 * Set the value of ext.
-	 *
-	 * @param array $ext
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setExt($ext)
-	{
-		$this->ext = $ext;
+    /**
+     * @param int $createdAt
+     */
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 
-		return $this;
-	}
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt;
+    }
 
-	/**
-	 * Get the value of ext.
-	 *
-	 * @return array
-	 */
-	public function getExt()
-	{
-		return $this->ext;
-	}
+    /**
+     * @param int $updatedAt
+     */
+    public function setUpdatedAt(int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
 
-	/**
-	 * Set the value of created_at.
-	 *
-	 * @param int $created_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setCreatedAt($created_at)
-	{
-		$this->created_at = $created_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of created_at.
-	 *
-	 * @return int
-	 */
-	public function getCreatedAt()
-	{
-		return $this->created_at;
-	}
-
-	/**
-	 * Set the value of updated_at.
-	 *
-	 * @param int $updated_at
-	 *
-	 * @return \WeiXin\Entity\Mapping\Log
-	 */
-	public function setUpdatedAt($updated_at)
-	{
-		$this->updated_at = $updated_at;
-
-		return $this;
-	}
-
-	/**
-	 * Get the value of updated_at.
-	 *
-	 * @return int
-	 */
-	public function getUpdatedAt()
-	{
-		return $this->updated_at;
-	}
-
-	public function __sleep()
-	{
-		return array('id', 'target_id', 'target_type', 'ext', 'created_at', 'updated_at');
-	}
+    public function __sleep()
+    {
+        return array('id', 'targetId', 'targetType', 'ext', 'createdAt', 'updatedAt');
+    }
 }
