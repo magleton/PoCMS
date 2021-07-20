@@ -1,6 +1,6 @@
 <?php
 
-namespace WeiXin\Dto;
+namespace WeiXin\Dto\Req;
 
 use Cerbero\Dto\Manipulators\ArrayConverter;
 use Cerbero\Dto\Manipulators\ValueConverter;

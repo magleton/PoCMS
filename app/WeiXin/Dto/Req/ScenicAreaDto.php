@@ -1,6 +1,6 @@
 <?php
 
-namespace WeiXin\Dto;
+namespaceWeiXin\Dto\Req;
 
 use Polymer\Dto\BaseDto;
 

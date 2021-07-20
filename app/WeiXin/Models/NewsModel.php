@@ -12,8 +12,8 @@ use Exception;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\CategoryDto;
-use WeiXin\Dto\SearchDto;
+use WeiXin\Dto\Req\CategoryDto;
+use WeiXin\Dto\Req\SearchDto;
 use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\NewsListener;
 

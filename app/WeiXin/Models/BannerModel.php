@@ -10,7 +10,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\BannerDto;
+use WeiXin\Dto\Req\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
