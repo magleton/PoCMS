@@ -11,9 +11,9 @@ use Polymer\Dto\BaseDto;
  * @property string $mark
  * @property int $pageSize
  * @property int $page
- * Class BannerDto
+ * Class BannerReqDto
  * @package WeiXin\Dto
  */
-class BannerDto extends BaseDto
+class BannerReqDto extends BaseDto
 {
 }

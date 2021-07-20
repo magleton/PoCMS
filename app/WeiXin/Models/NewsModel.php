@@ -12,8 +12,8 @@ use Exception;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\Req\CategoryDto;
-use WeiXin\Dto\Req\SearchDto;
+use WeiXin\Dto\Req\CategoryReqDto;
+use WeiXin\Dto\Req\SearchReqDto;
 use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\NewsListener;
 
@@ -39,11 +39,11 @@ class NewsModel extends Model
 
     /**
      * 添加banner
-     * @param CategoryDto $newsDto
+     * @param CategoryReqDto $newsDto
      * @return int
      * @throws ORMException
      */
-    public function save(CategoryDto $newsDto): int
+    public function save(CategoryReqDto $newsDto): int
     {
         $this->application->addEvent([Events::prePersist => ['className' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray());
@@ -55,14 +55,14 @@ class NewsModel extends Model
 
     /**
      * 更新Banner
-     * @param CategoryDto $newsDto
+     * @param CategoryReqDto $newsDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
      * @throws Exception
      */
-    public function update(CategoryDto $newsDto)
+    public function update(CategoryReqDto $newsDto)
     {
         $this->application->addEvent([Events::preUpdate => ['className' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);
@@ -73,11 +73,11 @@ class NewsModel extends Model
 
     /**
      * 新闻列表
-     * @param SearchDto $searchDto
+     * @param SearchReqDto $searchDto
      * @return mixed
      * @throws Exception|ExceptionInterface
      */
-    public function list(SearchDto $searchDto): array
+    public function list(SearchReqDto $searchDto): array
     {
         $pageSize = $searchDto->pageSize;
         $page = $searchDto->page;

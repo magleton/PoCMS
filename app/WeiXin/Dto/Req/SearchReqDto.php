@@ -8,9 +8,9 @@ use Polymer\Dto\BaseDto;
  * @property array $searchCondition
  * @property int $pageSize
  * @property int $page
- * Class BannerDto
+ * Class BannerReqDto
  * @package WeiXin\Dto
  */
-class SearchDto extends BaseDto
+class SearchReqDto extends BaseDto
 {
 }

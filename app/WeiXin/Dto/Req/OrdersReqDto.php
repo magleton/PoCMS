@@ -10,10 +10,10 @@ use Polymer\Dto\BaseDto;
  * @property int $status
  * @property string $orderNo
  * @property array $ext
- * Class OrdersDto
+ * Class OrdersReqDto
  * @package WeiXin\Dto
  */
-class OrdersDto extends BaseDto
+class OrdersReqDto extends BaseDto
 {
 
 }

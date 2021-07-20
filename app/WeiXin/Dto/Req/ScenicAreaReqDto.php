@@ -16,10 +16,10 @@ use Polymer\Dto\BaseDto;
  * @property string $address
  * @property string $synopsis
  * @property string $detail
- * Class ScenicAreaDto
+ * Class ScenicAreaReqDto
  * @package WeiXin\Dto
  */
-class ScenicAreaDto extends BaseDto
+class ScenicAreaReqDto extends BaseDto
 {
 
 }

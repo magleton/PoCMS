@@ -13,7 +13,7 @@ use JsonException;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\Req\AdminDto;
+use WeiXin\Dto\Req\AdminReqDto;
 use WeiXin\Entity\Mapping\Admin;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\AdminListener;
@@ -44,13 +44,13 @@ class AdminModel extends Model
 
     /**
      * 添加管理员
-     * @param AdminDto $adminDto
+     * @param AdminReqDto $adminDto
      * @return int
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
      */
-    public function save(AdminDto $adminDto): int
+    public function save(AdminReqDto $adminDto): int
     {
         $this->application->addEvent([Events::prePersist => ['className' => AdminListener::class]]);
         $admin = $this->make(Admin::class, $adminDto->toArray());
@@ -61,12 +61,12 @@ class AdminModel extends Model
 
     /**
      * 更新管理员
-     * @param AdminDto $adminDto
+     * @param AdminReqDto $adminDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function update(AdminDto $adminDto)
+    public function update(AdminReqDto $adminDto)
     {
         $this->application->addEvent([Events::preUpdate => ['className' => AdminListener::class]]);
         $admin = $this->make(Banner::class, $adminDto->toArray(), ['id' => $adminDto->id]);
@@ -77,10 +77,10 @@ class AdminModel extends Model
 
     /**
      * 管理员列表
-     * @param AdminDto $adminDto
+     * @param AdminReqDto $adminDto
      * @return mixed
      */
-    public function list(AdminDto $adminDto): array
+    public function list(AdminReqDto $adminDto): array
     {
         $entityRepository = $this->em->getRepository(Banner::class);
         return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);

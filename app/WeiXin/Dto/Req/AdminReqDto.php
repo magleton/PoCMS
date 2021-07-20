@@ -12,9 +12,9 @@ use Polymer\Dto\BaseDto;
  * @property string $email
  * @property string $nickname
  * @property string $token
- * Class AdminDto
+ * Class AdminReqDto
  * @package WeiXin\Dto
  */
-class AdminDto extends BaseDto
+class AdminReqDto extends BaseDto
 {
 }

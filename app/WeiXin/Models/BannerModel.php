@@ -10,7 +10,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\Req\BannerDto;
+use WeiXin\Dto\Req\BannerReqDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
@@ -30,11 +30,11 @@ class BannerModel extends Model
 
     /**
      * 添加banner
-     * @param BannerDto $bannerDto
+     * @param BannerReqDto $bannerDto
      * @return int
      * @throws ORMException
      */
-    public function save(BannerDto $bannerDto): int
+    public function save(BannerReqDto $bannerDto): int
     {
         $this->application->addEvent([Events::prePersist => ['className' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray());
@@ -45,12 +45,12 @@ class BannerModel extends Model
 
     /**
      * 更新Banner
-     * @param BannerDto $bannerDto
+     * @param BannerReqDto $bannerDto
      * @return mixed
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function update(BannerDto $bannerDto)
+    public function update(BannerReqDto $bannerDto)
     {
         $this->application->addEvent([Events::preUpdate => ['className' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
@@ -61,10 +61,10 @@ class BannerModel extends Model
 
     /**
      * 列表Banner
-     * @param BannerDto $bannerDto
+     * @param BannerReqDto $bannerDto
      * @return mixed
      */
-    public function list(BannerDto $bannerDto): array
+    public function list(BannerReqDto $bannerDto): array
     {
         $entityRepository = $this->em->getRepository(Banner::class);
         return $entityRepository->findBy(['filename' => 'aaaaa'], ['id' => 'desc']);

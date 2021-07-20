@@ -6,10 +6,10 @@ use Polymer\Dto\BaseDto;
 
 /**
  * @property string $username
- * Class UserDto
+ * Class UserReqDto
  * @package WeiXin\Dto
  */
-class UserDto extends BaseDto
+class UserReqDto extends BaseDto
 {
 
 }

@@ -13,9 +13,9 @@ use Polymer\Dto\BaseDto;
  * @property string $content
  * @property array $ext
  * @property string $testTitle
- * Class NewsDto
+ * Class NewsReqDto
  * @package WeiXin\Dto
  */
-class NewsDto extends BaseDto
+class NewsReqDto extends BaseDto
 {
 }

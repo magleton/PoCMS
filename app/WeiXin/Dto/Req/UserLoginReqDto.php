@@ -7,10 +7,10 @@ use Polymer\Dto\BaseDto;
 /**
  * @property string $username
  * @property string $password
- * Class UserLoginDto
+ * Class UserLoginReqDto
  * @package WeiXin\Dto
  */
-class UserLoginDto extends BaseDto
+class UserLoginReqDto extends BaseDto
 {
 
 }

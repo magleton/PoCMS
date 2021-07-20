@@ -12,8 +12,8 @@ use Exception;
 use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
-use WeiXin\Dto\Req\CategoryDto;
-use WeiXin\Dto\Req\SearchDto;
+use WeiXin\Dto\Req\CategoryReqDto;
+use WeiXin\Dto\Req\SearchReqDto;
 use WeiXin\Entity\Mapping\Category;
 use WeiXin\Listener\CategoryListener;
 
@@ -33,14 +33,14 @@ class CategoryModel extends Model
 
     /**
      * 添加banner
-     * @param CategoryDto $categoryDto
+     * @param CategoryReqDto $categoryDto
      * @return int
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
      * @throws Exception
      */
-    public function save(CategoryDto $categoryDto): int
+    public function save(CategoryReqDto $categoryDto): int
     {
         $this->application->addEvent([Events::prePersist => ['className' => CategoryListener::class]]);
         $category = $this->make(Category::class, $categoryDto->toArray());
@@ -51,14 +51,14 @@ class CategoryModel extends Model
 
     /**
      * 更新Banner
-     * @param CategoryDto $categoryDto
+     * @param CategoryReqDto $categoryDto
      * @return mixed
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws Exception
      */
-    public function update(CategoryDto $categoryDto)
+    public function update(CategoryReqDto $categoryDto)
     {
         $this->application->addEvent([Events::preUpdate => ['className' => CategoryListener::class]]);
         $category = $this->make(Category::class, $categoryDto->toArray(), ['id' => $categoryDto->id]);
@@ -69,13 +69,13 @@ class CategoryModel extends Model
 
     /**
      * Banner列表
-     * @param SearchDto $searchDto
+     * @param SearchReqDto $searchDto
      * @return mixed
      * @throws DependencyException
      * @throws ExceptionInterface
      * @throws NotFoundException
      */
-    public function list(SearchDto $searchDto): array
+    public function list(SearchReqDto $searchDto): array
     {
         $entityRepository = $this->em->getRepository(Category::class);
         $list = $entityRepository->findBy($searchDto->searchCondition, ['id' => 'desc']);
