@@ -3,7 +3,7 @@
 
 namespace WeiXin\Controller\Backend;
 
-
+use DI\Annotation\Inject;
 use Polymer\Controller\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,9 +13,9 @@ class SignUpController extends Controller
 {
     /**
      * @Inject
-     * @var AdminService
+     * @var SignupService
      */
-    private AdminService $adminService;
+    private SignupService $signupService;
 
     /**
      * 管理员登录
@@ -26,11 +26,12 @@ class SignUpController extends Controller
      */
     public function login(ServerRequestInterface $request, ResponseInterface $response, $args): ResponseInterface
     {
-        $test = $this->adminService->test();
+        $test = $this->signupService->test();
         $response->getBody()->write($test);
         return $response;
     }
 }
+
 {
 
 }

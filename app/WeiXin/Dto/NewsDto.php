@@ -4,7 +4,7 @@ namespace WeiXin\Dto;
 
 use Cerbero\Dto\Manipulators\ArrayConverter;
 use Cerbero\Dto\Manipulators\ValueConverter;
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property int $id
@@ -16,6 +16,6 @@ use Polymer\Dto\BaseDTO;
  * Class NewsDto
  * @package WeiXin\Dto
  */
-class NewsDto extends BaseDTO
+class NewsDto extends BaseDto
 {
 }

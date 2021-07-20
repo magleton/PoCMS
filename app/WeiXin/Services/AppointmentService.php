@@ -2,12 +2,14 @@
 
 namespace WeiXin\Services;
 
+use Polymer\Service\Service;
+
 /**
  * 预约服务
- * Interface AppointmentService
+ * class AppointmentService
  * @package WeiXin\Services
  */
-interface AppointmentService
+class AppointmentService extends Service
 {
 
 }

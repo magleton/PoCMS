@@ -1,14 +1,15 @@
 <?php
 
-
 namespace WeiXin\Services;
+
+use Polymer\Service\Service;
 
 /**
  * 景区服务
  * Interface ScenicAreaService
  * @package WeiXin\Services
  */
-interface ScenicAreaService
+class ScenicAreaService extends Service
 {
 
 }

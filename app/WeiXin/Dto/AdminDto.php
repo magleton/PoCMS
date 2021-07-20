@@ -2,7 +2,7 @@
 
 namespace WeiXin\Dto;
 
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property int $id
@@ -15,6 +15,6 @@ use Polymer\Dto\BaseDTO;
  * Class AdminDto
  * @package WeiXin\Dto
  */
-class AdminDto extends BaseDTO
+class AdminDto extends BaseDto
 {
 }

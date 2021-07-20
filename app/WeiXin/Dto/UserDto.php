@@ -2,14 +2,14 @@
 
 namespace WeiXin\Dto;
 
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property string $username
  * Class UserDto
  * @package WeiXin\Dto
  */
-class UserDto extends BaseDTO
+class UserDto extends BaseDto
 {
 
 }

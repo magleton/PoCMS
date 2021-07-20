@@ -5,6 +5,7 @@ namespace WeiXin\Services;
 use DI\Annotation\Inject;
 use DI\Annotation\Injectable;
 use Exception;
+use Polymer\Service\Service;
 use WeiXin\Dto\OrdersDto;
 use WeiXin\Models\OrdersModel;
 
@@ -13,7 +14,7 @@ use WeiXin\Models\OrdersModel;
  * Class OrderService
  * @package WeiXin\Services
  */
-class OrdersService
+class OrdersService extends Service
 {
     /**
      * @Inject

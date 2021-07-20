@@ -2,7 +2,7 @@
 
 namespace WeiXin\Dto;
 
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property string $username
@@ -10,7 +10,7 @@ use Polymer\Dto\BaseDTO;
  * Class UserLoginDto
  * @package WeiXin\Dto
  */
-class UserLoginDto extends BaseDTO
+class UserLoginDto extends BaseDto
 {
 
 }

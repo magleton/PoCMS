@@ -2,8 +2,10 @@
 
 namespace WeiXin\Services;
 
+use DI\Annotation\Inject;
 use DI\Annotation\Injectable;
 use JsonException;
+use Polymer\Service\Service;
 use WeiXin\Dto\AdminDto;
 use WeiXin\Models\AdminModel;
 
@@ -12,7 +14,7 @@ use WeiXin\Models\AdminModel;
  * Class AdminService
  * @package WeiXin\Services
  */
-class AdminService
+class AdminService extends Service
 {
     /**
      * @Inject

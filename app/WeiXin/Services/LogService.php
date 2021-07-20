@@ -3,12 +3,14 @@
 
 namespace WeiXin\Services;
 
+use Polymer\Service\Service;
+
 /**
  * 日志服务
  * Interface LogService
  * @package WeiXin\Services
  */
-interface LogService
+class LogService extends Service
 {
 
 }

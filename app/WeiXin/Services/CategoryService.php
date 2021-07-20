@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
+use Polymer\Service\Service;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
@@ -17,7 +18,7 @@ use WeiXin\Models\CategoryModel;
  * Interface CategoryService
  * @package WeiXin\Services
  */
-class CategoryService
+class CategoryService extends Service
 {
     /**
      * @Inject

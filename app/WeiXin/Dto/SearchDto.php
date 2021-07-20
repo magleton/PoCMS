@@ -2,7 +2,7 @@
 
 namespace WeiXin\Dto;
 
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property array $searchCondition
@@ -11,6 +11,6 @@ use Polymer\Dto\BaseDTO;
  * Class BannerDto
  * @package WeiXin\Dto
  */
-class SearchDto extends BaseDTO
+class SearchDto extends BaseDto
 {
 }

@@ -2,6 +2,7 @@
 
 namespace WeiXin\Models;
 
+use DI\Annotation\Injectable;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Doctrine\ORM\EntityNotFoundException;
@@ -17,6 +18,11 @@ use WeiXin\Entity\Mapping\Admin;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\AdminListener;
 
+/**
+ * @Injectable
+ * Class AdminModel
+ * @package WeiXin\Models
+ */
 class AdminModel extends Model
 {
     /**

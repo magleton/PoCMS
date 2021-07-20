@@ -6,6 +6,7 @@ use DI\Annotation\Inject;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Polymer\Service\Service;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
 use WeiXin\Models\NewsModel;
@@ -15,7 +16,7 @@ use WeiXin\Models\NewsModel;
  * Interface NewsService
  * @package WeiXin\Services
  */
-class NewsService
+class NewsService extends Service
 {
     /**
      * @Inject

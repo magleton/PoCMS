@@ -2,7 +2,7 @@
 
 namespace WeiXin\Dto;
 
-use Polymer\Dto\BaseDTO;
+use Polymer\Dto\BaseDto;
 
 /**
  * @property int $id
@@ -14,6 +14,6 @@ use Polymer\Dto\BaseDTO;
  * Class BannerDto
  * @package WeiXin\Dto
  */
-class CategoryDto extends BaseDTO
+class CategoryDto extends BaseDto
 {
 }
