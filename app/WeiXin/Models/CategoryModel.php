@@ -42,7 +42,7 @@ class CategoryModel extends Model
      */
     public function save(CategoryDto $categoryDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => CategoryListener::class]]);
+        $this->application->addEvent([Events::prePersist => ['className' => CategoryListener::class]]);
         $category = $this->make(Category::class, $categoryDto->toArray());
         $this->em->persist($category);
         $this->em->flush();
@@ -60,7 +60,7 @@ class CategoryModel extends Model
      */
     public function update(CategoryDto $categoryDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => CategoryListener::class]]);
+        $this->application->addEvent([Events::preUpdate => ['className' => CategoryListener::class]]);
         $category = $this->make(Category::class, $categoryDto->toArray(), ['id' => $categoryDto->id]);
         $this->em->persist($category);
         $this->em->flush();

@@ -10,6 +10,7 @@ use Polymer\Support\Collection;
 use Polymer\Tests\Listener\BaseListener;
 use Slim\Logger;
 use WeiXin\Entity\Mapping\User;
+use WeiXin\Entity\Mapping\Users;
 use WeiXin\Validators\PhoneValidator;
 
 /**
@@ -106,11 +107,11 @@ class UserModel extends Model
     public function save(array $data = [])
     {
         try {
-            $this->application->addEvent([Events::prePersist => ['class_name' => BaseListener::class]]);
-            $obj = $this->make(Admin::class, $data)->validate($this->rules, ['add']);
-            $this->em->persist($obj);
+            $this->application->addEvent([Events::prePersist => ['className' => BaseListener::class]]);
+            $user = $this->make(Users::class, $data)->validate($this->rules, ['add']);
+            $this->em->persist($user);
             $this->em->flush();
-            return $obj->getId();
+            return $user->getId();
         } catch (Exception $e) {
             $this->application->get(Logger::class)->error($this->application->get(Collection::class)->all());
             throw $e;
@@ -130,11 +131,11 @@ class UserModel extends Model
         try {
             /*$this->app->addEvent([
                 Events::preUpdate => [
-                    'class_name' => TestListener::class,
+                    'className' => TestListener::class,
                     'data' => ['address' => 'aaaaa']
                 ]
             ]);*/
-            $obj = $this->make(User::class, $data, ['user_id' => 1], false)->validate($this->rules, ['update']);
+            $obj = $this->make(Users::class, $data, ['user_id' => 1], false)->validate($this->rules, ['update']);
             $this->em->persist($obj);
             $this->em->flush();
             return $obj->getId();
@@ -150,13 +151,13 @@ class UserModel extends Model
      * @param string $password 密码
      * @return array
      */
-    public function getUserByUsernameAndPassword(string $username, string $password): Admin
+    public function getUserByUsernameAndPassword(string $username, string $password): Users
     {
         $criteria = [
             'username' => $username,
             'password' => $password
         ];
-        return $this->em->getRepository(Admin::class)->findOneBy($criteria);
+        return $this->em->getRepository(Users::class)->findOneBy($criteria);
     }
 
     public function getList(): array

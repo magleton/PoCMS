@@ -36,7 +36,7 @@ class BannerModel extends Model
      */
     public function save(BannerDto $bannerDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => BannerListener::class]]);
+        $this->application->addEvent([Events::prePersist => ['className' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray());
         $this->em->persist($banner);
         $this->em->flush();
@@ -52,7 +52,7 @@ class BannerModel extends Model
      */
     public function update(BannerDto $bannerDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => BannerListener::class]]);
+        $this->application->addEvent([Events::preUpdate => ['className' => BannerListener::class]]);
         $banner = $this->make(Banner::class, $bannerDto->toArray(), ['id' => $bannerDto->id]);
         $this->em->persist($banner);
         $this->em->flush();

@@ -19,65 +19,63 @@ class Users
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="username", type="string", length=45, nullable=true, options={"comment"="用户名"})
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=45, nullable=true, options={"comment"="密码"})
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="open_id", type="string", length=45, nullable=true, options={"comment"="openId"})
      */
-    private $openId;
+    private ?string $openId;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="phone", type="string", length=45, nullable=true, options={"comment"="电话号码"})
      */
-    private $phone;
+    private ?string $phone;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="idCard", type="string", length=45, nullable=true, options={"comment"="身份证号"})
      */
-    private $idcard;
+    private ?string $idCard;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="nickname", type="string", length=45, nullable=true, options={"comment"="昵称"})
      */
-    private $nickname;
+    private ?string $nickname;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="created_at", type="integer", nullable=true)
      */
-    private $createdAt;
+    private ?int $createdAt;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="updated_at", type="integer", nullable=true)
      */
-    private $updatedAt;
-
-
+    private ?int $updatedAt;
 
     /**
      * Get id.

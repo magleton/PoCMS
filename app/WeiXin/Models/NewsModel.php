@@ -45,7 +45,7 @@ class NewsModel extends Model
      */
     public function save(CategoryDto $newsDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => NewsListener::class]]);
+        $this->application->addEvent([Events::prePersist => ['className' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray());
         $news->setCategory($this->categoryModel->getCategoryById($newsDto->categoryId));
         $this->em->persist($news);
@@ -64,7 +64,7 @@ class NewsModel extends Model
      */
     public function update(CategoryDto $newsDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => NewsListener::class]]);
+        $this->application->addEvent([Events::preUpdate => ['className' => NewsListener::class]]);
         $news = $this->make(News::class, $newsDto->toArray(), ['id' => $newsDto->id]);
         $this->em->persist($news);
         $this->em->flush();

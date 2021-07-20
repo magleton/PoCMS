@@ -52,7 +52,7 @@ class AdminModel extends Model
      */
     public function save(AdminDto $adminDto): int
     {
-        $this->application->addEvent([Events::prePersist => ['class_name' => AdminListener::class]]);
+        $this->application->addEvent([Events::prePersist => ['className' => AdminListener::class]]);
         $admin = $this->make(Admin::class, $adminDto->toArray());
         $this->em->persist($admin);
         $this->em->flush();
@@ -68,7 +68,7 @@ class AdminModel extends Model
      */
     public function update(AdminDto $adminDto)
     {
-        $this->application->addEvent([Events::preUpdate => ['class_name' => AdminListener::class]]);
+        $this->application->addEvent([Events::preUpdate => ['className' => AdminListener::class]]);
         $admin = $this->make(Banner::class, $adminDto->toArray(), ['id' => $adminDto->id]);
         $this->em->persist($admin);
         $this->em->flush();
