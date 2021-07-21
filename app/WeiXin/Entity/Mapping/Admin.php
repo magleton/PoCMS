@@ -73,13 +73,11 @@ class Admin
     protected array $ext;
 
     /**
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="integer", nullable=true)
      */
     protected int $createdAt;
 
     /**
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="integer", nullable=true)
      */
     protected int $updatedAt;

@@ -11,7 +11,6 @@
 namespace WeiXin\Entity\Mapping;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WeiXin\Entity\Mapping\Log
@@ -42,36 +41,30 @@ class Log
     /**
      * 目标类型
      *
-     * @ORM\Column(name="`target_type`" , "type="string", length=45, nullable=true)
+     * @ORM\Column(name="`target_type`" , type="string", length=45, nullable=true)
      */
     protected string $targetType;
 
     /**
      * 数据
      *
-     * @ORM\Column(name="`ext`" , "type="json", nullable=true)
+     * @ORM\Column(name="`ext`" , type="json", nullable=true)
      */
     protected array $ext;
 
     /**
      * 创建时间
      *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="`created_at`", "type="integer", nullable=true)
+     * @ORM\Column(name="`created_at`", type="integer", nullable=true)
      */
     protected int $createdAt;
 
     /**
      * 更新时间
      *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="`updated_at`", "type="integer", nullable=true)
+     * @ORM\Column(name="`updated_at`", type="integer", nullable=true)
      */
     protected int $updatedAt;
-
-    public function __construct()
-    {
-    }
 
     /**
      * @return int

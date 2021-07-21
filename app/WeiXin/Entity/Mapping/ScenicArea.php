@@ -103,7 +103,6 @@ class ScenicArea
     /**
      * 创建时间
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="integer", length=45, nullable=true)
      */
     protected int $createdAt;
@@ -111,7 +110,6 @@ class ScenicArea
     /**
      * 更新时间
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="string", length=45, nullable=true)
      */
     protected string $updatedAt;

@@ -39,26 +39,14 @@ class UserProfile
 	protected $address;
 
 	/**
-	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected $created_at;
 
 	/**
-	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected $updated_at;
-
-	/**
-	 * @ORM\OneToOne(targetEntity="Admin.php", inversedBy="user_profile")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-	 */
-	protected $users;
-
-	public function __construct()
-	{
-	}
 
 	/**
 	 * Set the value of id.
@@ -178,30 +166,6 @@ class UserProfile
 	public function getUpdatedAt()
 	{
 		return $this->updated_at;
-	}
-
-	/**
-	 * Set User entity (one to one).
-	 *
-	 * @param \WeiXin\Entity\Mapping\Admin $users
-	 *
-	 * @return \WeiXin\Entity\Mapping\UserProfile
-	 */
-	public function setUser($users)
-	{
-		$this->users = $users;
-
-		return $this;
-	}
-
-	/**
-	 * Get User entity (one to one).
-	 *
-	 * @return \WeiXin\Entity\Mapping\User
-	 */
-	public function getUser()
-	{
-		return $this->users;
 	}
 
 	public function __sleep()

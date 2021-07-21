@@ -35,7 +35,7 @@ class ResourceManagement
     /**
      * 目标ID
      *
-     * @ORM\Column(name="`target_id`", "type="integer", nullable=true)
+     * @ORM\Column(name="`target_id`", type="integer", nullable=true)
      */
     protected int $targetId;
 
@@ -73,16 +73,14 @@ class ResourceManagement
     /**
      * 创建时间
      *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="`created_at`" , "type="integer", nullable=true)
+     * @ORM\Column(name="`created_at`" , type="integer", nullable=true)
      */
     protected int $createdAt;
 
     /**
      * 更新时间
      *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="`updated_at`" , "type="integer", nullable=true)
+     * @ORM\Column(name="`updated_at`" , type="integer", nullable=true)
      */
     protected int $updatedAt;
 

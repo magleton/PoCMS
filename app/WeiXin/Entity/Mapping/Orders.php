@@ -60,7 +60,6 @@ class Orders
     /**
      * 创建时间
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="`created_at`" , type="integer", nullable=true)
      */
     protected int $createdAt;
@@ -68,7 +67,6 @@ class Orders
     /**
      * 更新时间
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="`updated_at`" , type="integer", nullable=true)
      */
     protected int $updateAt;
