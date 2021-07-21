@@ -12,7 +12,7 @@ use Polymer\Dto\BaseDto;
  * @property int $pageSize
  * @property int $page
  * Class BannerReqDto
- * @package WeiXin\Dto
+ * @package WeiXin\Dto\Req
  */
 class BannerReqDto extends BaseDto
 {

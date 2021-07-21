@@ -1,6 +1,6 @@
 <?php
 
-namespaceWeiXin\Dto\Req;
+namespace WeiXin\Dto\Req;
 
 use Polymer\Dto\BaseDto;
 
@@ -17,7 +17,7 @@ use Polymer\Dto\BaseDto;
  * @property string $synopsis
  * @property string $detail
  * Class ScenicAreaReqDto
- * @package WeiXin\Dto
+ * @package WeiXin\Dto\Req
  */
 class ScenicAreaReqDto extends BaseDto
 {

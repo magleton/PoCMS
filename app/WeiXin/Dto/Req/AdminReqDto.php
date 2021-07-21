@@ -13,7 +13,7 @@ use Polymer\Dto\BaseDto;
  * @property string $nickname
  * @property string $token
  * Class AdminReqDto
- * @package WeiXin\Dto
+ * @package WeiXin\Dto\Req
  */
 class AdminReqDto extends BaseDto
 {

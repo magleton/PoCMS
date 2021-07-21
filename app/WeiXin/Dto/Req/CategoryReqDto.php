@@ -11,8 +11,8 @@ use Polymer\Dto\BaseDto;
  * @property string $path
  * @property array $ext
  * @property int $type
- * Class BannerReqDto
- * @package WeiXin\Dto
+ * Class CategoryReqDto
+ * @package WeiXin\Dto\Req
  */
 class CategoryReqDto extends BaseDto
 {

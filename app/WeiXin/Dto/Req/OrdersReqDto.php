@@ -11,7 +11,7 @@ use Polymer\Dto\BaseDto;
  * @property string $orderNo
  * @property array $ext
  * Class OrdersReqDto
- * @package WeiXin\Dto
+ * @package WeiXin\Dto\Req
  */
 class OrdersReqDto extends BaseDto
 {
