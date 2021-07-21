@@ -1,6 +1,6 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use JsonException;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\Req\AdminReqDto;
@@ -19,7 +19,7 @@ use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Entity\Mapping\Orders;
 use WeiXin\Listener\AdminListener;
 
-class OrdersModel extends Model
+class OrdersDao extends BaseDao
 {
     /**
      * 数据库配置

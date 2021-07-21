@@ -7,7 +7,7 @@ use DI\Annotation\Injectable;
 use JsonException;
 use Polymer\Service\Service;
 use WeiXin\Dto\AdminDto;
-use WeiXin\Models\AdminModel;
+use WeiXin\Dao\AdminDao;
 
 /**
  * @Injectable
@@ -18,9 +18,9 @@ class AdminService extends Service
 {
     /**
      * @Inject
-     * @var AdminModel
+     * @var AdminDao
      */
-    private AdminModel $adminModel;
+    private AdminDao $adminModel;
 
     /**
      * 管理员登录

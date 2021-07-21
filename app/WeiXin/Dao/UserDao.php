@@ -1,24 +1,23 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use DI\Annotation\Injectable;
 use Doctrine\ORM\Events;
 use Exception;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Support\Collection;
 use Polymer\Tests\Listener\BaseListener;
 use Slim\Logger;
-use WeiXin\Entity\Mapping\User;
 use WeiXin\Entity\Mapping\Users;
 use WeiXin\Validators\PhoneValidator;
 
 /**
  * @Injectable
- * Class UserModel
+ * Class UserDao
  * @package WeiXin\Models
  */
-class UserModel extends Model
+class UserDao extends BaseDao
 {
     /**
      * 数据库表名

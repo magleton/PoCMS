@@ -5,7 +5,7 @@ namespace WeiXin\Services;
 use DI\Annotation\Inject;
 use DI\Annotation\Injectable;
 use Polymer\Service\Service;
-use WeiXin\Models\UserModel;
+use WeiXin\Dao\UserDao;
 
 /**
  * @Injectable(lazy=false)
@@ -25,9 +25,9 @@ class HelloService extends Service
     
     /**
      * @Inject
-     * @var UserModel
+     * @var UserDao
      */
-    private UserModel $userModel;
+    private UserDao $userModel;
 
     public function hello(): string
     {

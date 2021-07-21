@@ -9,7 +9,7 @@ use Doctrine\ORM\ORMException;
 use Polymer\Service\Service;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
-use WeiXin\Models\NewsModel;
+use WeiXin\Dao\NewsDao;
 
 /**
  * 新闻服务
@@ -20,9 +20,9 @@ class NewsService extends Service
 {
     /**
      * @Inject
-     * @var NewsModel
+     * @var NewsDao
      */
-    private NewsModel $newsModel;
+    private NewsDao $newsModel;
 
     /**
      * 新增banner

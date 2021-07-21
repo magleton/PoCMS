@@ -7,7 +7,7 @@ use DI\Annotation\Injectable;
 use Doctrine\ORM\ORMException;
 use Polymer\Service\Service;
 use WeiXin\Dto\SearchDto;
-use WeiXin\Models\BannerModel;
+use WeiXin\Dao\BannerDao;
 
 /**
  * Banner服务
@@ -19,9 +19,9 @@ class BannerService extends Service
 {
     /**
      * @Inject
-     * @var BannerModel
+     * @var BannerDao
      */
-    private BannerModel $bannerModel;
+    private BannerDao $bannerModel;
 
     /**
      * 新增banner

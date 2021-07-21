@@ -1,7 +1,7 @@
 <?php
 
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 
 use DI\DependencyException;
@@ -10,14 +10,14 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\Req\ScenicAreaDto;
 use WeiXin\Entity\Mapping\ScenicArea;
 use WeiXin\Listener\AdminListener;
 
-class ScenicAreaModel extends Model
+class ScenicAreaDao extends BaseDao
 {
     /**
      * 数据库配置

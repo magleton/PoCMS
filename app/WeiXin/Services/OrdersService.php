@@ -7,7 +7,7 @@ use DI\Annotation\Injectable;
 use Exception;
 use Polymer\Service\Service;
 use WeiXin\Dto\OrdersDto;
-use WeiXin\Models\OrdersModel;
+use WeiXin\Dao\OrdersDao;
 
 /**
  * @Injectable
@@ -18,9 +18,9 @@ class OrdersService extends Service
 {
     /**
      * @Inject
-     * @var OrdersModel
+     * @var OrdersDao
      */
-    private OrdersModel $orderModel;
+    private OrdersDao $orderModel;
 
     /**
      * 管理员登录

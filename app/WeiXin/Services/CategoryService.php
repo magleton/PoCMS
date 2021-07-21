@@ -11,7 +11,7 @@ use Polymer\Service\Service;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\CategoryDto;
 use WeiXin\Dto\SearchDto;
-use WeiXin\Models\CategoryModel;
+use WeiXin\Dao\CategoryDao;
 
 /**
  * 分类服务
@@ -22,9 +22,9 @@ class CategoryService extends Service
 {
     /**
      * @Inject
-     * @var CategoryModel
+     * @var CategoryDao
      */
-    private CategoryModel $categoryModel;
+    private CategoryDao $categoryModel;
 
     /**
      * 新增banner

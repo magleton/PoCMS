@@ -1,20 +1,20 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use DI\DependencyException;
 use DI\NotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\Req\BannerReqDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
-class BannerModel extends Model
+class BannerDao extends BaseDao
 {
     /**
      * 数据库配置

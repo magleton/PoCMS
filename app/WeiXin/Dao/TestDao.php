@@ -1,13 +1,13 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use Doctrine\ORM\Events;
 use Exception;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Tests\Listener\BaseListener;
 
-class TestModel extends Model
+class TestDao extends BaseDao
 {
     /**
      * 数据库表名

@@ -1,6 +1,6 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use DI\Annotation\Injectable;
 use DI\DependencyException;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use JsonException;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\Req\AdminReqDto;
@@ -20,10 +20,10 @@ use WeiXin\Listener\AdminListener;
 
 /**
  * @Injectable
- * Class AdminModel
+ * Class AdminDao
  * @package WeiXin\Models
  */
-class AdminModel extends Model
+class AdminDao extends BaseDao
 {
     /**
      * 数据库配置

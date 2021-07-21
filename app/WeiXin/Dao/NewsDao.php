@@ -1,6 +1,6 @@
 <?php
 
-namespace WeiXin\Models;
+namespace WeiXin\Dao;
 
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
-use Polymer\Model\Model;
+use Polymer\Dao\BaseDao;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\Req\CategoryReqDto;
@@ -17,7 +17,7 @@ use WeiXin\Dto\Req\SearchReqDto;
 use WeiXin\Entity\Mapping\News;
 use WeiXin\Listener\NewsListener;
 
-class NewsModel extends Model
+class NewsDao extends BaseDao
 {
     /**
      * 数据库配置
@@ -33,9 +33,9 @@ class NewsModel extends Model
 
     /**
      * @Inject
-     * @var CategoryModel
+     * @var CategoryDao
      */
-    protected CategoryModel $categoryModel;
+    protected CategoryDao $categoryModel;
 
     /**
      * 添加banner
