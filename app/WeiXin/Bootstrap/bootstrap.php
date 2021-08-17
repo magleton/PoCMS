@@ -16,5 +16,4 @@ $loader = require dirname(ROOT_PATH, 1) . DS . 'vendor' . DS . 'autoload.php';
 try {
     return new Application($loader);
 } catch (Exception $e) {
-    throw $e;
 }
