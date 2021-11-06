@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="WeiXin\Entity\Repositories\AgencyRepository")
  * @ORM\Table(name="agency")
+ * @ORM\Embedded
  */
 class Agency
 {
@@ -70,6 +71,7 @@ class Agency
 	/**
 	 * 创建时间
 	 *
+	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected int $createdAt;
@@ -77,9 +79,14 @@ class Agency
 	/**
 	 * 更新时间
 	 *
+	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected int $updatedAt;
+
+	public function __construct()
+	{
+	}
 
 	/**
 	 * Set the value of id.

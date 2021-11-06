@@ -10,8 +10,9 @@
 
 namespace WeiXin\Entity\Mapping;
 
-use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * WeiXin\Entity\Mapping\ScenicArea
@@ -23,311 +24,512 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ScenicArea
 {
-    /**
-     * 主键ID
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected int $id;
+	/**
+	 * 主键ID
+	 *
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected int $id;
 
-    /**
-     * 名字
-     *
-     * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
-     */
-    protected string $name;
+	/**
+	 * 名字
+	 *
+	 * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
+	 */
+	protected string $name;
 
-    /**
-     * 价格
-     *
-     * @ORM\Column(type="integer", length=45, nullable=true)
-     */
-    protected string $price;
+	/**
+	 * 价格
+	 *
+	 * @ORM\Column(type="integer", length=45, nullable=true)
+	 */
+	protected string $price;
 
-    /**
-     * @ORM\Column(name="`ext`" , type="json", nullable=true)
-     */
-    protected array $ext;
+	/**
+	 * @ORM\Column(name="`ext`" , type="json", nullable=true)
+	 */
+	protected array $ext;
 
-    /**
-     * 省
-     *
-     * @ORM\Column(type="integer", length=45, nullable=true)
-     */
-    protected int $province;
+	/**
+	 * 省
+	 *
+	 * @ORM\Column(type="integer", length=45, nullable=true)
+	 */
+	protected int $province;
 
-    /**
-     * 市
-     *
-     * @ORM\Column(type="integer", length=45, nullable=true)
-     */
-    protected int $city;
+	/**
+	 * 市
+	 *
+	 * @ORM\Column(type="integer", length=45, nullable=true)
+	 */
+	protected int $city;
 
-    /**
-     * 区
-     *
-     * @ORM\Column(type="integer", length=45, nullable=true)
-     */
-    protected int $area;
+	/**
+	 * 区
+	 *
+	 * @ORM\Column(type="integer", length=45, nullable=true)
+	 */
+	protected int $area;
 
-    /**
-     * 电话
-     *
-     * @ORM\Column(type="string", length=45, nullable=true)
-     */
-    protected string $tel;
+	/**
+	 * 电话
+	 *
+	 * @ORM\Column(type="string", length=45, nullable=true)
+	 */
+	protected string $tel;
 
-    /**
-     * 地址
-     *
-     * @ORM\Column(type="string", length=200, nullable=true)
-     */
-    protected string $address;
+	/**
+	 * 地址
+	 *
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected string $address;
 
-    /**
-     * 简介
-     *
-     * @ORM\Column(type="string", length=45, nullable=true)
-     */
-    protected string $synopsis;
+	/**
+	 * 简介
+	 *
+	 * @ORM\Column(type="string", length=45, nullable=true)
+	 */
+	protected string $synopsis;
 
-    /**
-     * 详情
-     *
-     * @ORM\Column(type="string", length=45, nullable=true)
-     */
-    protected string $detail;
+	/**
+	 * 详情
+	 *
+	 * @ORM\Column(type="string", length=45, nullable=true)
+	 */
+	protected string $detail;
 
-    /**
-     * 创建时间
-     *
-     * @ORM\Column(type="integer", length=45, nullable=true)
-     */
-    protected int $createdAt;
+	/**
+	 * 创建时间
+	 *
+	 * @Gedmo\Timestampable(on="create")
+	 * @ORM\Column(type="integer", length=45, nullable=true)
+	 */
+	protected int $createdAt;
 
-    /**
-     * 更新时间
-     *
-     * @ORM\Column(type="string", length=45, nullable=true)
-     */
-    protected string $updatedAt;
+	/**
+	 * 更新时间
+	 *
+	 * @Gedmo\Timestampable(on="update")
+	 * @ORM\Column(type="string", length=45, nullable=true)
+	 */
+	protected string $updatedAt;
 
-    public function __construct()
-    {
-    }
+	/**
+	 * @ORM\OneToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotAreaRelation", mappedBy="scenic_area")
+	 * @ORM\JoinColumn(name="id", referencedColumnName="scenic_area_id", nullable=false)
+	 */
+	protected ArrayCollection $scenicSpotAreaRelations;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
+	/**
+	 * @ORM\ManyToMany(targetEntity="WeiXin\Entity\Mapping\ScenicSpotPlan", inversedBy="scenic_areas")
+	 * @ORM\JoinTable(name="scenic_spot_area_relation",
+	 *     joinColumns={@ORM\JoinColumn(name="scenic_area_id", referencedColumnName="id", nullable=false)},
+	 *     inverseJoinColumns={@ORM\JoinColumn(name="scenic_spot_plan_id", referencedColumnName="id", nullable=false)}
+	 * )
+	 */
+	protected ArrayCollection $scenicSpotPlans;
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
+	public function __construct()
+	{
+		$this->scenic_spot_area_relations = new ArrayCollection();
+		$this->scenic_spot_plans = new ArrayCollection();
+	}
 
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+	/**
+	 * Set the value of id.
+	 *
+	 * @param int $id
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
-    }
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getPrice(): string
-    {
-        return $this->price;
-    }
+	/**
+	 * Get the value of id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * @param string $price
-     */
-    public function setPrice(string $price): void
-    {
-        $this->price = $price;
-    }
+	/**
+	 * Set the value of name.
+	 *
+	 * @param string $name
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-    /**
-     * @return array
-     */
-    public function getExt(): array
-    {
-        return $this->ext;
-    }
+		return $this;
+	}
 
-    /**
-     * @param array $ext
-     */
-    public function setExt(array $ext): void
-    {
-        $this->ext = $ext;
-    }
+	/**
+	 * Get the value of name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * @return int
-     */
-    public function getProvince(): int
-    {
-        return $this->province;
-    }
+	/**
+	 * Set the value of price.
+	 *
+	 * @param string $price
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setPrice($price)
+	{
+		$this->price = $price;
 
-    /**
-     * @param int $province
-     */
-    public function setProvince(int $province): void
-    {
-        $this->province = $province;
-    }
+		return $this;
+	}
 
-    /**
-     * @return int
-     */
-    public function getCity(): int
-    {
-        return $this->city;
-    }
+	/**
+	 * Get the value of price.
+	 *
+	 * @return string
+	 */
+	public function getPrice()
+	{
+		return $this->price;
+	}
 
-    /**
-     * @param int $city
-     */
-    public function setCity(int $city): void
-    {
-        $this->city = $city;
-    }
+	/**
+	 * Set the value of ext.
+	 *
+	 * @param array $ext
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setExt($ext)
+	{
+		$this->ext = $ext;
 
-    /**
-     * @return int
-     */
-    public function getArea(): int
-    {
-        return $this->area;
-    }
+		return $this;
+	}
 
-    /**
-     * @param int $area
-     */
-    public function setArea(int $area): void
-    {
-        $this->area = $area;
-    }
+	/**
+	 * Get the value of ext.
+	 *
+	 * @return array
+	 */
+	public function getExt()
+	{
+		return $this->ext;
+	}
 
-    /**
-     * @return string
-     */
-    public function getTel(): string
-    {
-        return $this->tel;
-    }
+	/**
+	 * Set the value of province.
+	 *
+	 * @param string $province
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setProvince($province)
+	{
+		$this->province = $province;
 
-    /**
-     * @param string $tel
-     */
-    public function setTel(string $tel): void
-    {
-        $this->tel = $tel;
-    }
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
+	/**
+	 * Get the value of province.
+	 *
+	 * @return string
+	 */
+	public function getProvince()
+	{
+		return $this->province;
+	}
 
-    /**
-     * @param string $address
-     */
-    public function setAddress(string $address): void
-    {
-        $this->address = $address;
-    }
+	/**
+	 * Set the value of city.
+	 *
+	 * @param string $city
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setCity($city)
+	{
+		$this->city = $city;
 
-    /**
-     * @return string
-     */
-    public function getSynopsis(): string
-    {
-        return $this->synopsis;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $synopsis
-     */
-    public function setSynopsis(string $synopsis): void
-    {
-        $this->synopsis = $synopsis;
-    }
+	/**
+	 * Get the value of city.
+	 *
+	 * @return string
+	 */
+	public function getCity()
+	{
+		return $this->city;
+	}
 
-    /**
-     * @return string
-     */
-    public function getDetail(): string
-    {
-        return $this->detail;
-    }
+	/**
+	 * Set the value of area.
+	 *
+	 * @param string $area
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setArea($area)
+	{
+		$this->area = $area;
 
-    /**
-     * @param string $detail
-     */
-    public function setDetail(string $detail): void
-    {
-        $this->detail = $detail;
-    }
+		return $this;
+	}
 
-    /**
-     * @return int
-     */
-    public function getCreatedAt(): int
-    {
-        return $this->createdAt;
-    }
+	/**
+	 * Get the value of area.
+	 *
+	 * @return string
+	 */
+	public function getArea()
+	{
+		return $this->area;
+	}
 
-    /**
-     * @param int $createdAt
-     */
-    public function setCreatedAt(int $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
+	/**
+	 * Set the value of tel.
+	 *
+	 * @param string $tel
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setTel($tel)
+	{
+		$this->tel = $tel;
 
-    /**
-     * @return string
-     */
-    public function getUpdatedAt(): string
-    {
-        return $this->updatedAt;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $updatedAt
-     */
-    public function setUpdatedAt(string $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
+	/**
+	 * Get the value of tel.
+	 *
+	 * @return string
+	 */
+	public function getTel()
+	{
+		return $this->tel;
+	}
 
-    public function __sleep()
-    {
-        return array('id', 'name', 'price', 'ext', 'province', 'city', 'area', 'tel', 'address', 'synopsis', 'detail', 'created_at', 'updated_at');
-    }
+	/**
+	 * Set the value of address.
+	 *
+	 * @param string $address
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setAddress($address)
+	{
+		$this->address = $address;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of address.
+	 *
+	 * @return string
+	 */
+	public function getAddress()
+	{
+		return $this->address;
+	}
+
+	/**
+	 * Set the value of synopsis.
+	 *
+	 * @param string $synopsis
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setSynopsis($synopsis)
+	{
+		$this->synopsis = $synopsis;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of synopsis.
+	 *
+	 * @return string
+	 */
+	public function getSynopsis()
+	{
+		return $this->synopsis;
+	}
+
+	/**
+	 * Set the value of detail.
+	 *
+	 * @param string $detail
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setDetail($detail)
+	{
+		$this->detail = $detail;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of detail.
+	 *
+	 * @return string
+	 */
+	public function getDetail()
+	{
+		return $this->detail;
+	}
+
+	/**
+	 * Set the value of created_at.
+	 *
+	 * @param string $created_at
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setCreatedAt($created_at)
+	{
+		$this->created_at = $created_at;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of created_at.
+	 *
+	 * @return string
+	 */
+	public function getCreatedAt()
+	{
+		return $this->created_at;
+	}
+
+	/**
+	 * Set the value of updated_at.
+	 *
+	 * @param string $updated_at
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function setUpdatedAt($updated_at)
+	{
+		$this->updated_at = $updated_at;
+
+		return $this;
+	}
+
+	/**
+	 * Get the value of updated_at.
+	 *
+	 * @return string
+	 */
+	public function getUpdatedAt()
+	{
+		return $this->updated_at;
+	}
+
+	/**
+	 * Add ScenicSpotAreaRelation entity to collection (one to many).
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicSpotAreaRelation $scenic_spot_area_relation
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function addScenicSpotAreaRelation($scenic_spot_area_relation)
+	{
+		$this->scenic_spot_area_relations[] = $scenic_spot_area_relation;
+
+		return $this;
+	}
+
+	/**
+	 * Remove ScenicSpotAreaRelation entity from collection (one to many).
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicSpotAreaRelation $scenic_spot_area_relation
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function removeScenicSpotAreaRelation($scenic_spot_area_relation)
+	{
+		$this->scenic_spot_area_relations->removeElement($scenic_spot_area_relation);
+
+		return $this;
+	}
+
+	/**
+	 * Get ScenicSpotAreaRelation entity collection (one to many).
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getScenicSpotAreaRelations()
+	{
+		return $this->scenic_spot_area_relations;
+	}
+
+	/**
+	 * Add ScenicSpotPlan entity to collection.
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicSpotPlan $scenic_spot_plan
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function addScenicSpotPlan($scenic_spot_plan)
+	{
+		$scenic_spot_plan->addScenicArea($this);
+		$this->scenic_spot_plans[] = $scenic_spot_plan;
+
+		return $this;
+	}
+
+	/**
+	 * Remove ScenicSpotPlan entity from collection.
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicSpotPlan $scenic_spot_plan
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function removeScenicSpotPlan($scenic_spot_plan)
+	{
+		$scenic_spot_plan->removeScenicArea($this);
+		$this->scenic_spot_plans->removeElement($ScenicSpotPlan);
+
+		return $this;
+	}
+
+	/**
+	 * Get ScenicSpotPlan entity collection.
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getScenicSpotPlans()
+	{
+		return $this->scenic_spot_plans;
+	}
+
+	public function __sleep()
+	{
+		return array('id', 'name', 'price', 'ext', 'province', 'city', 'area', 'tel', 'address', 'synopsis', 'detail', 'created_at', 'updated_at');
+	}
 }

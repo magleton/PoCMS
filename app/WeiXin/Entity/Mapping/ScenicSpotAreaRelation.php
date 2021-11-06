@@ -35,6 +35,22 @@ class ScenicSpotAreaRelation
 	protected $scenic_area_id;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="WeiXin\Entity\Mapping\ScenicSpotPlan", inversedBy="scenic_spot_area_relations")
+	 * @ORM\JoinColumn(name="scenic_spot_plan_id", referencedColumnName="id", nullable=false)
+	 */
+	protected $scenic_spot_plan;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="WeiXin\Entity\Mapping\ScenicArea", inversedBy="scenic_spot_area_relations")
+	 * @ORM\JoinColumn(name="scenic_area_id", referencedColumnName="id", nullable=false)
+	 */
+	protected $scenic_area;
+
+	public function __construct()
+	{
+	}
+
+	/**
 	 * Set the value of scenic_spot_plan_id.
 	 *
 	 * @param int $scenic_spot_plan_id
@@ -80,6 +96,54 @@ class ScenicSpotAreaRelation
 	public function getScenicAreaId()
 	{
 		return $this->scenic_area_id;
+	}
+
+	/**
+	 * Set ScenicSpotPlan entity (many to one).
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicSpotPlan $scenic_spot_plan
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicSpotAreaRelation
+	 */
+	public function setScenicSpotPlan($scenic_spot_plan)
+	{
+		$this->scenic_spot_plan = $ScenicSpotPlan;
+
+		return $this;
+	}
+
+	/**
+	 * Get ScenicSpotPlan entity (many to one).
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicSpotPlan
+	 */
+	public function getScenicSpotPlan()
+	{
+		return $this->scenic_spot_plan;
+	}
+
+	/**
+	 * Set ScenicArea entity (many to one).
+	 *
+	 * @param \WeiXin\Entity\Mapping\ScenicArea $scenic_area
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicSpotAreaRelation
+	 */
+	public function setScenicArea($scenic_area)
+	{
+		$this->scenic_area = $ScenicArea;
+
+		return $this;
+	}
+
+	/**
+	 * Get ScenicArea entity (many to one).
+	 *
+	 * @return \WeiXin\Entity\Mapping\ScenicArea
+	 */
+	public function getScenicArea()
+	{
+		return $this->scenic_area;
 	}
 
 	public function __sleep()

@@ -73,6 +73,7 @@ class Appointment
 	/**
 	 * 创建时间
 	 *
+	 * @Gedmo\Timestampable(on="create")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected int $createdAt;
@@ -80,6 +81,7 @@ class Appointment
 	/**
 	 * 更新时间
 	 *
+	 * @Gedmo\Timestampable(on="update")
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected int $updatedAt;

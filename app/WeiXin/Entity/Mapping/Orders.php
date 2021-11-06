@@ -20,7 +20,7 @@ class Orders
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private $id;
 
     /**
      * 订单号
@@ -60,6 +60,7 @@ class Orders
     /**
      * 创建时间
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="`created_at`" , type="integer", nullable=true)
      */
     protected int $createdAt;
@@ -67,6 +68,7 @@ class Orders
     /**
      * 更新时间
      *
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="`updated_at`" , type="integer", nullable=true)
      */
     protected int $updateAt;
@@ -76,7 +78,7 @@ class Orders
      *
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -203,6 +205,6 @@ class Orders
 
     public function __sleep()
     {
-        return array('id', 'orderNo', 'userId', 'price', 'status', 'ext', 'createdAt', 'updatedAt');
+        return array('id', 'orderNo', 'userId', 'price', 'status', 'ext', 'created_at', 'updated_at');
     }
 }

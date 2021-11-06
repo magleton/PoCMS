@@ -31,164 +31,228 @@ class Category
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected int $id;
+    protected $id;
 
     /**
      * 名字
      *
      * @ORM\Column(name="`name`", type="string", length=45, nullable=true)
      */
-    protected string $name;
+    protected $name;
 
     /**
      * 父级ID
      *
-     * @ORM\Column(name="`parent_id`", type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected int $parentId;
+    protected $parent_id;
 
     /**
      * 路径
      *
      * @ORM\Column(name="`path`", type="string", length=255, nullable=true)
      */
-    protected string $path;
+    protected $path;
 
     /**
      * 扩展字段
      *
-     * @ORM\Column(name="`ext`" , type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    protected array $ext;
+    protected $ext = '{}';
 
     /**
      * 创建时间
      *
-     * @ORM\Column(name="`created_at`" , type="integer", nullable=true)
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected int $createdAt;
+    protected $created_at;
 
     /**
      * 更新时间
      *
-     * @ORM\Column(name="`updated_at`" , type="integer", nullable=true)
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="integer", nullable=true)
      */
-    protected int $updatedAt;
+    protected $updated_at;
+
+    public function __construct()
+    {
+        $this->news = new ArrayCollection();
+        $this->scenic_spot_plans = new ArrayCollection();
+    }
 
     /**
+     * Get the value of id.
+     *
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
     /**
+     * Set the value of id.
+     *
      * @param int $id
+     *
+     * @return Category
      */
-    public function setId(int $id): void
+    public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
+     * Get the value of name.
+     *
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
 
     /**
+     * Set the value of name.
+     *
      * @param string $name
+     *
+     * @return Category
      */
-    public function setName(string $name): void
+    public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
+     * Get the value of parent_id.
+     *
      * @return int
      */
-    public function getParentId(): int
+    public function getParentId()
     {
-        return $this->parentId;
+        return $this->parent_id;
     }
 
     /**
-     * @param int $parentId
+     * Set the value of parent_id.
+     *
+     * @param int $parent_id
+     *
+     * @return Category
      */
-    public function setParentId(int $parentId): void
+    public function setParentId($parent_id)
     {
-        $this->parentId = $parentId;
+        $this->parent_id = $parent_id;
+
+        return $this;
     }
 
     /**
+     * Get the value of path.
+     *
      * @return string
      */
-    public function getPath(): string
+    public function getPath()
     {
         return $this->path;
     }
 
     /**
+     * Set the value of path.
+     *
      * @param string $path
+     *
+     * @return Category
      */
-    public function setPath(string $path): void
+    public function setPath($path)
     {
         $this->path = $path;
+
+        return $this;
     }
 
     /**
+     * Get the value of ext.
+     *
      * @return array
      */
-    public function getExt(): array
+    public function getExt()
     {
         return $this->ext;
     }
 
     /**
+     * Set the value of ext.
+     *
      * @param array $ext
+     *
+     * @return Category
      */
-    public function setExt(array $ext): void
+    public function setExt($ext)
     {
         $this->ext = $ext;
+
+        return $this;
     }
 
     /**
+     * Get the value of created_at.
+     *
      * @return int
      */
-    public function getCreatedAt(): int
+    public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**
-     * @param int $createdAt
+     * Set the value of created_at.
+     *
+     * @param int $created_at
+     *
+     * @return Category
      */
-    public function setCreatedAt(int $createdAt): void
+    public function setCreatedAt($created_at)
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
+
+        return $this;
     }
 
     /**
+     * Get the value of updated_at.
+     *
      * @return int
      */
-    public function getUpdatedAt(): int
+    public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     /**
-     * @param int $updatedAt
+     * Set the value of updated_at.
+     *
+     * @param int $updated_at
+     *
+     * @return Category
      */
-    public function setUpdatedAt(int $updatedAt): void
+    public function setUpdatedAt($updated_at)
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
+
+        return $this;
     }
 
     public function __sleep()
     {
-        return array('id', 'name', 'parentId', 'path', 'ext', 'createdAt', 'updatedAt');
+        return array('id', 'name', 'parent_id', 'path', 'ext', 'created_at', 'updated_at');
     }
 }
