@@ -2,7 +2,6 @@
 
 namespace WeiXin\Dao;
 
-use DI\Annotation\Injectable;
 use Doctrine\ORM\Events;
 use Exception;
 use Polymer\Dao\BaseDao;
@@ -161,8 +160,8 @@ class UserDao extends BaseDao
 
     public function getList(): array
     {
-        $entityRepository = $this->application->repository('user');
-        $list = $entityRepository->getList();
+        $entityRepository = $this->em->getRepository(Users::class);
+        $list = $entityRepository->findAll();
         return $list;
     }
 }

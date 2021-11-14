@@ -4,7 +4,6 @@ namespace WeiXin\Models;
 
 use Doctrine\ORM\Events;
 use Exception;
-use Polymer\Model\Model;
 use Polymer\Support\Collection;
 use Polymer\Tests\Listener\BaseListener;
 use Slim\Logger;
@@ -18,7 +17,7 @@ use WeiXin\Validators\PhoneValidator;
  * Class UserModel
  * @package WeiXin\Models
  */
-class UserModel extends Model
+class UserModel
 {
     /**
      * 数据库表名

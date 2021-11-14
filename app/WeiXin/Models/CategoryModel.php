@@ -9,7 +9,6 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Exception;
-use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\CategoryDto;
@@ -17,7 +16,7 @@ use WeiXin\Dto\SearchDto;
 use WeiXin\Entity\Mapping\Category;
 use WeiXin\Listener\CategoryListener;
 
-class CategoryModel extends Model
+class CategoryModel
 {
     /**
      * 数据库配置

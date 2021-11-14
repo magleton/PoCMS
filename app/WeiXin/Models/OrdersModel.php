@@ -9,7 +9,6 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use JsonException;
-use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\AdminDto;
@@ -19,7 +18,7 @@ use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Entity\Mapping\Orders;
 use WeiXin\Listener\AdminListener;
 
-class OrdersModel extends Model
+class OrdersModel
 {
     /**
      * 数据库配置

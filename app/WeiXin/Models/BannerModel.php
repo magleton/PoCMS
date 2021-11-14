@@ -7,14 +7,13 @@ use DI\NotFoundException;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Polymer\Model\Model;
 use Polymer\Utils\FuncUtils;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use WeiXin\Dto\BannerDto;
 use WeiXin\Entity\Mapping\Banner;
 use WeiXin\Listener\BannerListener;
 
-class BannerModel extends Model
+class BannerModel
 {
     /**
      * 数据库配置

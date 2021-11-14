@@ -11,10 +11,10 @@ return [
                 'wrapperClass' => PrimaryReadReplicaConnection::class,
                 'namingStrategy' => DefaultNamingStrategy::class,
                 'driver' => 'pdo_mysql',
-                'primary' => ['user' => '', 'password' => '', 'host' => '192.168.56.101', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8'],
+                'primary' => ['user' => 'mydb', 'password' => 'mydb', 'host' => 'localhost', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8'],
                 'replica' => [
-                    ['user' => '', 'password' => '', 'host' => '192.168.56.101', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8'],
-                    ['user' => '', 'password' => '', 'host' => '192.168.56.101', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8']
+                    ['user' => 'mydb', 'password' => 'mydb', 'host' => 'localhost', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8'],
+                    ['user' => 'mydb', 'password' => 'mydb', 'host' => 'localhost', 'dbname' => 'mydb', 'port' => 3306, 'charset' => 'UTF8']
                 ],
                 'useSimpleAnnotationReader' => false,
                 'emCacheKey' => 'abc',

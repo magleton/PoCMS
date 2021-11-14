@@ -37,6 +37,7 @@ class HelloService extends Service
     public function getList(): array
     {
         $list = $this->userModel->getList();
+        print_r($list);
         return $list;
     }
 

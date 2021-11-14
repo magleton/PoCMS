@@ -4,10 +4,9 @@ namespace WeiXin\Models;
 
 use Doctrine\ORM\Events;
 use Exception;
-use Polymer\Model\Model;
 use Polymer\Tests\Listener\BaseListener;
 
-class TestModel extends Model
+class TestModel
 {
     /**
      * 数据库表名
